@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 ini_set('display_errors', 1);
 error_reporting(e_all);
@@ -65,3 +66,6 @@ else
 </script>
 
 </html>
+=======
+frrredtfrfrftest
+>>>>>>> f3d2e0ae6f717c2aea93b8f8afff4eac858bf12a
