@@ -32,6 +32,7 @@ else
 </head>
 
 <body>
+
   <?php
   if($session)
   {
@@ -45,9 +46,23 @@ else
   }
 
   echo "test";
-      
+=======
+<?php
+    if($session)
+    {
+        $token = (string) $session->getAccessToken();
+        $_SESSION['fb_token'] = $token;
+    }
+    else
+    {
+        $loginUrl = $helper->getLoginUrl();
+        echo "<a href='".$loginUrl."'>Se connecter</a>";
+    }
+    echo "test";
 
+      
     if($session) {
+
 
   try {
 
@@ -75,6 +90,7 @@ else
 
 }
    ?>
+
 
 
 </body>
