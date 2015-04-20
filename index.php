@@ -53,8 +53,8 @@ else
      echo "<a href='".$loginUrl."'>Se connecter</a>";
   }
 
-  <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
-      
+  ?><div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+     <?php 
     if($session) {
 
 
