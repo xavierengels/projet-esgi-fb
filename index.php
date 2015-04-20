@@ -71,6 +71,8 @@ if($session) {
         echo " with message: " . $e->getMessage();
   }   
 }
+
+echo 'test';
 ?>
 </body>
 
