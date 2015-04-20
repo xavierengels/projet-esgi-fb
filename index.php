@@ -1,13 +1,7 @@
 
 
 <?php
-require_once('facebook-php-sdk-v4-4.0-dev/autoload.php');
-use Facebook\FacebookSession;
-use Facebook\FacebookRedirectLoginHelper;
-use Facebook\FacebookRequest;
-use Facebook\GraphUser;
-use Facebook\FacebookRequestException;;
-
+include_once('conf.php');
 ini_set('display_errors', 1);
 error_reporting(e_all);
 session_start();
@@ -31,6 +25,8 @@ else
 <html>
 <head>
 </head>
+
+<body>
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -39,7 +35,6 @@ else
   js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.3&appId=699704450158910";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-<body>
   <?php
   if($session)
   {
@@ -51,8 +46,23 @@ else
   	 $loginUrl = $helper->getLoginUrl();
      echo "<a href='".$loginUrl."'>Se connecter</a>";
   }
+<<<<<<< HEAD
 
-  <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+  echo "test";
+=======
+<?php
+    if($session)
+    {
+        $token = (string) $session->getAccessToken();
+        $_SESSION['fb_token'] = $token;
+    }
+    else
+    {
+        $loginUrl = $helper->getLoginUrl();
+        echo "<a href='".$loginUrl."'>Se connecter</a>";
+    }
+    echo "test";
+
       
     if($session) {
 
@@ -82,8 +92,31 @@ else
   }   
 
 }
+   ?>
 
 
+
+=======
+      
+
+    
+   
+if($session) {
+
+    try {
+
+        $user_profile = (new FacebookRequest($session, 'GET', '/me'))->execute()->getGraphObject(GraphUser::className());
+
+        echo "Name: " . $user_profile->getName();
+
+    } catch(FacebookRequestException $e) {
+
+        echo "Exception occured, code: " . $e->getCode();
+        echo " with message: " . $e->getMessage();
+
+    }   
+
+}
 
 if($session) {
     try {
@@ -97,10 +130,8 @@ if($session) {
         echo " with message: " . $e->getMessage();
   }   
 }
-
-echo 'test';
 ?>
-
+>>>>>>> 52071a70e39139a344ce123798d0e19101db1542
 </body>
 
 <script>
@@ -117,11 +148,9 @@ echo 'test';
      if (d.getElementById(id)) {return;}
      js = d.createElement(s); js.id = id;
      js.src = "//connect.facebook.net/fr_FR/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);       
+     fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
-
-
 
 </html>
 
