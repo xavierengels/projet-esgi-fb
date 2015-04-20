@@ -43,6 +43,8 @@ else
   	 $loginUrl = $helper->getLoginUrl();
      echo "<a href='".$loginUrl."'>Se connecter</a>";
   }
+
+  echo "test";
       
 
     if($session) {
@@ -74,7 +76,7 @@ else
 }
    ?>
 
-   
+
 </body>
 
 <script>
