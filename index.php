@@ -41,7 +41,7 @@ else
   }
   else
   {
-            $connectLink = '<a href='.$loginUrl.'>Login</a>';
+  	 $loginUrl = $helper->getLoginUrl();
      echo "<a href='".$loginUrl."'>Se connecter</a>";
   }
       
