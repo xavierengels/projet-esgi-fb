@@ -32,10 +32,6 @@ else
 </head>
 
 <body>
-<<<<<<< HEAD
-
-=======
->>>>>>> 52071a70e39139a344ce123798d0e19101db1542
   <?php
   if($session)
   {
@@ -47,23 +43,6 @@ else
   	 $loginUrl = $helper->getLoginUrl();
      echo "<a href='".$loginUrl."'>Se connecter</a>";
   }
-<<<<<<< HEAD
-
-  echo "test";
-=======
-<?php
-    if($session)
-    {
-        $token = (string) $session->getAccessToken();
-        $_SESSION['fb_token'] = $token;
-    }
-    else
-    {
-        $loginUrl = $helper->getLoginUrl();
-        echo "<a href='".$loginUrl."'>Se connecter</a>";
-    }
-    echo "test";
-
       
     if($session) {
 
@@ -93,31 +72,8 @@ else
   }   
 
 }
-   ?>
 
 
-
-=======
-      
-
-    
-   
-if($session) {
-
-    try {
-
-        $user_profile = (new FacebookRequest($session, 'GET', '/me'))->execute()->getGraphObject(GraphUser::className());
-
-        echo "Name: " . $user_profile->getName();
-
-    } catch(FacebookRequestException $e) {
-
-        echo "Exception occured, code: " . $e->getCode();
-        echo " with message: " . $e->getMessage();
-
-    }   
-
-}
 
 if($session) {
     try {
@@ -134,7 +90,7 @@ if($session) {
 
 echo 'test';
 ?>
->>>>>>> 52071a70e39139a344ce123798d0e19101db1542
+
 </body>
 
 <script>
@@ -151,7 +107,7 @@ echo 'test';
      if (d.getElementById(id)) {return;}
      js = d.createElement(s); js.id = id;
      js.src = "//connect.facebook.net/fr_FR/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
+     fjs.parentNode.insertBefore(js, fjs);       
    }(document, 'script', 'facebook-jssdk'));
 </script>
 
