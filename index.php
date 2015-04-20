@@ -1,14 +1,15 @@
 
-
 <?php
 include_once('conf.php');
 ini_set('display_errors', 1);
 error_reporting(e_all);
 session_start();
 
+
 FacebookSession::setDefaultApplication('449000611931438', '4081c73247e8a9729dc939b5fe6565c6');
 $helper = new FacebookRedirectLoginHelper('https://projet-esgi-fb.herokuapp.com/');
 $loginUrl = $helper->getLoginUrl();
+
 
 if(isset($_SESSION) && isset($_SESSION['fb_token']))
 {
@@ -27,6 +28,10 @@ else
 </head>
 
 <body>
+
+
+
+
   <?php
   if($session)
   {
@@ -38,7 +43,7 @@ else
   	 $loginUrl = $helper->getLoginUrl();
      echo "<a href='".$loginUrl."'>Se connecter</a>";
   }
-      
+           
 
     
    ?>
