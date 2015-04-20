@@ -1,11 +1,6 @@
 
 
 <?php
-
-use Facebook\FacebookRequest;
-use Facebook\GraphObject;
-use Facebook\FacebookRequestException;
-
 include_once('conf.php');
 ini_set('display_errors', 1);
 error_reporting(e_all);
@@ -32,7 +27,10 @@ else
 </head>
 
 <body>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 52071a70e39139a344ce123798d0e19101db1542
   <?php
   if($session)
   {
@@ -44,6 +42,7 @@ else
   	 $loginUrl = $helper->getLoginUrl();
      echo "<a href='".$loginUrl."'>Se connecter</a>";
   }
+<<<<<<< HEAD
 
   echo "test";
 =======
@@ -93,6 +92,42 @@ else
 
 
 
+=======
+      
+
+    
+   
+if($session) {
+
+    try {
+
+        $user_profile = (new FacebookRequest($session, 'GET', '/me'))->execute()->getGraphObject(GraphUser::className());
+
+        echo "Name: " . $user_profile->getName();
+
+    } catch(FacebookRequestException $e) {
+
+        echo "Exception occured, code: " . $e->getCode();
+        echo " with message: " . $e->getMessage();
+
+    }   
+
+}
+
+if($session) {
+    try {
+        $user_profile = (new FacebookRequest(
+        $session, 'GET', '/me'
+        ))->execute()->getGraphObject(GraphUser::className());
+
+        echo "Name: " . $user_profile->getName();
+    } catch(FacebookRequestException $e) {
+        echo "Exception occured, code: " . $e->getCode();
+        echo " with message: " . $e->getMessage();
+  }   
+}
+?>
+>>>>>>> 52071a70e39139a344ce123798d0e19101db1542
 </body>
 
 <script>
