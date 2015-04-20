@@ -1,6 +1,11 @@
 
 
 <?php
+
+use Facebook\FacebookRequest;
+use Facebook\GraphObject;
+use Facebook\FacebookRequestException;
+
 include_once('conf.php');
 ini_set('display_errors', 1);
 error_reporting(e_all);
@@ -27,37 +32,38 @@ else
 </head>
 
 <body>
-  <?php
-  if($session)
-  {
-  	 $token = (string) $session->getAccessToken();
-     $_SESSION['fb_token'] = $token;
-  }
-  else
-  {
-  	 $loginUrl = $helper->getLoginUrl();
-     echo "<a href='".$loginUrl."'>Se connecter</a>";
-  }
+<?php
+    if($session)
+    {
+        $token = (string) $session->getAccessToken();
+        $_SESSION['fb_token'] = $token;
+    }
+    else
+    {
+        $loginUrl = $helper->getLoginUrl();
+        echo "<a href='".$loginUrl."'>Se connecter</a>";
+    }
       
+    if($session) {
+        try {
+            // Upload to a user's profile. The photo will be in the
+            // first album in the profile. You can also upload to
+            // a specific album by using /ALBUM_ID as the path     
+            $response = (new FacebookRequest(
+              $session, 'POST', '/me/photos', array(
+                'source' => new CURLFile('path/to/file.name', 'image/png'),
+                'message' => 'User provided message'
+              )
+            ))->execute()->getGraphObject();
 
-    
-   
-if($session) {
-
-    try {
-
-        $user_profile = (new FacebookRequest($session, 'GET', '/me'))->execute()->getGraphObject(GraphUser::className());
-
-        echo "Name: " . $user_profile->getName();
-
-    } catch(FacebookRequestException $e) {
-
-        echo "Exception occured, code: " . $e->getCode();
-        echo " with message: " . $e->getMessage();
-
-    }   
-
-}
+            // If you're not using PHP 5.5 or later, change the file reference to:
+            // 'source' => '@/path/to/file.name'
+            echo "Posted with id: " . $response->getProperty('id');
+        } catch(FacebookRequestException $e) {
+            echo "Exception occured, code: " . $e->getCode();
+            echo " with message: " . $e->getMessage();
+        }   
+    }
 ?>
 </body>
 
