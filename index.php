@@ -126,6 +126,8 @@ if($session) {
         echo " with message: " . $e->getMessage();
   }   
 }
+
+echo 'test';
 ?>
 >>>>>>> 52071a70e39139a344ce123798d0e19101db1542
 </body>
