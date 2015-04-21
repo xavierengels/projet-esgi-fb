@@ -26,9 +26,9 @@ else
 
 } 
 $loginUrl = $helper->getLoginUrl();
-  echo   '<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>';
+ // echo   '<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>';
 
-echo "<a href='".$loginUrl."'>Se connecter</a>";
+echo '<a class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false" href='".$loginUrl."'>Se connecter</a>';
 ?>
 <html>
 <head>
