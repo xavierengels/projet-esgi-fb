@@ -115,7 +115,7 @@ function UploadPhoto($session, $files)
 
     
     print_r($$_FILES['source']);
-    UploadPhoto($session, $$_FILES['source']);
+    UploadPhoto($session,$_FILES['source']);
 
   }
 ?>
