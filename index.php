@@ -75,7 +75,8 @@ $loginUrl = $helper->getLoginUrl();
   </form>
    
 
-
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button>
      <?php 
    
 
