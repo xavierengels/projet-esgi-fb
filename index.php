@@ -160,18 +160,18 @@ function UploadPhoto($session, $files)
                         </li>
                         
                             <li>
-                                <a href="/tab/contest/1046/entry">
+                                <a href="participer.php">
                                     Participer 
                                 </a>
                             </li>
                         
                         <li>
-                            <a href="/tab/contest/entries?pageAppId=1046&amp;friends=">
+                            <a href="plusrecent.php">
                                 Recentes
                             </a>
                         </li>
                         <li>
-                            <a href="/tab/contest/entries?pageAppId=1046&amp;friends=&amp;sort=vote">
+                            <a href="top10.php">
                                 Populaire
                             </a>
                         </li>
