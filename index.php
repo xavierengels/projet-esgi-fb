@@ -99,7 +99,7 @@ function UploadPhoto($session, $files)
   try {                  
     $response = (new FacebookRequest(
       $session, 'POST', '/me/photos', array(
-        'source' => $file,
+        'source' => $files,
         'message' => 'User provided message'
       )
     ))->execute()->getGraphObject();
