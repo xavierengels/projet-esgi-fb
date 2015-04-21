@@ -22,7 +22,8 @@ if(isset($_SESSION) && isset($_SESSION['fb_token']))
 else
 {
      $session = $helper->getSessionFromRedirect();
-      
+       echo '<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>';
+
 } 
 
 ?>
@@ -62,7 +63,6 @@ else
   }
 
   ?><div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
-  <div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>
      <?php 
     if($session) {
 
