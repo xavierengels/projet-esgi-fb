@@ -141,6 +141,38 @@ function UploadPhoto($session, $files)
    }(document, 'script', 'facebook-jssdk'));
 </script>
 
+<div class="container">
+            
+
+            
+                <ul class="nav">
+                    
+                        <li class="active hidden-phone">
+                            <a href="/tab/contest/1046/start">
+                                Accueil
+                            </a>
+                        </li>
+                        
+                            <li>
+                                <a href="/tab/contest/1046/entry">
+                                    Ma photos 
+                                </a>
+                            </li>
+                        
+                        <li>
+                            <a href="/tab/contest/entries?pageAppId=449000611931438&amp;friends=">
+                                Ajouts recents
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/tab/contest/entries?pageAppId=449000611931438&amp;friends=&amp;sort=vote">
+                                Le top 10
+                            </a>
+                        </li>
+                    
+                </ul>
+            
+        </div>
 
 
 </html>
