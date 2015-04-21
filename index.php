@@ -17,16 +17,18 @@ $helper = new FacebookRedirectLoginHelper('https://projet-esgi-fb.herokuapp.com/
 if(isset($_SESSION) && isset($_SESSION['fb_token']))
 {
   $session = new FacebookSession($_SESSION['fb_token']);
-  var_dump($session);
+
 }
 else
 {
      $session = $helper->getSessionFromRedirect();
-      var_dump($session);
+
 
 } 
 $loginUrl = $helper->getLoginUrl();
-echo "<a href='".$loginUrl."'>Se connecter</a>";
+  echo   '<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"><a href='".$loginUrl."'>Se connecter</a></div>';
+
+
 ?>
 <html>
 <head>
