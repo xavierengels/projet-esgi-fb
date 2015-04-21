@@ -1,21 +1,18 @@
-
 <?php
 require_once('facebook-php-sdk-v4-4.0-dev/autoload.php');
 use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
-use Facebook\GraphObject;
-use Facebook\FacebookRequestException;
+use Facebook\GraphUser;
+use Facebook\FacebookRequestException;;
 
 ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
 
-
 FacebookSession::setDefaultApplication('449000611931438', '4081c73247e8a9729dc939b5fe6565c6');
 $helper = new FacebookRedirectLoginHelper('https://projet-esgi-fb.herokuapp.com/');
 $loginUrl = $helper->getLoginUrl();
-  
 
 if(isset($_SESSION) && isset($_SESSION['fb_token']))
 {
@@ -25,17 +22,36 @@ if(isset($_SESSION) && isset($_SESSION['fb_token']))
 else
 {
 	   $session = $helper->getSessionFromRedirect();
-      
+     echo $session;
+    echo   '<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>';
+
 }	
 
 ?>
 <html>
 <head>
 </head>
+<div id="fb-root"></div>
+
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.3&appId=449000611931438";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.3&appId=449000611931438";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 <body>
-
-
   <?php
   if($session)
   {
@@ -44,12 +60,13 @@ else
   }
   else
   {
-  	 $loginUrl = $helper->getLoginUrl();
-     echo "<a href='".$loginUrl."'>Se connecter</a>";
+  
   }
 
-           
-//if($session) {
+  ?><div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+     <?php 
+    if($session) {
+
 
   try {
 
@@ -75,24 +92,33 @@ else
 
   }   
 
+}
 
 
-    
-   ?>
+
+if($session) {
+    try {
+        $user_profile = (new FacebookRequest(
+        $session, 'GET', '/me'
+        ))->execute()->getGraphObject(GraphUser::className());
+
+        echo "Name: " . $user_profile->getName();
+    } catch(FacebookRequestException $e) {
+        echo "Exception occured, code: " . $e->getCode();
+        echo " with message: " . $e->getMessage();
+  }   
+}
+
+?>
 
 
-<form enctype="multipart/form-data" action="" method="post">
-    <p><label for="name">Caption</label><input type="text" name="message" value="" /></p>
-    <p><label for="source">Photo</label><input type="file" name="source" /></p>
-    <p><input type="submit" value="Upload" /></p>
-</form>
 
 </body>
 
 <script>
   window.fbAsyncInit = function() {
     FB.init({
-      appId      : '830895360333908',
+      appId      : '449000611931438',
       xfbml      : true,
       version    : 'v2.3'
     });
@@ -103,9 +129,10 @@ else
      if (d.getElementById(id)) {return;}
      js = d.createElement(s); js.id = id;
      js.src = "//connect.facebook.net/fr_FR/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
+     fjs.parentNode.insertBefore(js, fjs);       
    }(document, 'script', 'facebook-jssdk'));
 </script>
 
-</html>
 
+
+</html>
