@@ -23,7 +23,6 @@ else
 {
      $session = $helper->getSessionFromRedirect();
       var_dump($session);
-       echo '<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>';
 
 } 
 
@@ -69,7 +68,7 @@ else
 
 
   try {
-
+    echo "try post photo";
     // Upload to a user's profile. The photo will be in the
     // first album in the profile. You can also upload to
     // a specific album by using /ALBUM_ID as the path     
@@ -80,7 +79,7 @@ else
       )
     ))->execute()->getGraphObject();
 
-    // If you're not using PHP 5.5 or later, change the file reference to:
+    // If you're not using PHP 5.5 ord(string) later, change the file reference to:
     // 'source' => '@/path/to/file.name'
 
     echo "Posted with id: " . $response->getProperty('id');
