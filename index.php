@@ -29,9 +29,14 @@ else
 
 } 
 $loginUrl = $helper->getLoginUrl();
+
   //echo   '<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>';
 
-echo "<a href='".$loginUrl."'>Se connecter</a>";
+echo '<a href='".$loginUrl."'><fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button></a>';
+
+
+
 ?>
 <html>
 <head>
@@ -163,7 +168,8 @@ if($session) {
    }(document, 'script', 'facebook-jssdk'));
 </script>
 
-
+<div id="status">
+</div>
 
 <nav id="nav">
     <div class="navbar">
