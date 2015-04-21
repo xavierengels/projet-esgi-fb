@@ -78,9 +78,8 @@ echo "<a href='".$loginUrl."'>Se connecter</a>";
 
 
 if($session) {
-
     try {
-      
+      echo "try info";
       $_SESSION['fb_token'] = (string) $session->getAccessToken();
         $request_user = new FacebookRequest( $session,"GET","/me");
         $request_user_executed = $request_user->execute();
@@ -100,7 +99,7 @@ function UploadPhoto($session, $files)
   try {                  
     $response = (new FacebookRequest(
       $session, 'POST', '/me/photos', array(
-        'source' => $files,
+        'source' => $file,
         'message' => 'User provided message'
       )
     ))->execute()->getGraphObject();
@@ -113,9 +112,11 @@ function UploadPhoto($session, $files)
 
  if(isset($_FILES) && isset($_FILES['source']))
   {
+
     
     print_r($$_FILES['source']);
     UploadPhoto($session, $$_FILES['source']);
+
   }
 ?>
 
@@ -141,6 +142,38 @@ function UploadPhoto($session, $files)
    }(document, 'script', 'facebook-jssdk'));
 </script>
 
+<div class="container">
+            
+
+            
+                <ul class="nav">
+                    
+                        <li class="active hidden-phone">
+                            <a href="/tab/contest/1046/start">
+                                Home
+                            </a>
+                        </li>
+                        
+                            <li>
+                                <a href="/tab/contest/1046/entry">
+                                    My entry
+                                </a>
+                            </li>
+                        
+                        <li>
+                            <a href="/tab/contest/entries?pageAppId=1046&amp;friends=">
+                                Most recent
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/tab/contest/entries?pageAppId=1046&amp;friends=&amp;sort=vote">
+                                Most popular
+                            </a>
+                        </li>
+                    
+                </ul>
+            
+        </div>
 
 
 </html>
