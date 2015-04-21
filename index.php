@@ -166,12 +166,12 @@ function UploadPhoto($session, $files)
                             </li>
                         
                         <li>
-                            <a href="plusrecent.php">
+                            <a href="plusrecents.php">
                                 Recentes
                             </a>
                         </li>
                         <li>
-                            <a href="top10.php">
+                            <a href="lesmeilleurs.php">
                                 Populaire
                             </a>
                         </li>
