@@ -114,8 +114,8 @@ function UploadPhoto($session, $files)
  if(isset($_FILES) && isset($_FILES['source']))
   {
     
-    print_r($_POST);
-    UploadPhoto($session, $_POST);
+    print_r($$_FILES['source']);
+    UploadPhoto($session, $$_FILES['source']);
   }
 ?>
 
