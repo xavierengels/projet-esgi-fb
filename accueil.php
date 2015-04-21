@@ -139,8 +139,6 @@ function UploadPhoto($session, $files)
    }(document, 'script', 'facebook-jssdk'));
 </script>
 
-
-
 <nav id="nav">
     <div class="navbar">
     <div class="navbar-inner">
@@ -157,18 +155,18 @@ function UploadPhoto($session, $files)
                         </li>
                         
                             <li>
-                                <a href="/tab/contest/1046/entry">
+                                <a href="participer.php">
                                     Participer 
                                 </a>
                             </li>
                         
                         <li>
-                            <a href="/tab/contest/entries?pageAppId=1046&amp;friends=">
+                            <a href="plusrecents.php">
                                 Recentes
                             </a>
                         </li>
                         <li>
-                            <a href="/tab/contest/entries?pageAppId=1046&amp;friends=&amp;sort=vote">
+                            <a href="lesmeilleurs.php">
                                 Populaire
                             </a>
                         </li>
@@ -179,7 +177,6 @@ function UploadPhoto($session, $files)
     </div>
 </div>
 </nav>
-
 
 </html>
 

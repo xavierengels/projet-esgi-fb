@@ -181,18 +181,18 @@ if($session) {
                         </li>
                         
                             <li>
-                                <a href="/tab/contest/1046/entry">
+                                <a href="participer.php">
                                     Participer 
                                 </a>
                             </li>
                         
                         <li>
-                            <a href="/tab/contest/entries?pageAppId=1046&amp;friends=">
+                            <a href="plusrecents.php">
                                 Recentes
                             </a>
                         </li>
                         <li>
-                            <a href="/tab/contest/entries?pageAppId=1046&amp;friends=&amp;sort=vote">
+                            <a href="lesmeilleurs.php">
                                 Populaire
                             </a>
                         </li>
