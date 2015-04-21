@@ -7,7 +7,7 @@ use Facebook\GraphUser;
 use Facebook\FacebookRequestException;;
 
 ini_set('display_errors', 1);
-error_reporting(e_all);
+error_reporting('e_all');
 session_start();
 
 FacebookSession::setDefaultApplication('449000611931438', '4081c73247e8a9729dc939b5fe6565c6');
