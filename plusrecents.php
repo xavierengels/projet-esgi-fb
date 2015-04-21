@@ -16,7 +16,7 @@
                 <ul class="nav">
                     
                         <li class="active hidden-phone">
-                            <a href="accueil.php">
+                            <a href="index.php">
                                 Accueil
                             </a>
                         </li>
