@@ -1,3 +1,6 @@
+
+
+
 <?php
 require_once('facebook-php-sdk-v4-4.0-dev/autoload.php');
 use Facebook\FacebookSession;
@@ -47,6 +50,7 @@ echo "<a href='".$loginUrl."'>Se connecter</a>";
 
 
 <body>
+
   <?php
   if($session)
   {
