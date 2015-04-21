@@ -29,23 +29,6 @@ $loginUrl = $helper->getLoginUrl();
   //echo   '<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>';
 
 echo "<a href='".$loginUrl."'>Se connecter</a>";
-
-function UploadPhoto($session, $files)
-{
-  try {                  
-    $response = (new FacebookRequest(
-      $session, 'POST', '/me/photos', array(
-        'source' => $file,
-        'message' => 'User provided message'
-      )
-    ))->execute()->getGraphObject();
-    echo "Posted with id: " . $response->getProperty('id');
-  } catch(FacebookRequestException $e) {
-    echo "Exception occured, code: " . $e->getCode();
-    echo " with message: " . $e->getMessage();
-  } 
-}
-
 ?>
 <html>
 <head>
@@ -71,7 +54,6 @@ function UploadPhoto($session, $files)
 }(document, 'script', 'facebook-jssdk'));</script>
 
 <body>
- 
   <?php
   if($session)
   {
@@ -84,18 +66,8 @@ function UploadPhoto($session, $files)
   }
 
   ?><div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
-    
      <?php 
-
-  <?
-  if(isset($_FILES) && isset($_FILES['source']))
-  {
-    UploadPhoto($session, $_POST);
-  }
-}else{
-  redirectIfNotLog($helper);
-}
-
+   
 
 
 
