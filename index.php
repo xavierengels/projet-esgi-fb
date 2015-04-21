@@ -22,6 +22,7 @@ if(isset($_SESSION) && isset($_SESSION['fb_token']))
 else
 {
      $session = $helper->getSessionFromRedirect();
+      var_dump($session);
        echo '<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>';
 
 } 
