@@ -64,7 +64,6 @@ echo "<a href='".$loginUrl."'>Se connecter</a>";
 
   ?>
   <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
- 
    <form method="post" action="" enctype="multipart/form-data">
     <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
     <input type="file" name="source" id="source" /><br />
@@ -98,7 +97,7 @@ function UploadPhoto($session, $files)
   try {                  
     $response = (new FacebookRequest(
       $session, 'POST', '/me/photos', array(
-        'source' => $files,
+        'source' => $file,
         'message' => 'User provided message'
       )
     ))->execute()->getGraphObject();
