@@ -71,11 +71,7 @@ function UploadPhoto($session, $files)
 }(document, 'script', 'facebook-jssdk'));</script>
 
 <body>
-  <form method="post" action="" enctype="multipart/form-data">
-    <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
-    <input type="file" name="source" id="source" /><br />
-    <input type="submit" name="submit" value="Envoyer" />
-  </form>
+ 
   <?php
   if($session)
   {
