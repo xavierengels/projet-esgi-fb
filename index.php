@@ -80,7 +80,6 @@ else
 
 if($session) {
     try {
-      echo "try info";
       $_SESSION['fb_token'] = (string) $session->getAccessToken();
         $request_user = new FacebookRequest( $session,"GET","/me");
         $request_user_executed = $request_user->execute();
@@ -94,6 +93,7 @@ if($session) {
 }
 else
 {
+  echo "session ??";
   $loginUrl = $helper->getLoginUrl();
    echo "<a href='".$loginUrl."'>Se connecter</a>";
 }
