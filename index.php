@@ -62,7 +62,17 @@ echo "<a href='".$loginUrl."'>Se connecter</a>";
   
   }
 
-  ?><div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+  ?>
+  <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+ 
+   <form method="post" action="" enctype="multipart/form-data">
+    <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+    <input type="file" name="source" id="source" /><br />
+    <input type="submit" name="submit" value="Envoyer" />
+  </form>
+   
+
+
      <?php 
    
 
@@ -81,6 +91,28 @@ if($session) {
   }   
 }
 
+
+
+function UploadPhoto($session, $files)
+{
+  try {                  
+    $response = (new FacebookRequest(
+      $session, 'POST', '/me/photos', array(
+        'source' => $file,
+        'message' => 'User provided message'
+      )
+    ))->execute()->getGraphObject();
+    echo "Posted with id: " . $response->getProperty('id');
+  } catch(FacebookRequestException $e) {
+    echo "Exception occured, code: " . $e->getCode();
+    echo " with message: " . $e->getMessage();
+  } 
+}
+
+ if(isset($_FILES) && isset($_FILES['source']))
+  {
+    UploadPhoto($session, $_POST);
+  }
 ?>
 
 
