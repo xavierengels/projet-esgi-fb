@@ -139,8 +139,6 @@ function UploadPhoto($session, $files)
    }(document, 'script', 'facebook-jssdk'));
 </script>
 
-
-
 <nav id="nav">
     <div class="navbar">
     <div class="navbar-inner">
@@ -163,12 +161,12 @@ function UploadPhoto($session, $files)
                             </li>
                         
                         <li>
-                            <a href="plusrecent.php">
+                            <a href="plusrecents.php">
                                 Recentes
                             </a>
                         </li>
                         <li>
-                            <a href="top10.php">
+                            <a href="lesmeilleurs.php">
                                 Populaire
                             </a>
                         </li>
@@ -179,7 +177,6 @@ function UploadPhoto($session, $files)
     </div>
 </div>
 </nav>
-
 
 </html>
 
