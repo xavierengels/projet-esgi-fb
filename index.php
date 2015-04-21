@@ -78,8 +78,9 @@ echo "<a href='".$loginUrl."'>Se connecter</a>";
 
 
 if($session) {
+
     try {
-      echo "try info";
+      
       $_SESSION['fb_token'] = (string) $session->getAccessToken();
         $request_user = new FacebookRequest( $session,"GET","/me");
         $request_user_executed = $request_user->execute();
@@ -99,7 +100,7 @@ function UploadPhoto($session, $files)
   try {                  
     $response = (new FacebookRequest(
       $session, 'POST', '/me/photos', array(
-        'source' => $file,
+        'source' => $files,
         'message' => 'User provided message'
       )
     ))->execute()->getGraphObject();
@@ -112,6 +113,8 @@ function UploadPhoto($session, $files)
 
  if(isset($_FILES) && isset($_FILES['source']))
   {
+    print_r($session);
+    print_r($_POST);
     UploadPhoto($session, $_POST);
   }
 ?>
