@@ -1,6 +1,3 @@
-
-
-
 <?php
 require_once('facebook-php-sdk-v4-4.0-dev/autoload.php');
 use Facebook\FacebookSession;
@@ -99,7 +96,7 @@ function UploadPhoto($session, $files)
   try {                  
     $response = (new FacebookRequest(
       $session, 'POST', '/me/photos', array(
-        'source' => $files,
+        'source' => $file,
         'message' => 'User provided message'
       )
     ))->execute()->getGraphObject();
@@ -114,7 +111,7 @@ function UploadPhoto($session, $files)
   {
 
     
-    print_r($_FILES['source']);
+    print_r($$_FILES['source']);
     UploadPhoto($session,$_FILES['source']);
 
   }
