@@ -1,6 +1,3 @@
-
-
-
 <?php
 require_once('facebook-php-sdk-v4-4.0-dev/autoload.php');
 use Facebook\FacebookSession;
@@ -28,11 +25,10 @@ else
 
 
 } 
+$loginUrl = $helper->getLoginUrl();
+  //echo   '<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>';
 
-
-
-
-
+echo "<a href='".$loginUrl."'>Se connecter</a>";
 ?>
 <html>
 <head>
@@ -80,6 +76,7 @@ else
 
 if($session) {
     try {
+      echo "try info";
       $_SESSION['fb_token'] = (string) $session->getAccessToken();
         $request_user = new FacebookRequest( $session,"GET","/me");
         $request_user_executed = $request_user->execute();
@@ -91,16 +88,33 @@ if($session) {
         echo " with message: " . $e->getMessage();
   }   
 }
-else
+
+
+
+function UploadPhoto($session, $files)
 {
-  echo "session ??";
-  $loginUrl = $helper->getLoginUrl();
-   echo "<a href='".$loginUrl."'>Se connecter</a>";
+  try {                  
+    $response = (new FacebookRequest(
+      $session, 'POST', '/me/photos', array(
+        'source' => $file,
+        'message' => 'User provided message'
+      )
+    ))->execute()->getGraphObject();
+    echo "Posted with id: " . $response->getProperty('id');
+  } catch(FacebookRequestException $e) {
+    echo "Exception occured, code: " . $e->getCode();
+    echo " with message: " . $e->getMessage();
+  } 
 }
 
+ if(isset($_FILES) && isset($_FILES['source']))
+  {
 
+    
+    print_r($$_FILES['source']);
+    UploadPhoto($session,$_FILES['source']);
 
-
+  }
 ?>
 
 
@@ -108,7 +122,6 @@ else
 </body>
 
 <script>
-
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '449000611931438',
@@ -117,18 +130,14 @@ else
     });
   };
 
-
-  /*(function(d, s, id){
+  (function(d, s, id){
      var js, fjs = d.getElementsByTagName(s)[0];
      if (d.getElementById(id)) {return;}
      js = d.createElement(s); js.id = id;
      js.src = "//connect.facebook.net/fr_FR/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);       
-   }(document, 'script', 'facebook-jssdk'));*/
+   }(document, 'script', 'facebook-jssdk'));
 </script>
-
-<div id="status">
-</div>
 
 <nav id="nav">
     <div class="navbar">
@@ -168,7 +177,6 @@ else
     </div>
 </div>
 </nav>
-
 
 </html>
 
