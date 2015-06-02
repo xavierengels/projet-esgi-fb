@@ -59,6 +59,7 @@ else
 
 
 <body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
   <?php
   if($session)
@@ -145,32 +146,13 @@ else
             
 
             
-                <ul class="nav">
-                    
-                        <li class="active hidden-phone">
-                            <a href="index.php">
-                                Accueil
-                            </a>
-                        </li>
-                        
-                            <li>
-                                <a href="participer.php">
-                                    Participer 
-                                </a>
-                            </li>
-                        
-                        <li>
-                            <a href="plusrecents.php">
-                                Recentes
-                            </a>
-                        </li>
-                        <li>
-                            <a href="lesmeilleurs.php">
-                                Populaire
-                            </a>
-                        </li>
-                    
-                </ul>
+              <ul class="nav nav-pills">
+  <li role="presentation" class="active"><a href="index.php">Acceuil</a></li>
+  <li role="presentation"><a href="participer.php">Participer</a></li>
+  <li role="presentation"><a href="plusrecents.php">Recents</a></li>
+    <li role="presentation"><a href="lesmeilleurs.php">Populaire</a></li>
+
+</ul>
             
         </div>
     </div>
