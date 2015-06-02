@@ -32,6 +32,14 @@ else
 ?>
 <html>
 <head>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="C:/wamp/www/projet dev fb/bootstrap/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="C:/wamp/www/projet dev fb/bootstrap/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="C:/wamp/www/projet dev fb/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <div id="fb-root"></div>
 
@@ -47,6 +55,7 @@ else
 
 
 <body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
   <?php
   if($session)
@@ -158,32 +167,13 @@ else
             
 
             
-                <ul class="nav">
-                    
-                        <li class="active hidden-phone">
-                            <a href="index.php">
-                                Accueil
-                            </a>
-                        </li>
-                        
-                            <li>
-                                <a href="participer.php">
-                                    Participer 
-                                </a>
-                            </li>
-                        
-                        <li>
-                            <a href="plusrecents.php">
-                                Recentes
-                            </a>
-                        </li>
-                        <li>
-                            <a href="lesmeilleurs.php">
-                                Populaire
-                            </a>
-                        </li>
-                    
-                </ul>
+              <ul class="nav nav-pills">
+  <li role="presentation" class="active"><a href="index.php">Acceuil</a></li>
+  <li role="presentation"><a href="participer.php">Participer</a></li>
+  <li role="presentation"><a href="plusrecents.php">Recents</a></li>
+    <li role="presentation"><a href="lesmeilleurs.php">Populaire</a></li>
+
+</ul>
             
         </div>
     </div>

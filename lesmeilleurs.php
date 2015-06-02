@@ -1,6 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <link rel="stylesheet" href="C:/wamp/www/projet dev fb/bootstrap/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="C:/wamp/www/projet dev fb/bootstrap/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="C:/wamp/www/projet dev fb/bootstrap/js/bootstrap.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Document sans nom</title>
 </head>
@@ -13,32 +20,13 @@
             
 
             
-                <ul class="nav">
-                    
-                        <li class="active hidden-phone">
-                            <a href="index.php">
-                                Accueil
-                            </a>
-                        </li>
-                        
-                            <li>
-                                <a href="participer.php">
-                                    Participer 
-                                </a>
-                            </li>
-                        
-                        <li>
-                            <a href="plusrecents.php">
-                                Recentes
-                            </a>
-                        </li>
-                        <li>
-                            <a href="lesmeilleurs.php">
-                                Populaire
-                            </a>
-                        </li>
-                    
-                </ul>
+                <ul class="nav nav-pills">
+  <li role="presentation" class="active"><a href="index.php">Acceuil</a></li>
+  <li role="presentation"><a href="participer.php">Participer</a></li>
+  <li role="presentation"><a href="plusrecents.php">Recents</a></li>
+    <li role="presentation"><a href="lesmeilleurs.php">Populaire</a></li>
+
+</ul>
             
         </div>
     </div>
