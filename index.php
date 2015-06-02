@@ -36,6 +36,14 @@ else
 ?>
 <html>
 <head>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="C:/wamp/www/projet dev fb/bootstrap/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="C:/wamp/www/projet dev fb/bootstrap/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="C:/wamp/www/projet dev fb/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <div id="fb-root"></div>
 
