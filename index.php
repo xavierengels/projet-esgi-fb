@@ -21,7 +21,7 @@ $helper = new FacebookRedirectLoginHelper('https://projet-esgi-fb.herokuapp.com/
 $user =  'blnwydiaqtvkyp';
 $pass =  'yODIF2ML7nUOjWl-jBPkS54hHw';
 try {
-    $dbh = new PDO('mysql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;dbname=d7fa01u2c92h52', $user, $pass);
+    $dbh = new PDO("pgsql:ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;dbname=d7fa01u2c92h52;host=$host", $username, $password );
     foreach($dbh->query('SELECT * from list') as $row) {
         print_r($row);
     }
