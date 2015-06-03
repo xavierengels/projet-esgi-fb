@@ -167,13 +167,13 @@ else
 
 <script>
 
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '449000611931438',
-      xfbml      : true,
-      version    : 'v2.3'
-    });
-  };
+//  window.fbAsyncInit = function() {
+//    FB.init({
+//      appId      : '449000611931438',
+//      xfbml      : true,
+//      version    : 'v2.3'
+//    });
+//  };
 
 
   /*(function(d, s, id){
