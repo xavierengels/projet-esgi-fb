@@ -33,6 +33,7 @@ else
 ?>
 <html>
 <head>
+    <script src="https://projet-esgi-fb.herokuapp.com/jquery-2.1.4.min.js"></script>
   <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://projet-esgi-fb.herokuapp.com/bootstrap-3.3.4-dist/css/bootstrap.min.css">
 
@@ -41,7 +42,7 @@ else
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://projet-esgi-fb.herokuapp.com/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
-    <script src="https://projet-esgi-fb.herokuapp.com/jquery-2.1.4.min.js"></script>
+
 </head>
 <div id="fb-root"></div>
 
@@ -136,6 +137,31 @@ else
 ?>
 
 
+<div id="status">
+</div>
+
+<nav id="nav">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+
+
+
+                <ul class="nav nav-pills">
+                    <li role="presentation" class="active"><a href="index.php">Acceuil</a></li>
+                    <li role="presentation"><a href="participer.php">Participer</a></li>
+                    <li role="presentation"><a href="plusrecents.php">Recents</a></li>
+                    <li role="presentation"><a href="lesmeilleurs.php">Populaire</a></li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+
 
 </body>
 
@@ -159,29 +185,4 @@ else
    }(document, 'script', 'facebook-jssdk'));*/
 </script>
 
-<div id="status">
-</div>
-
-<nav id="nav">
-    <div class="navbar">
-    <div class="navbar-inner">
-        <div class="container">
-            
-
-            
-              <ul class="nav nav-pills">
-  <li role="presentation" class="active"><a href="index.php">Acceuil</a></li>
-  <li role="presentation"><a href="participer.php">Participer</a></li>
-  <li role="presentation"><a href="plusrecents.php">Recents</a></li>
-    <li role="presentation"><a href="lesmeilleurs.php">Populaire</a></li>
-
-</ul>
-            
-        </div>
-    </div>
-</div>
-</nav>
-
-
 </html>
-
