@@ -12,8 +12,9 @@ use Facebook\FacebookRequestException;;
 ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
-
-FacebookSession::setDefaultApplication('449000611931438', '4081c73247e8a9729dc939b5fe6565c6');
+const APPID = "449000611931438";
+const APPSECRET = "4081c73247e8a9729dc939b5fe6565c6"
+FacebookSession::setDefaultApplication(APPID, APPSECRET);
 $helper = new FacebookRedirectLoginHelper('https://projet-esgi-fb.herokuapp.com/');
 
 
