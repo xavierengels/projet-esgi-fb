@@ -41,6 +41,7 @@ else
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://projet-esgi-fb.herokuapp.com/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+    <script src="https://projet-esgi-fb.herokuapp.com/jquery-2.1.4.min.js"></script>
 </head>
 <div id="fb-root"></div>
 
