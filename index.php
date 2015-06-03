@@ -22,7 +22,11 @@ if(isset($_SESSION) && isset($_SESSION['fb_token']))
 {
   $session = new FacebookSession($_SESSION['fb_token']);
 
-
+}
+else
+{
+     $session = $helper->getSessionFromRedirect();
+}
 
 ?>
 <html>
@@ -72,15 +76,10 @@ if(isset($_SESSION) && isset($_SESSION['fb_token']))
     <input type="file" name="source" id="source" /><br />
     <input type="submit" name="submit" value="Envoyer" />
   </form>
-<?php
-}
-else
-{
-$session = $helper->getSessionFromRedirect();
 
-}
-?>
-<?php
+
+
+     <?php
 
      if($session) {
 
@@ -122,16 +121,6 @@ if($session) {
         echo "Exception occured, code: " . $e->getCode();
         echo " with message: " . $e->getMessage();
   }   
-}
-else
-{
-  echo "session ??";
-  $loginUrl = $helper->getLoginUrl();
-   echo "<a href='".$loginUrl."'>Se connecter</a>";
-}
-
-
-
 
 ?>
 
@@ -158,7 +147,15 @@ else
         </div>
     </div>
 </nav>
-
+<?php
+}
+else
+{
+echo "session ??";
+$loginUrl = $helper->getLoginUrl();
+echo "<a href='".$loginUrl."'>Se connecter</a>";
+}
+?>
 
 
 
