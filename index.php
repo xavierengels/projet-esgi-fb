@@ -26,6 +26,7 @@ if(isset($_SESSION) && isset($_SESSION['fb_token']))
 else
 {
      $session = $helper->getSessionFromRedirect();
+
 }
 
 ?>
@@ -121,6 +122,16 @@ if($session) {
         echo "Exception occured, code: " . $e->getCode();
         echo " with message: " . $e->getMessage();
   }   
+}
+else
+{
+  echo "session ??";
+  $loginUrl = $helper->getLoginUrl();
+   echo "<a href='".$loginUrl."'>Se connecter</a>";
+}
+
+
+
 
 ?>
 
@@ -147,15 +158,7 @@ if($session) {
         </div>
     </div>
 </nav>
-<?php
-}
-else
-{
-echo "session ??";
-$loginUrl = $helper->getLoginUrl();
-echo "<a href='".$loginUrl."'>Se connecter</a>";
-}
-?>
+
 
 
 
