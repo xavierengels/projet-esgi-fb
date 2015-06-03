@@ -22,8 +22,10 @@ $user =  'blnwydiaqtvkyp';
 $pass =  'yODIF2ML7nUOjWl-jBPkS54hHw';
 try {
     $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;dbname=d7fa01u2c92h52", $user, $pass);
-    $describe = $dbh->query('DESCRIBE list');
-    echo $describe;
+    $q = $dbh->prepare("DESCRIBE list");
+    $q->execute();
+    $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
+    print_r($table_fields);
     foreach($dbh->query('SELECT * from list') as $row) {
         print_r($row);
     }
