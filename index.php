@@ -34,13 +34,13 @@ else
 <html>
 <head>
   <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="C:/wamp/www/projet dev fb/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://projet-esgi-fb.herokuapp.com/bootstrap-3.3.4-dist/css/bootstrap.min.css">
 
 <!-- Optional theme -->
-<link rel="stylesheet" href="C:/wamp/www/projet dev fb/bootstrap/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="https://projet-esgi-fb.herokuapp.com/bootstrap-3.3.4-dist/css/bootstrap-theme.min.css">
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="C:/wamp/www/projet dev fb/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://projet-esgi-fb.herokuapp.com/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
 </head>
 <div id="fb-root"></div>
 
