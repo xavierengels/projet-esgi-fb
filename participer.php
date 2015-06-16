@@ -45,18 +45,16 @@
     $q->execute();
     $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
     print_r($table_fields);
-    $ISp_Res = $pdo->prepare("INSERT INTO liste(user, id_photo) VALUES(?, ?)");
+    /*$ISp_Res = $pdo->prepare("INSERT INTO liste(user, id_photo) VALUES(?, ?)");
     $ISp_Res->execute(array("test", 1));
     foreach($dbh->query('SELECT * from liste') as $row) {
         print_r($row);
-    }
+    }*/
     $dbh = null;
 } catch (PDOException $e) {
     print "Erreur !: " . $e->getMessage() . "<br/>";
     die();
 }
-
-
 
     if($session) {
 
