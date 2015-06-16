@@ -47,19 +47,16 @@
                     $q->execute();
                     $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
                     print_r($table_fields);*/
-                    /*$qry = $dbh->prepare("INSERT INTO liste (user_name, id_photo) VALUES (:user_name, :id_photo)");
+                    $qry = $dbh->prepare("INSERT INTO liste (user_name) VALUES (:user_name)");
                     $qry->execute(array(
-                        ':user_name' => 'marcounet',
-                        ':id_photo' => 1
+                        ':user_name' => 'marcounet'
                     ));
 
-                    foreach($dbh->query('SELECT * from liste') as $row) {
-                        print_r($row);
-                    }*/
+
                     $qry = $dbh->prepare("SELECT * from liste;");
                     $qry->execute();
                     $noms = $qry->fetchAll();
-                    print_r($noms[1]);
+                    print_r($noms[0]);
 
                     $dbh = null;
                 } catch (PDOException $e) {
