@@ -41,15 +41,15 @@
                     $user =  'blnwydiaqtvkyp';
                     $pass =  'yODIF2ML7nUOjWl-jBPkS54hHw';
                     $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", $user, $pass);
-                    $q = $dbh->prepare("select column_name, data_type, character_maximum_length
+                    /*$q = $dbh->prepare("select column_name, data_type, character_maximum_length
                                         from INFORMATION_SCHEMA.COLUMNS
                                         where table_name = 'liste'");
                     $q->execute();
                     $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
-                    print_r($table_fields);
-                    $qry = $pdo->prepare("INSERT INTO liste (`user`, `id_photo) VALUES (?, ?)");
-                    $qry->execute(array('marcounet', '1234'));
-                    
+                    print_r($table_fields);*/
+                    $qry = $dbh->prepare("INSERT INTO liste (`user`, `id_photo) VALUES (?, ?)");
+                    $qry->execute(array('marcounet', 1));
+
                     foreach($dbh->query('SELECT * from liste') as $row) {
                         print_r($row);
                     }
