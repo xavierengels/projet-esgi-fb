@@ -101,7 +101,7 @@ else
 </div>
 
 <div>
-<center><img src="/images/voyage.jpg"></center>
+<center><img src="/images/voyage.png"></center>
 </div>
 
 <br><br>
