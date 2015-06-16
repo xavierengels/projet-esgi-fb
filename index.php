@@ -25,8 +25,8 @@ try {
     /*$q = $dbh->prepare("select column_name, data_type, character_maximum_length
                         from INFORMATION_SCHEMA.COLUMNS where table_name = 'liste'");
     $q->execute();
-    $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);*/
-    print_r($table_fields);
+    $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
+    print_r($table_fields);*/
     $ISp_Res = $pdo->prepare("INSERT INTO liste(user, id_photo) VALUES(?, ?)");
     $ISp_Res->execute(array("test", 1));
     foreach($dbh->query('SELECT * from liste') as $row) {
