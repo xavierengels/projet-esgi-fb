@@ -98,9 +98,11 @@ else
 <div>
 <cenetr><img src="/images/concoursimage.jpg"></cenetr>
 </div>
-
+<br><br>
+<div>
 <a href="#" class="btn btn-block btn-lg btn-default">Je Participe</a>
 <a href="#" class="btn btn-block btn-lg btn-default">Je Vote</a>
+</div>
 
 <?php
 if($session) {
