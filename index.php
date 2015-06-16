@@ -95,9 +95,15 @@ else
     </div>
 </nav>
 </center>
+
 <div>
 <center><img src="/images/concoursimage.jpg"></center>
 </div>
+
+<div>
+<center><img src="/images/voyage.jpg"></center>
+</div>
+
 <br><br>
 <center>
 <div>
