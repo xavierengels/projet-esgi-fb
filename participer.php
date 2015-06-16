@@ -43,7 +43,8 @@
                     $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;dbname=d7fa01u2c92h52", $user, $pass);
                     print_r($dbh);
                     $q = $dbh->prepare("select column_name, data_type, character_maximum_length
-                        @from INFORMATION_SCHEMA.COLUMNS where table_name = 'liste'");
+                                        from INFORMATION_SCHEMA.COLUMNS
+                                        where table_name = 'liste'");
                     $q->execute();
                     $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
                     print_r($table_fields);
