@@ -47,7 +47,7 @@
                     $q->execute();
                     $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
                     print_r($table_fields);*/
-                    $qry = $dbh->prepare("INSERT INTO liste (`user`, `id_photo) VALUES (?, ?)");
+                    $qry = $dbh->prepare("INSERT INTO liste (`user`, id_photo) VALUES (?, ?)");
                     print_r($qry);
                     $qry->execute(array('marcounet', 1));
                     print_r($qry);
