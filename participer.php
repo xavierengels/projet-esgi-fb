@@ -29,6 +29,11 @@
     <li role="presentation"><a href="lesmeilleurs.php">Populaire</a></li>
 
 </ul>
+            <form method="post" action="" enctype="multipart/form-data">
+                <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+                <input type="file" name="source" id="source" /><br />
+                <input type="submit" name="submit" value="Envoyer" />
+            </form>
         </div>
     </div>
 </div>

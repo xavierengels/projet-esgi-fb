@@ -20,12 +20,12 @@ $helper = new FacebookRedirectLoginHelper('https://projet-esgi-fb.herokuapp.com/
 
 $user =  'blnwydiaqtvkyp';
 $pass =  'yODIF2ML7nUOjWl-jBPkS54hHw';
-/*try {
+try {
     $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;dbname=d7fa01u2c92h52", $user, $pass);
-    $q = $dbh->prepare("select column_name, data_type, character_maximum_length
+    /*$q = $dbh->prepare("select column_name, data_type, character_maximum_length
                         from INFORMATION_SCHEMA.COLUMNS where table_name = 'liste'");
     $q->execute();
-    $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
+    $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);*/
     print_r($table_fields);
     $ISp_Res = $pdo->prepare("INSERT INTO liste(user, id_photo) VALUES(?, ?)");
     $ISp_Res->execute(array("test", 1));
@@ -36,7 +36,7 @@ $pass =  'yODIF2ML7nUOjWl-jBPkS54hHw';
 } catch (PDOException $e) {
     print "Erreur !: " . $e->getMessage() . "<br/>";
     die();
-}*/
+}
 
 if(isset($_SESSION) && isset($_SESSION['fb_token']))
 {
@@ -120,11 +120,7 @@ else
 
 
   <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
-   <form method="post" action="" enctype="multipart/form-data">
-    <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
-    <input type="file" name="source" id="source" /><br />
-    <input type="submit" name="submit" value="Envoyer" />
-  </form>
+
 
 
 </body>
