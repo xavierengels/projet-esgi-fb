@@ -51,11 +51,15 @@
                     $qry->execute(array(
                         ':user_name' => 'marcounet',
                         ':id_photo' => 1
-                    ));*/
+                    ));
 
                     foreach($dbh->query('SELECT * from liste') as $row) {
                         print_r($row);
-                    }
+                    }*/
+                    $reuslt = $dbh->query('SELECT * from liste');
+                    echo "<pre>";
+                    print_r($result);
+                    echo "</pre>";
                     $dbh = null;
                 } catch (PDOException $e) {
                     print "Erreur !: " . $e->getMessage() . "<br/>";
