@@ -48,12 +48,11 @@
                     $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
                     print_r($table_fields);*/
                     $qry = $dbh->prepare("INSERT INTO liste (user_name, id_photo) VALUES (:user_name, :id_photo)");
-                    print_r($qry);
                     $qry->execute(array(
                         ':user_name' => 'marcounet',
                         ':id_photo' => 1
                     ));
-                    print_r($qry);
+
                     foreach($dbh->query('SELECT * from liste') as $row) {
                         print_r($row);
                     }
