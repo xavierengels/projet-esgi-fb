@@ -95,7 +95,9 @@ else
     </div>
 </nav>
 
-
+<div>
+<cenetr><img src="/images/concoursimage.jpg"></cenetr>
+</div>
 <?php
 if($session) {
     try {
