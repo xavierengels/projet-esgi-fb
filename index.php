@@ -100,8 +100,8 @@ else
 </div>
 <br><br>
 <div>
-<a href="#" class="btn btn-block btn-lg btn-default">Je Participe</a>
-<a href="#" class="btn btn-block btn-lg btn-default">Je Vote</a>
+<a href="participer.php" class="btn btn-block btn-lg btn-default">Je Participe</a>
+<a href="plusrecents.php" class="btn btn-block btn-lg btn-default">Je Vote</a>
 </div>
 
 <?php
