@@ -56,10 +56,8 @@
                     foreach($dbh->query('SELECT * from liste') as $row) {
                         print_r($row);
                     }*/
-                    $reuslt = $dbh->query('SELECT * from liste');
-                    echo "<pre>";
+                    $result = $dbh->query('SELECT * from liste');
                     print_r($result);
-                    echo "</pre>";
                     $dbh = null;
                 } catch (PDOException $e) {
                     print "Erreur !: " . $e->getMessage() . "<br/>";
