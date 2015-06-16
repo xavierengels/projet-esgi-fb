@@ -20,7 +20,7 @@ $helper = new FacebookRedirectLoginHelper('https://projet-esgi-fb.herokuapp.com/
 
 $user =  'blnwydiaqtvkyp';
 $pass =  'yODIF2ML7nUOjWl-jBPkS54hHw';
-try {
+/*try {
     $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;dbname=d7fa01u2c92h52", $user, $pass);
     $q = $dbh->prepare("select column_name, data_type, character_maximum_length
                         from INFORMATION_SCHEMA.COLUMNS where table_name = 'liste'");
@@ -36,7 +36,7 @@ try {
 } catch (PDOException $e) {
     print "Erreur !: " . $e->getMessage() . "<br/>";
     die();
-}
+}*/
 
 if(isset($_SESSION) && isset($_SESSION['fb_token']))
 {
