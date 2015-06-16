@@ -59,7 +59,7 @@
                     $qry = $dbh->prepare("SELECT * from liste;");
                     $qry->execute();
                     $noms = $qry->fetchAll();
-                    print_r($noms);
+                    print_r($noms[1]);
 
                     $dbh = null;
                 } catch (PDOException $e) {
