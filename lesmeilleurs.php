@@ -22,7 +22,6 @@
 
             
                 <ul class="nav nav-pills">
-  <li role="presentation" ><a href="index.php">Acceuil</a></li>
   <li role="presentation"><a href="index.php">Acceuil</a></li>
   <li role="presentation"><a href="participer.php">Participer</a></li>
   <li role="presentation"><a href="plusrecents.php">Recents</a></li>

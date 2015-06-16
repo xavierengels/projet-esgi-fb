@@ -47,7 +47,7 @@
                     $q->execute();
                     $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
                     print_r($table_fields);
-                    $count = $pdo->exec("INSERT INTO liste(`user`, id_photo) VALUES('test', 1)");
+                    $count = $pdo->exec("INSERT INTO liste('user', id_photo) VALUES('test', 1)");
                     echo $count;
 
                    // $result = $ISp_Res->execute(array("test", 1));
