@@ -74,7 +74,7 @@ else
   ?>
 <div id="status">
 </div>
-
+<center>
 <nav id="nav">
     <div class="navbar">
         <div class="navbar-inner">
@@ -94,15 +94,17 @@ else
         </div>
     </div>
 </nav>
-
+</center>
 <div>
-<cenetr><img src="/images/concoursimage.jpg"></cenetr>
+<center><img src="/images/concoursimage.jpg"></center>
 </div>
 <br><br>
+<center>
 <div>
 <a href="participer.php" class="btn btn-block btn-lg btn-default">Je Participe</a>
 <a href="plusrecents.php" class="btn btn-block btn-lg btn-default">Je Vote</a>
 </div>
+</center>
 
 <?php
 if($session) {
