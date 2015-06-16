@@ -40,14 +40,14 @@
                 try {
                     $user =  'blnwydiaqtvkyp';
                     $pass =  'yODIF2ML7nUOjWl-jBPkS54hHw';
-                    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;dbname=d7fa01u2c92h52", $user, $pass);
+                    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", $user, $pass);
                     $q = $dbh->prepare("select column_name, data_type, character_maximum_length
                                         from INFORMATION_SCHEMA.COLUMNS
                                         where table_name = 'liste'");
                     $q->execute();
                     $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
                     print_r($table_fields);
-                    $count = $pdo->exec("INSERT INTO liste(user, id_photo) VALUES('test', 1)");
+                    $count = $pdo->exec("INSERT INTO liste(`user`, id_photo) VALUES('test', 1)");
                     echo $count;
 
                    // $result = $ISp_Res->execute(array("test", 1));
