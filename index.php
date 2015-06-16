@@ -97,11 +97,7 @@ else
 </center>
 
 <div>
-<center><img src="/images/concoursimage.jpg"></center>
-</div>
-
-<div>
-<center><img src="/images/voyage.png"></center>
+<center><img src="/images/concourstotal.jpg"></center>
 </div>
 
 <br><br>
