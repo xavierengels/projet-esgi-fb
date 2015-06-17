@@ -1,4 +1,5 @@
 <?php
+include_once('config.php');
 use Facebook\FacebookRequest;
 use Facebook\GraphObject;
 use Facebook\FacebookRequestException;
@@ -9,6 +10,7 @@ ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
 $session = $_SESSION['fb_token'];
+
 echo "test session : ".$session;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -79,19 +81,22 @@ echo "test session : ".$session;
                 }
 
                 if($session) {
+                   if($_POST){
+                       $userPhoto = $_FILES["source"]["tmp_name"];
 
+                   }
                     try {
                         echo "session : ".$session;
                         // Upload to a user's profile. The photo will be in the
                         // first album in the profile. You can also upload to
                         // a specific album by using /ALBUM_ID as the path
                         $response = (new FacebookRequest(
-                            $session, 'POST', '/me/photos', array(
+                            $session, 'POST', '/'.$fbuser.'/photos', array(
                                 'source' => new CURLFile('path/to/file.name', 'image/png'),
                                 'message' => 'User provided message'
                             )
                         ))->execute()->getGraphObject();
-
+                        print_r($response);
                         // If you're not using PHP 5.5 or later, change the file reference to:
                         // 'source' => '@/path/to/file.name'
 
