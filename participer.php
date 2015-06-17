@@ -1,3 +1,8 @@
+<?php
+use Facebook\FacebookRequest;
+use Facebook\GraphObject;
+use Facebook\FacebookRequestException;
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -47,16 +52,17 @@
                     $q->execute();
                     $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
                     print_r($table_fields);*/
-                    $qry = $dbh->prepare("INSERT INTO liste (user_name) VALUES (:user_name)");
+
+                    /*$qry = $dbh->prepare("INSERT INTO liste (user_name) VALUES (:user_name)");
                     $qry->execute(array(
                         ':user_name' => 'marcounet'
-                    ));
+                    ));*/
 
 
                     $qry = $dbh->prepare("SELECT * from liste;");
                     $qry->execute();
                     $noms = $qry->fetchAll();
-                    print_r($noms[0]);
+                    print_r($noms);
 
                     $dbh = null;
                 } catch (PDOException $e) {
@@ -67,7 +73,7 @@
                 if($session) {
 
                     try {
-
+                        echo "session : ".$session;
                         // Upload to a user's profile. The photo will be in the
                         // first album in the profile. You can also upload to
                         // a specific album by using /ALBUM_ID as the path
