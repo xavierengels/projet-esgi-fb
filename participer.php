@@ -59,10 +59,10 @@ use Facebook\FacebookRequestException;
                     ));*/
 
 
-                    $qry = $dbh->prepare("SELECT * from liste;");
+                    /*$qry = $dbh->prepare("SELECT * from liste;");
                     $qry->execute();
                     $noms = $qry->fetchAll();
-                    print_r($noms);
+                    print_r($noms);*/
 
                     $dbh = null;
                 } catch (PDOException $e) {
@@ -96,6 +96,9 @@ use Facebook\FacebookRequestException;
 
                     }
 
+                }else
+                {
+                    echo "Aucune session";
                 }?>
             </div>
         </div>
