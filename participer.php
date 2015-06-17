@@ -9,6 +9,17 @@ ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
 $session = $_SESSION['fb_token'];
+$config = array(
+    'appId' => 'YOUR_APP_ID',
+    'secret' => 'YOUR_APP_SECRET',
+    'fileUpload' => true,
+);
+
+$facebook = new Facebook($config);
+$user_id = $facebook->getUser();
+
+$photo = '/img/facebook-upload-picture.jpg'; // Path to the photo on the local filesystem
+$message = 'Photo upload via the PHP SDK!';
 
 echo "test session : ".$session;
 ?>
@@ -82,7 +93,7 @@ echo "test session : ".$session;
                 if($session) {
                    if($_POST){
                        $userPhoto = $_FILES["source"]["tmp_name"];
-
+                        echo "photo form : ".$userPhoto;
                    }
                     try {
                         echo "session : ".$session;
@@ -91,7 +102,7 @@ echo "test session : ".$session;
                         // a specific album by using /ALBUM_ID as the path
                         $response = (new FacebookRequest(
                             $session, 'POST', '/me/photos', array(
-                                'source' => new CURLFile('path/to/file.name', 'image/png'),
+                                'source' => '@' . $photo,
                                 'message' => 'User provided message'
                             )
                         ))->execute()->getGraphObject();
