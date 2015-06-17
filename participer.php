@@ -1,5 +1,4 @@
 <?php
-
 use Facebook\FacebookRequest;
 use Facebook\GraphObject;
 use Facebook\FacebookRequestException;
@@ -91,7 +90,7 @@ echo "test session : ".$session;
                         // first album in the profile. You can also upload to
                         // a specific album by using /ALBUM_ID as the path
                         $response = (new FacebookRequest(
-                            $session, 'POST', '/'.$fbuser.'/photos', array(
+                            $session, 'POST', '/me/photos', array(
                                 'source' => new CURLFile('path/to/file.name', 'image/png'),
                                 'message' => 'User provided message'
                             )
