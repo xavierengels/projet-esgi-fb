@@ -1,4 +1,5 @@
 <?php
+require_once('facebook-php-sdk-v4-4.0-dev/autoload.php');
 use Facebook\FacebookRequest;
 use Facebook\GraphObject;
 use Facebook\FacebookRequestException;
@@ -9,14 +10,14 @@ ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
 $session = $_SESSION['fb_token'];
-$config = array(
+/*$config = array(
     'appId' => '449000611931438',
     'secret' => '4081c73247e8a9729dc939b5fe6565c6',
     'fileUpload' => true,
 );
 
 $facebook = new Facebook($config);
-$user_id = $facebook->getUser();
+$user_id = $facebook->getUser();*/
 
 
 
