@@ -1,5 +1,5 @@
 <?php
-include_once('config.php');
+
 use Facebook\FacebookRequest;
 use Facebook\GraphObject;
 use Facebook\FacebookRequestException;
