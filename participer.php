@@ -10,16 +10,15 @@ error_reporting('e_all');
 session_start();
 $session = $_SESSION['fb_token'];
 $config = array(
-    'appId' => 'YOUR_APP_ID',
-    'secret' => 'YOUR_APP_SECRET',
+    'appId' => '449000611931438',
+    'secret' => '4081c73247e8a9729dc939b5fe6565c6',
     'fileUpload' => true,
 );
 
 $facebook = new Facebook($config);
 $user_id = $facebook->getUser();
 
-$photo = '/img/facebook-upload-picture.jpg'; // Path to the photo on the local filesystem
-$message = 'Photo upload via the PHP SDK!';
+
 
 echo "test session : ".$session;
 ?>
