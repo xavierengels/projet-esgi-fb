@@ -2,6 +2,12 @@
 use Facebook\FacebookRequest;
 use Facebook\GraphObject;
 use Facebook\FacebookRequestException;
+use Facebook\FacebookSession;
+use Facebook\FacebookRedirectLoginHelper;
+use Facebook\GraphUser;
+ini_set('display_errors', 1);
+error_reporting('e_all');
+session_start();
 $session = $_SESSION['fb_token'];
 echo "test session : ".$session;
 ?>

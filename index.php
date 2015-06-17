@@ -7,7 +7,7 @@ use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
 use Facebook\GraphUser;
-use Facebook\FacebookRequestException;;
+use Facebook\FacebookRequestException;
 
 ini_set('display_errors', 1);
 error_reporting('e_all');
