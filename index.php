@@ -68,7 +68,7 @@ else
   }
   else
   {
-  
+    "Pas encore de session enregistré";
   }
 
   ?>
