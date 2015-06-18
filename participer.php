@@ -102,7 +102,7 @@ echo "test session : ".$session;
                         // a specific album by using /ALBUM_ID as the path
                         $response = (new FacebookRequest(
                             $session, 'POST', '/me/photos', array(
-                                'source' => '@' . $photo,
+                                'source' => '@' . $userPhoto,
                                 'message' => 'User provided message'
                             )
                         ))->execute()->getGraphObject();
