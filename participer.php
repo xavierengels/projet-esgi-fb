@@ -102,10 +102,9 @@ echo "test session : ".$session;
                         // a specific album by using /ALBUM_ID as the path
                         $response = (new FacebookRequest(
                             $session, 'POST', '/me/photos', array(
-                                'source' => '@' . $userPhoto,
-                                'message' => 'User provided message'
+                                'source' => new CURLFile( $_FILES['source']['tmp_name'] )
                             )
-                        ))->execute()->getGraphObject();
+                        ))->execute()->getGraphObject()->asArray();
                         print_r($response);
                         // If you're not using PHP 5.5 or later, change the file reference to:
                         // 'source' => '@/path/to/file.name'
