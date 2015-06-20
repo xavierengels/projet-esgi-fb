@@ -102,16 +102,18 @@ echo "test session : ".$session;
                         if(move_uploaded_file($temp_name, $location.$name)){
                             echo 'Photo was successfully uploaded.';
                         }
-                        echo "session : ".$session;
+                        echo "session : ".$session."</br>";
                         // Upload to a user's profile. The photo will be in the
                         // first album in the profile. You can also upload to
                         // a specific album by using /ALBUM_ID as the path
                         $response = (new FacebookRequest(
                             $session, 'POST', '/me/photos', array(
-                                'source' => new CURLFile( $location.$name ),
+                                'source' => new CURLFile( '/me/photos' ),
                             )
                         ))->execute()->getGraphObject()->asArray();
                         print_r($response);
+                        echo "response : ".$response;
+
                         // If you're not using PHP 5.5 or later, change the file reference to:
                         // 'source' => '@/path/to/file.name'
 
