@@ -55,7 +55,7 @@ echo "test session : ".$session;
 
                 </ul>
                 <form method="post" action="" enctype="multipart/form-data">
-                    <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+                    <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
                     <input type="file" name="source" id="source" /><br />
                     <input type="submit" name="submit" value="Envoyer" />
                 </form>
@@ -96,13 +96,19 @@ echo "test session : ".$session;
                         echo "photo form : ".$userPhoto;
                    }
                     try {
+                        $location = 'uploads/';
+                        $name       = $_FILES['file']['name'];
+                        $temp_name  = $_FILES['file']['tmp_name'];
+                        if(move_uploaded_file($temp_name, $location.$name)){
+                            echo 'Photo was successfully uploaded.';
+                        }
                         echo "session : ".$session;
                         // Upload to a user's profile. The photo will be in the
                         // first album in the profile. You can also upload to
                         // a specific album by using /ALBUM_ID as the path
                         $response = (new FacebookRequest(
                             $session, 'POST', '/me/photos', array(
-                                'source' => new CURLFile( $_FILES['source']['tmp_name'] )
+                                'source' => new CURLFile( $location.$name ),
                             )
                         ))->execute()->getGraphObject()->asArray();
                         print_r($response);
