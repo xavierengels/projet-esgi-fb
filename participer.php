@@ -3,13 +3,17 @@ require_once('facebook-php-sdk-v4-4.0-dev/autoload.php');
 use Facebook\FacebookRequest;
 use Facebook\GraphObject;
 use Facebook\FacebookRequestException;
-use Facebook\FacebookSession;
-use Facebook\FacebookRedirectLoginHelper;
-use Facebook\GraphUser;
 ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
 $session = $_SESSION['fb_token'];
+$appId = "449000611931438";
+$secret = "4081c73247e8a9729dc939b5fe6565c6";
+$facebook = new Facebook(array(
+    'appId'  => $appId,	//your facebook application id
+    'secret' => $secret,	//your facebook secret code
+    'cookie' => true
+));
 /*$config = array(
     'appId' => '449000611931438',
     'secret' => '4081c73247e8a9729dc939b5fe6565c6',
@@ -92,32 +96,17 @@ echo "test session : ".$session;
 
                 if($session) {
                    if($_POST){
-                       $userPhoto = $_FILES["source"]["tmp_name"];
-                        echo "photo form : ".$userPhoto;
-
                     try {
-                        $location = 'uploads/';
-                        $name       = $_FILES['file']['name'];
-                        $temp_name  = $_FILES['file']['tmp_name'];
-                        if(move_uploaded_file($temp_name, $location.$name)){
-                            echo 'Photo was successfully uploaded.';
-                        }
-                        echo "session : ".$session."</br>";
-                        // Upload to a user's profile. The photo will be in the
-                        // first album in the profile. You can also upload to
-                        // a specific album by using /ALBUM_ID as the path
-                        $response = (new FacebookRequest(
-                            $session, 'POST', '/me/photos', array(
-                                'source' => new CURLFile( '/me/photos' ),
+                        $img = realpath($_FILES["source"]["tmp_name"]);
+                        // allow uploads
+                        $facebook->setFileUploadSupport("http://" . $_SERVER['SERVER_NAME']);
+                        // add a status message
+                        $photo = $facebook->api('/me/photos', 'POST',
+                            array(
+                                'source' => '@' . $img,
+                                'message' => 'This photo was uploaded via www.WebSpeaks.in'
                             )
-                        ))->execute()->getGraphObject()->asArray();
-                        print_r($response);
-                        echo "response : ".$response;
-
-                        // If you're not using PHP 5.5 or later, change the file reference to:
-                        // 'source' => '@/path/to/file.name'
-
-                        echo "Posted with id: " . $response->getProperty('id');
+                        );
 
                     } catch(FacebookRequestException $e) {
 
