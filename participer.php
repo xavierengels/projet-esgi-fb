@@ -94,7 +94,7 @@ echo "test session : ".$session;
                    if($_POST){
                        $userPhoto = $_FILES["source"]["tmp_name"];
                         echo "photo form : ".$userPhoto;
-                   }
+
                     try {
                         $location = 'uploads/';
                         $name       = $_FILES['file']['name'];
@@ -123,7 +123,7 @@ echo "test session : ".$session;
                         echo " with message: " . $e->getMessage();
 
                     }
-
+                   }
                 }else
                 {
                     echo "Aucune session";
