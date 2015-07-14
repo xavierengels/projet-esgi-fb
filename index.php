@@ -67,7 +67,7 @@ if($session) {
         $user = $request_user_executed->getGraphObject(GraphUser::className());
         $request = new FacebookRequest( $session,"GET","/me/albums");
         $response = $request->execute();
-        $albums = $response->getGraphObject()->asArray();
+        $albums = $response->getGraphObject();
         $albums_data = $albums->getProperty('data');
         foreach ($albums_data as $album) {
             echo $album->name;
