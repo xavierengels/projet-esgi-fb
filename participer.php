@@ -13,26 +13,17 @@ include('pages/menu.php');
 
 
 echo "test session : ".$session;
-$request = new FacebookRequest(
-    $session,
-    'GET',
-    '/me/photos'
-);
-
-try {
+function getAlbums($session, $id){
+    $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
     $response = $request->execute();
-    $graphObject = $response->getGraphObject();
-} catch(Facebook\Exceptions\FacebookResponseException $e) {
-    // When Graph returns an error
-    echo 'Graph returned an error: ' . $e->getMessage();
-    exit;
-} catch(Facebook\Exceptions\FacebookSDKException $e) {
-    // When validation fails or other local issues
-    echo 'Facebook SDK returned an error: ' . $e->getMessage();
-    exit;
-}
+    $albums = $response->getGraphObject();
 
-    print_r($graphObject);
+    return $albums;
+}
+echo "test1";
+$albums = getAlbums($session, 'me');
+echo "test2";
+    print_r($albums);
 ?>
 
 
