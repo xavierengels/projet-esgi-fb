@@ -13,20 +13,13 @@ include('pages/menu.php');
 
 
 echo "test session : ".$session."</br>";
-function getAlbums($session, $id){
-    $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
-    echo "request".$request;
-    print_r($request);
-    $response = $request->execute();
-    $albums = $response->getGraphObject();
-    print_r($response);
-    print_r($albums);
-    return $albums;
-}
-echo "test1";
-$albums = getAlbums($session, 'me');
-echo "test2";
-    print_r($albums);
+$request = new FacebookRequest( $session, 'GET', '/me' );
+$response = $request->execute();
+// get response
+$graphObject = $response->getGraphObject();
+
+// print data
+echo  print_r( $graphObject, 1 );
 ?>
 
 
