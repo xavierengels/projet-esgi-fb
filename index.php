@@ -13,12 +13,11 @@ use Facebook\FacebookRequestException;
 ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
-/*const APPID = "449000611931438";
-const APPSECRET = "4081c73247e8a9729dc939b5fe6565c6";*/
+
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 
-
+//récupère les informations de session facebook et associe à la session courante
 if(isset($_SESSION) && isset($_SESSION['fb_token']))
 {
   $session = new FacebookSession($_SESSION['fb_token']);
@@ -32,34 +31,6 @@ else
 
 ?>
 
-<html>
-<head>
-    <script src="https://projet-esgi-fb.herokuapp.com/jquery-2.1.4.min.js"></script>
-  <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://projet-esgi-fb.herokuapp.com/bootstrap-3.3.4-dist/css/bootstrap.min.css">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://projet-esgi-fb.herokuapp.com/bootstrap-3.3.4-dist/css/bootstrap-theme.min.css">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://projet-esgi-fb.herokuapp.com/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
-
-</head>
-<div id="fb-root"></div>
-
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.3&appId=449000611931438";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
-
-
-
-<body>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
   <?php
   if($session)
@@ -71,46 +42,24 @@ else
   {
     "Pas encore de session enregistré";
   }
-
+  include('../pages/header.php');
+  include('../pages/menu.php');
   ?>
-<div id="status">
-</div>
-<center>
-<nav id="nav">
-    <div class="navbar">
-        <div class="navbar-inner">
-            <div class="container">
 
-
-
-                <ul class="nav nav-pills">
-                    <li role="presentation" class="active"><a href="index.php">Acceuil</a></li>
-                    <li role="presentation"><a href="participer.php">Participer</a></li>
-                    <li role="presentation"><a href="plusrecents.php">Recents</a></li>
-                    <li role="presentation"><a href="lesmeilleurs.php">Populaire</a></li>
-
-
-                </ul>
-
-            </div>
-        </div>
-    </div>
-</nav>
-</center>
 
 <div>
 <center><img src="/images/concourstotal.jpg"></center>
 </div>
 
 <br><br>
-<center>
+
 <div>
-<a href="participer.php" class="btn btn-block btn-lg btn-default">Je Participe</a>
+<a href="<?=$loginUrl?>/participer.php" class="btn btn-block btn-lg btn-default">Je Participe</a>
 <a href="plusrecents.php" class="btn btn-block btn-lg btn-default">Je Vote</a>
 </div>
-</center>
 
 <?php
+//si la session exite on recupère les info de l'utlisateur
 if($session) {
     try {
         $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -130,37 +79,10 @@ if($session) {
 }
 else
 {
-    echo "session ??";
+    //recupère l'url de connexion pour le bouton de connexion
     $loginUrl = $helper->getLoginUrl();
     echo "<a href='".$loginUrl."'>Se connecter</a>";
 }
+include('../pages/footer.php');
 ?>
-</body>
 
-
-
-
-
-
-
-<script>
-
-//  window.fbAsyncInit = function() {
-//    FB.init({
-//      appId      : '449000611931438',
-//      xfbml      : true,
-//      version    : 'v2.3'
-//    });
-//  };
-
-
-  /*(function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/fr_FR/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));*/
-</script>
-
-</html>

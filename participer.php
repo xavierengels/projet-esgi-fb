@@ -7,21 +7,7 @@ ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
 $session = $_SESSION['fb_token'];
-$appId = "449000611931438";
-$appId = "4081c73247e8a9729dc939b5fe6565c6";
-$facebook = new Facebook(array(
-    'appId'  => $appId,	//your facebook application id
-    'secret' => $secret,	//your facebook secret code
-    'cookie' => true
-));
-/*$config = array(
-    'appId' => '449000611931438',
-    'secret' => '4081c73247e8a9729dc939b5fe6565c6',
-    'fileUpload' => true,
-);
 
-$facebook = new Facebook($config);
-$user_id = $facebook->getUser();*/
 
 
 
