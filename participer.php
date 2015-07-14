@@ -1,8 +1,8 @@
 <?php
 include('config.php');
 use Facebook\FacebookRequest;
-use Facebook\GraphObject;
 use Facebook\FacebookRequestException;
+use Facebook\GraphUser;
 ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
@@ -14,15 +14,16 @@ include('pages/menu.php');
 
 echo "test session : ".$session."</br>";
 if($session) {
-try {
-$request_user = new FacebookRequest( $session,"GET","/me");
-$request_user_executed = $request_user->execute();
-$user = $request_user_executed->getGraphObject(GraphUser::className());
-echo "Bonjour ".$user->getName();
-} catch(FacebookRequestException $e) {
-    echo "error";
-    echo "Exception occured, code: " . $e->getCode();
-    echo " with message: " . $e->getMessage();
+    try {
+        $request_user = new FacebookRequest($session, "GET", "/me");
+        $request_user_executed = $request_user->execute();
+        $user = $request_user_executed->getGraphObject(GraphUser::className());
+        echo "Bonjour " . $user->getName();
+    } catch (FacebookRequestException $e) {
+        echo "error";
+        echo "Exception occured, code: " . $e->getCode();
+        echo " with message: " . $e->getMessage();
+    }
 }
 ?>
 
