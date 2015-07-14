@@ -69,7 +69,7 @@ if($session) {
         $response = $request->execute();
         $albums = $response->getGraphObject();
         $albums_data = $albums->getPropertyNames();
-        print_r($albums_data);
+        print_r($albums);
         echo "Bonjour ".$user->getName();
         ?>
         <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
