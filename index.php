@@ -68,10 +68,8 @@ if($session) {
         $request = new FacebookRequest( $session,"GET","/me/albums");
         $response = $request->execute();
         $albums = $response->getGraphObject();
-        $albums_data = $albums->getProperty('data');
-        foreach ($albums_data as $album) {
-            echo $album->name;
-            }
+        $albums_data = $albums->getPropertyNames();
+        print_r($albums_data);
         echo "Bonjour ".$user->getName();
         ?>
         <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
