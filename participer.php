@@ -12,12 +12,15 @@ include('pages/menu.php');
 
 
 
-echo "test session : ".$session;
+echo "test session : ".$session."</br>";
 function getAlbums($session, $id){
     $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
+    echo "request".$request;
+    print_r($request);
     $response = $request->execute();
     $albums = $response->getGraphObject();
-
+    print_r($response);
+    print_r($albums);
     return $albums;
 }
 echo "test1";
