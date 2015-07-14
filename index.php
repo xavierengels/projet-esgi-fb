@@ -24,7 +24,7 @@ $fb = new Facebook(array(
 ));
 $session = $fb->getSession();
 $me = null;
-
+print_r($fb);
 // On teste si la session existe
 if ($session) {
 
