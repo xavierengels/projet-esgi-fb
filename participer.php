@@ -1,5 +1,5 @@
 <?php
-require_once('facebook-php-sdk-v4-4.0-dev/autoload.php');
+include('config.php');
 use Facebook\FacebookRequest;
 use Facebook\GraphObject;
 use Facebook\FacebookRequestException;
