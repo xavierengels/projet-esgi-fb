@@ -67,9 +67,12 @@ if($session) {
         $user = $request_user_executed->getGraphObject(GraphUser::className());
         $request = new FacebookRequest( $session,"GET","/me/albums");
         $response = $request->execute();
-        $albums = $response->getGraphObject();
+        $id = $request->getProperty('id');
+        echo "id".$id."</br>";
+
+        /*$albums = $response->getGraphObject();
         $album_data =  $user_profile->getProperty('data');
-        print_r($album_data->asArray());
+        print_r($album_data->asArray());*/
         echo "Bonjour ".$user->getName();
         ?>
         <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
@@ -85,7 +88,7 @@ else
 {
     //recupère l'url de connexion pour le bouton de connexion
     $loginUrl = $helper->getLoginUrl();
-    echo "<a href='".$loginUrl."'>Se co nnecter</a>";
+    echo "<a href='".$loginUrl."'>Se connecter</a>";
 }
 include('pages/footer.php');
 ?>
