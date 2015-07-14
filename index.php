@@ -42,8 +42,8 @@ else
   {
     "Pas encore de session enregistré";
   }
-  include('../pages/header.php');
-  include('../pages/menu.php');
+  include('/pages/header.php');
+  include('/pages/menu.php');
   ?>
 
 
@@ -83,6 +83,6 @@ else
     $loginUrl = $helper->getLoginUrl();
     echo "<a href='".$loginUrl."'>Se connecter</a>";
 }
-include('../pages/footer.php');
+include('/pages/footer.php');
 ?>
 
