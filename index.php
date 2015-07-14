@@ -65,6 +65,11 @@ if($session) {
         $request_user = new FacebookRequest( $session,"GET","/me");
         $request_user_executed = $request_user->execute();
         $user = $request_user_executed->getGraphObject(GraphUser::className());
+        print_r($user);
+        $request = new FacebookRequest( $session,"GET","/me/albums");
+        $response = $request->execute();
+        $graphObject = $response->getGraphObject();
+        print_r($graphObject);
         echo "Bonjour ".$user->getName();
         ?>
         <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
