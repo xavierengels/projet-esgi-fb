@@ -13,6 +13,13 @@ include('pages/menu.php');
 
 
 echo "test session : ".$session;
+$request = new FacebookRequest(
+    $session,
+    'GET',
+    '/{user-id}/picture'
+);
+$response = $request->execute();
+$graphObject = $response->getGraphObject();
 ?>
 
 
