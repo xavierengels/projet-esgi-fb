@@ -14,53 +14,153 @@ ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
 /*const APPID = "449000611931438";
-const APPSECRET = "4081c73247e8a9729dc939b5fe6565c6";
+const APPSECRET = "4081c73247e8a9729dc939b5fe6565c6";*/
 FacebookSession::setDefaultApplication(APPID, APPSECRET);
-$helper = new FacebookRedirectLoginHelper('https://projet-esgi-fb.herokuapp.com/');*/
-$fb = new Facebook(array(
-    'appId'  => APP_ID,
-    'secret' => APP_SECRET,
-    'cookie' => true,
-));
-$session = $fb->getSession();
-$me = null;
-print_r($fb);
-// On teste si la session existe
-if ($session) {
+$helper = new FacebookRedirectLoginHelper('https://projet-esgi-fb.herokuapp.com/');
 
+
+if(isset($_SESSION) && isset($_SESSION['fb_token']))
+{
+  $session = new FacebookSession($_SESSION['fb_token']);
+
+}
+else
+{
+     $session = $helper->getSessionFromRedirect();
+
+}
+
+?>
+
+<html>
+<head>
+    <script src="https://projet-esgi-fb.herokuapp.com/jquery-2.1.4.min.js"></script>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://projet-esgi-fb.herokuapp.com/bootstrap-3.3.4-dist/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://projet-esgi-fb.herokuapp.com/bootstrap-3.3.4-dist/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://projet-esgi-fb.herokuapp.com/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+
+</head>
+<div id="fb-root"></div>
+
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.3&appId=449000611931438";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+<body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+  <?php
+  if($session)
+  {
+     $token = (string) $session->getAccessToken();
+     $_SESSION['fb_token'] = $token;
+  }
+  else
+  {
+    "Pas encore de session enregistré";
+  }
+
+  ?>
+<div id="status">
+</div>
+<center>
+<nav id="nav">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+
+
+
+                <ul class="nav nav-pills">
+                    <li role="presentation" class="active"><a href="index.php">Acceuil</a></li>
+                    <li role="presentation"><a href="participer.php">Participer</a></li>
+                    <li role="presentation"><a href="plusrecents.php">Recents</a></li>
+                    <li role="presentation"><a href="lesmeilleurs.php">Populaire</a></li>
+
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</nav>
+</center>
+
+<div>
+<center><img src="/images/concourstotal.jpg"></center>
+</div>
+
+<br><br>
+<center>
+<div>
+<a href="participer.php" class="btn btn-block btn-lg btn-default">Je Participe</a>
+<a href="plusrecents.php" class="btn btn-block btn-lg btn-default">Je Vote</a>
+</div>
+</center>
+
+<?php
+if($session) {
     try {
-        // On récupère l'UID de l'utilisateur Facebook courant
-        $uid = $fb->getUser();
-        // On récupère les infos de base de l'utilisateur
-        $me = $fb->api('/me');
-    } catch (FacebookApiException $e) {
+        $_SESSION['fb_token'] = (string) $session->getAccessToken();
+        $request_user = new FacebookRequest( $session,"GET","/me");
+        $request_user_executed = $request_user->execute();
+        $user = $request_user_executed->getGraphObject(GraphUser::className());
+        echo "Bonjour ".$user->getName();
+        ?>
+        <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
 
-        // S'il y'a un problème lors de la récup, perte de session entre temps, suppression des autorisations...
-
-        // On récupère l'URL sur laquelle on devra rediriger l'utilisateur pour le réidentifier sur l'application
-        $loginUrl = $fb->getLoginUrl(
-            array(
-                'canvas'    => 1,
-                'fbconnect' => 0
-            )
-        );
-        // On le redirige en JS (header PHP pas possible)
-        echo "<script type='text/javascript'>top.location.href = '".$loginUrl."';</script>";
-        exit();
+    <?php
+    } catch(FacebookRequestException $e) {
+        echo "error";
+        echo "Exception occured, code: " . $e->getCode();
+        echo " with message: " . $e->getMessage();
     }
-
 }
-else {
-    // Si l'utilisateur n'a pas de session
-
-    // On récupère l'URL sur laquelle on devra rediriger l'utilisateur pour le réidentifier sur l'application
-    $loginUrl = $fb->getLoginUrl(
-        array(
-            'canvas'    => 1,
-            'fbconnect' => 0
-        )
-    );
-    // On le redirige en JS (header PHP pas possible)
-    echo "<script type='text/javascript'>top.location.href = '".$loginUrl."';</script>";
-    exit();
+else
+{
+    echo "session ??";
+    $loginUrl = $helper->getLoginUrl();
+    echo "<a href='".$loginUrl."'>Se connecter</a>";
 }
+?>
+</body>
+
+
+
+
+
+
+
+<script>
+
+//  window.fbAsyncInit = function() {
+//    FB.init({
+//      appId      : '449000611931438',
+//      xfbml      : true,
+//      version    : 'v2.3'
+//    });
+//  };
+
+
+  /*(function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/fr_FR/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));*/
+</script>
+
+</html>
