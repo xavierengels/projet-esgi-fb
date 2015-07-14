@@ -16,11 +16,11 @@ echo "test session : ".$session;
 $request = new FacebookRequest(
     $session,
     'GET',
-    '/{user-id}/picture'
+    '/me/photos'
 );
 $response = $request->execute();
 $graphObject = $response->getGraphObject();
-print_r($graphObject);
+    print_r($graphObject);
 ?>
 
 
