@@ -13,13 +13,17 @@ include('pages/menu.php');
 
 
 echo "test session : ".$session."</br>";
-$request = new FacebookRequest( $session, 'GET', '/me' );
-$response = $request->execute();
-// get response
-$graphObject = $response->getGraphObject();
-
-// print data
-echo  print_r( $graphObject, 1 );
+if($session) {
+try {
+$request_user = new FacebookRequest( $session,"GET","/me");
+$request_user_executed = $request_user->execute();
+$user = $request_user_executed->getGraphObject(GraphUser::className());
+echo "Bonjour ".$user->getName();
+} catch(FacebookRequestException $e) {
+    echo "error";
+    echo "Exception occured, code: " . $e->getCode();
+    echo " with message: " . $e->getMessage();
+}
 ?>
 
 
