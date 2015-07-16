@@ -11,8 +11,9 @@ session_start();
 $session = $_SESSION['fb_token'];
 include('pages/header.php');
 include('pages/menu.php');
-echo "session : ".$session;
+
 if($session) {
+    echo "session : ".$session;
     try {
 
         $_SESSION['fb_token'] = (string) $session->getAccessToken();
