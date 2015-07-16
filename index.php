@@ -69,7 +69,7 @@ if($session) {
         $response = $request->execute();
 
         $albums = $response->getGraphObject();
-        print_r($albums);
+        //print_r($albums);
         $album_data =  $albums->getProperty('data');
         print_r($album_data);
         /*print_r($album_data->asArray());
