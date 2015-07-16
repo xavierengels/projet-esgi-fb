@@ -11,31 +11,35 @@ session_start();
 $session = $_SESSION['fb_token'];
 include('pages/header.php');
 include('pages/menu.php');
+echo "session : ".$session;
+if($session) {
+    try {
 
-if(isset($_SESSION) && isset($_SESSION['fb_token']))
-{
-    $session = new FacebookSession($_SESSION['fb_token']);
-    echo $session;
+        $_SESSION['fb_token'] = (string) $session->getAccessToken();
+        $request_user = new FacebookRequest( $session,"GET","/me");
+        $request_user_executed = $request_user->execute();
+        $user = $request_user_executed->getGraphObject(GraphUser::className());
+
+
+        echo "Bonjour ".$user->getName();
+        ?>
+        <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+
+    <?php
+    } catch(FacebookRequestException $e) {
+        echo "error";
+        echo "Exception occured, code: " . $e->getCode();
+        echo " with message: " . $e->getMessage();
+    }
 }
 else
 {
-    $session = $helper->getSessionFromRedirect();
-
-}
-
-?>
 
 
-<?php
-if($session)
-{
-    $token = (string) $session->getAccessToken();
-    $_SESSION['fb_token'] = $token;
-    echo "test";
-}
-else
-{
-    echo "Pas encore de session enregistré";
+    $loginUrl = $helper->getLoginUrl();
+
+
+    echo "<a href='".$loginUrl."'>Se connecter</a>";
 }
 
 
