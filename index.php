@@ -70,8 +70,9 @@ if($session) {
 
         $albums = $response->getGraphObject();
         print_r($albums);
-        /*$album_data =  $user_profile->getProperty('data');
-        print_r($album_data->asArray());
+        $album_data =  $albums->getProperty('data');
+        print_r($album_data);
+        /*print_r($album_data->asArray());
         $request = new FacebookRequest($session, 'GET', '/'.$album->getProperty('id').'/photos');
         $response = $request->execute();
         $photos = $response->getGraphObject();
