@@ -16,7 +16,7 @@ if($session) {
     echo "session : ".$session;
     try {
 
-        $_SESSION['fb_token'] = (string) $session->getAccessToken();
+        
 
 
         $user_permissions = (new FacebookRequest($session, 'GET', '/me/permissions'))->execute()->getGraphObject(GraphUser::className())->asArray();
@@ -69,7 +69,7 @@ if($session) {
             </select>
             <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Show</button>
         </form>
-        
+
         <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
 
     <?php
