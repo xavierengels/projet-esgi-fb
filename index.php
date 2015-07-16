@@ -68,13 +68,12 @@ if($session) {
         $request = new FacebookRequest( $session,"GET","/me/photos");
         $response = $request->execute();
 
-        $albums = $response->getGraphObject();
+        //$albums = $response->getGraphObject();
         //print_r($albums);
-        $album_data =  $albums->getProperty('data');
+       // $album_data =  $albums->getProperty('data');
        // print_r($album_data);
-        foreach ($album_data as $album) {
-            echo $album->name;
-        }
+        $photos = json_decode($response->getRawResponse(), true);
+        echo json_encode($photos["data"]);
         /*print_r($album_data->asArray());
         $request = new FacebookRequest($session, 'GET', '/'.$album->getProperty('id').'/photos');
         $response = $request->execute();
