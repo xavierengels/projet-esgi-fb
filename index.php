@@ -97,9 +97,11 @@ if($session) {
 
         $albums = getAlbums($session, 'me');
         if($_POST['show_photos'] == '1'){
+            echo "POST !!!";
             $listPhotos = getPhotos($session, 'me', $_POST['album_id']);
             foreach($listPhotos as $photo){
                 echo "<img src='{$photo->getProperty("source")}' />", "<br />";
+                echo "??????????????";
             }
         }
 
@@ -145,7 +147,7 @@ if($session) {
 else
 {
 
-   
+
     $loginUrl = $helper->getLoginUrl();
 
 
