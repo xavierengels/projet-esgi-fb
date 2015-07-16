@@ -128,10 +128,8 @@ if($session) {
                 $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
                 $response = $request->execute();
                 $photos = $response->getGraphObject();
-                //print_r($photos);
-                foreach($photos->getProperty('data') as $key =>  $value){
-                    echo $value."</br>";
-                }
+                print_r($photos->getProperty('data') );
+               
                 /*for ($j = 0; null !== $photos->getProperty('data')->getProperty($j); $j++) {
                     if ($album_id == null || $album_id == $album->getProperty('id')) {
                         $photo[] = $photos->getProperty('data')->getProperty($j);
