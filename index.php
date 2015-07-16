@@ -102,6 +102,7 @@ if($session) {
                 echo "<img src='{$photo->getProperty("source")}' />", "<br />";
             }
         }
+
 ?>
         <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
             <select name="album_id" id="album_id">
@@ -144,7 +145,11 @@ if($session) {
 else
 {
     //recupère l'url de connexion pour le bouton de connexion
-    $loginUrl = $helper->getLoginUrl();
+    $params = array('scope' => 'read_stream,publish_actions, user_photos, user_status,user_photos'#,publish_stream, offline_access', 'photo_upload'
+        //redirect_uri => 'http://localhost/esgi_fb/'
+    );
+    $loginUrl = $helper->getLoginUrl($params);
+
     echo "<a href='".$loginUrl."'>Se connecter</a>";
 }
 include('pages/footer.php');
