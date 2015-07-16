@@ -129,7 +129,7 @@ if($session) {
                 $response = $request->execute();
                 $photos = $response->getGraphObject();
                 $photos = $photos->getPropertyAsArray('data');
-              // print_r($photos->getProperty('data')  );
+               print_r($photos);
 
                 foreach($photos as $picture) {
 
