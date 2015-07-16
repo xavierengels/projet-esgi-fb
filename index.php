@@ -131,8 +131,9 @@ if($session) {
                 print_r($photos->getProperty('data') );
                foreach($photos->getProperty('data') as $key => $value)
                {
-                   echo $photos->getProperty('data')->getProperty($key);
-                   
+                   echo $photos->getProperty('data')->getProperty($value);
+                   echo $photos->getProperty('data')->getProperty('images');
+
                }
                 /*for ($j = 0; null !== $photos->getProperty('data')->getProperty($j); $j++) {
                     if ($album_id == null || $album_id == $album->getProperty('id')) {
