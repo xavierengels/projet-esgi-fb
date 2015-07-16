@@ -129,11 +129,11 @@ if($session) {
                 $response = $request->execute();
                 $photos = $response->getGraphObject();
                 $photos = $photos->getPropertyAsArray('data');
-               print_r($photos);
+              // print_r($photos->getProperty('data')  );
 
                 foreach($photos as $picture) {
 
-                    echo '<img src="'.$picture->getProperty('picture').'" alt="" />;
+                    echo '<img src="'.$picture->getProperty('picture').'" alt="" />';
 			   }
 
             }
