@@ -69,6 +69,7 @@ function getAlbums($session, $id){
 function getPhotos($session, $id_user, $album_id) {
 
     $albums = getAlbums($session, $id_user);
+    print_r($albumsl);
     for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
         $album = $albums->getProperty('data')->getProperty($i);
         $request = new FacebookRequest($session, 'GET', '/'.$album->getProperty('id').'/photos');
@@ -78,7 +79,7 @@ function getPhotos($session, $id_user, $album_id) {
         for ($j = 0; null !== $photos->getProperty('data')->getProperty($j); $j++) {
             if($album_id == null || $album_id == $album->getProperty('id')){
                 $photo[] = $photos->getProperty('data')->getProperty($j);
-                print_r($photo);
+
             }
         }
     }
