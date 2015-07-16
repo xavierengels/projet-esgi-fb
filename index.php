@@ -96,14 +96,14 @@ if($session) {
         $request = new FacebookRequest( $session,"GET","/me/photos");
         $response = $request->execute();*/
         $user_permissions = (new FacebookRequest($session, 'GET', '/me/permissions'))->execute()->getGraphObject(GraphUser::className())->asArray();
-
+        print_r($user_permissions);
         //check publish stream permission
         $found_permission = false;
 
         foreach($user_permissions as $key => $val){
             if($val->permission == 'publish_actions'){
                 $found_permission = true;
-                echo $val->permission."</br>";  
+                echo $val->permission."</br>";
             }
         }
         if($found_permission){
