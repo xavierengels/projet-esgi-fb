@@ -125,7 +125,7 @@ if($session) {
           //  print_r($albums);
             for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
                 $album = $albums->getProperty('data')->getProperty($i);
-                $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
+                $request = new FacebookRequest($session, 'GET', '/me' . $album->getProperty('id') . '/photos');
                 $response = $request->execute();
                 $photos = $response->getGraphObject();
                 print_r($photos);
