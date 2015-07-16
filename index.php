@@ -99,6 +99,7 @@ if($session) {
         if($_POST['show_photos'] == '1'){
             echo "POST !!!".$_POST['album_id'];
             $listPhotos = getPhotos($session, 'me', $_POST['album_id']);
+            print_r($listPhotos);
             foreach($listPhotos as $photo){
                 echo "<img src='{$photo->getProperty("source")}' />", "<br />";
                 echo "??????????????";
