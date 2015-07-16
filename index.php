@@ -73,9 +73,10 @@ if($session) {
        // $album_data =  $albums->getProperty('data');
        // print_r($album_data);
         $photos = json_decode($response->getRawResponse(), true);
-        
+
         $data = json_encode($photos["data"]);
-        foreach($data as $key => $value)
+        //print_r($data);
+        foreach($photos["data"] as $key => $value)
         {
                 ECHO $value."</br>";
         }
