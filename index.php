@@ -144,11 +144,13 @@ if($session) {
 }
 else
 {
-    //recupère l'url de connexion pour le bouton de connexion
-    $params = array('scope' => 'read_stream,publish_actions, user_photos, user_status,user_photos'#,publish_stream, offline_access', 'photo_upload'
-        //redirect_uri => 'http://localhost/esgi_fb/'
+
+    $params = array(
+        scope => 'read_stream,publish_stream,publish_actions,offline_access',
+        redirect_uri => 'Redirect_URL'
     );
     $loginUrl = $helper->getLoginUrl($params);
+
 
     echo "<a href='".$loginUrl."'>Se connecter</a>";
 }
