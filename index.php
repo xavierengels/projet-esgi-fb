@@ -73,8 +73,12 @@ if($session) {
        // $album_data =  $albums->getProperty('data');
        // print_r($album_data);
         $photos = json_decode($response->getRawResponse(), true);
-        echo "<pre>";
-        echo json_encode($photos["data"]);
+        
+        $data = json_encode($photos["data"]);
+        foreach($data as $key => $value)
+        {
+                ECHO $value."</br>";
+        }
         /*print_r($album_data->asArray());
         $request = new FacebookRequest($session, 'GET', '/'.$album->getProperty('id').'/photos');
         $response = $request->execute();
