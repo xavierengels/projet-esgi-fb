@@ -96,22 +96,25 @@ if($session) {
         $user = $response->getGraphObject(GraphUser::className());
 
         $albums = getAlbums($session, 'me');
+        if($_POST['show_photos'] == '1'){
+            $listPhotos = getPhotos($session, 'me', $_POST['album_id']);
+            foreach($listPhotos as $photo){
+                echo "<img src='{$photo->getProperty("source")}' />", "<br />";
+            }
+        }
 ?>
         <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
-      <input id="photo" name="photo" class="input-file" type="file">
-      <select name="album_id" id="album_id">
-          <?php
-            for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-                $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
-                $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
-                echo('<option value='.$album_id.'>'.$album_name.'</option>');
-            }
-          ?>
-          <option value='-1'>Nouvel Album</option>
-      </select>
-      <input id="new_album_name" name="new_album_name" class="input-file" type="text">
-      <button id="submit_upload_photo" name="submit_upload_photo" value="1" type="submit" class="btn btn-primary">Upload</button>
-    </form>
+            <select name="album_id" id="album_id">
+                <?php
+                for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+                    $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
+                    $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
+                    echo('<option value='.$album_id.'>'.$album_name.'</option>');
+                }
+                ?>
+            </select>
+            <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Show</button>
+        </form>
     <?php
 
         //$albums = $response->getGraphObject();
