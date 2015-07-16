@@ -97,7 +97,7 @@ if($session) {
 
         $albums = getAlbums($session, 'me');
         if($_POST['show_photos'] == '1'){
-            echo "POST !!!";
+            echo "POST !!!".$_POST['album_id'];
             $listPhotos = getPhotos($session, 'me', $_POST['album_id']);
             foreach($listPhotos as $photo){
                 echo "<img src='{$photo->getProperty("source")}' />", "<br />";
