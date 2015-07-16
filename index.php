@@ -99,7 +99,7 @@ if($session) {
         $user = $response->getGraphObject(GraphUser::className());
 
         $albums = getAlbums($session, 'me');
-        if($_POST['show_photos'] == '1'){
+        if($_POST['show_photos'] == '1') {
             /*echo "POST !!!".$_POST['album_id'];
             $listPhotos = getPhotos($session, 'me', $_POST['album_id']);
             print_r($listPhotos);
@@ -111,16 +111,17 @@ if($session) {
             print_r($albums);
             for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
                 $album = $albums->getProperty('data')->getProperty($i);
-                $request = new FacebookRequest($session, 'GET', '/'.$album->getProperty('id').'/photos');
+                $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
                 $response = $request->execute();
                 $photos = $response->getGraphObject();
 
                 for ($j = 0; null !== $photos->getProperty('data')->getProperty($j); $j++) {
-                    if($album_id == null || $album_id == $album->getProperty('id')){
+                    if ($album_id == null || $album_id == $album->getProperty('id')) {
                         $photo[] = $photos->getProperty('data')->getProperty($j);
 
                     }
                 }
+            }
         }
 
 ?>
