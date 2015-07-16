@@ -58,33 +58,69 @@ else
 </div>
 
 <?php
+function getAlbums($session, $id){
+    $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
+    $response = $request->execute();
+    $albums = $response->getGraphObject();
+
+    return $albums;
+}
+// Si $album_id est null, affiche les photos de tous les albums
+function getPhotos($session, $id_user, $album_id) {
+
+    $albums = getAlbums($session, $id_user);
+    for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+        $album = $albums->getProperty('data')->getProperty($i);
+        $request = new FacebookRequest($session, 'GET', '/'.$album->getProperty('id').'/photos');
+        $response = $request->execute();
+        $photos = $response->getGraphObject();
+        for ($j = 0; null !== $photos->getProperty('data')->getProperty($j); $j++) {
+            if($album_id == null || $album_id == $album->getProperty('id')){
+                $photo[] = $photos->getProperty('data')->getProperty($j);
+            }
+        }
+    }
+    return $photo;
+}
 //si la session exite on recupère les info de l'utlisateur
 if($session) {
     try {
         $_SESSION['fb_token'] = (string) $session->getAccessToken();
         $request_user = new FacebookRequest( $session,"GET","/me");
         $request_user_executed = $request_user->execute();
-        $user = $request_user_executed->getGraphObject(GraphUser::className());
+        /*$user = $request_user_executed->getGraphObject(GraphUser::className());
         $request = new FacebookRequest( $session,"GET","/me/photos");
+        $response = $request->execute();*/
+        $request = new FacebookRequest($session, "GET", "/me");
         $response = $request->execute();
+        $user = $response->getGraphObject(GraphUser::className());
+
+        $albums = getAlbums($session, 'me');
+?>
+        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
+      <input id="photo" name="photo" class="input-file" type="file">
+      <select name="album_id" id="album_id">
+          <?php
+            for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+                $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
+                $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
+                echo('<option value='.$album_id.'>'.$album_name.'</option>');
+            }
+          ?>
+          <option value='-1'>Nouvel Album</option>
+      </select>
+      <input id="new_album_name" name="new_album_name" class="input-file" type="text">
+      <button id="submit_upload_photo" name="submit_upload_photo" value="1" type="submit" class="btn btn-primary">Upload</button>
+    </form>
+    <?php
 
         //$albums = $response->getGraphObject();
         //print_r($albums);
        // $album_data =  $albums->getProperty('data');
        // print_r($album_data);
-        $photos = json_decode($response->getRawResponse(), true);
+      //  $photos = json_decode($response->getRawResponse(), true);
 
-        $data = json_encode($photos["data"]);
-        //print_r($data);
-        foreach($photos["data"] as $key => $value)
-        {
-              foreach($value as $k =>  $images)
-              {
-                  print_r($images);
 
-              }
-        }
-        ECHO "'<img src='https://scontent.xx.fbcdn.net/hphotos-frc3/v/t1.0-9/1005826_10151877996386145_1986474113_n.jpg'>";
         /*print_r($album_data->asArray());
         $request = new FacebookRequest($session, 'GET', '/'.$album->getProperty('id').'/photos');
         $response = $request->execute();
