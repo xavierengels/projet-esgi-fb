@@ -11,7 +11,35 @@ session_start();
 $session = $_SESSION['fb_token'];
 include('pages/header.php');
 include('pages/menu.php');
-echo "test";
+
+if(isset($_SESSION) && isset($_SESSION['fb_token']))
+{
+    $session = new FacebookSession($_SESSION['fb_token']);
+    echo $session;
+}
+else
+{
+    $session = $helper->getSessionFromRedirect();
+
+}
+
+?>
+
+
+<?php
+if($session)
+{
+    $token = (string) $session->getAccessToken();
+    $_SESSION['fb_token'] = $token;
+    echo "test";
+}
+else
+{
+    "Pas encore de session enregistré";
+}
+
+
+
 
 ?>
 
