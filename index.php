@@ -65,26 +65,7 @@ function getAlbums($session, $id){
 
     return $albums;
 }
-// Si $album_id est null, affiche les photos de tous les albums
-function getPhotos($session, $id_user, $album_id) {
 
-    $albums = getAlbums($session, $id_user);
-    print_r($albumsl);
-    for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-        $album = $albums->getProperty('data')->getProperty($i);
-        $request = new FacebookRequest($session, 'GET', '/'.$album->getProperty('id').'/photos');
-        $response = $request->execute();
-        $photos = $response->getGraphObject();
-
-        for ($j = 0; null !== $photos->getProperty('data')->getProperty($j); $j++) {
-            if($album_id == null || $album_id == $album->getProperty('id')){
-                $photo[] = $photos->getProperty('data')->getProperty($j);
-
-            }
-        }
-    }
-    return $photo;
-}
 //si la session exite on recupère les info de l'utlisateur
 if($session) {
     try {
@@ -114,22 +95,13 @@ if($session) {
 
         $albums = getAlbums($session, 'me');
         if($_POST['show_photos'] == '1') {
-            /*echo "POST !!!".$_POST['album_id'];
-            $listPhotos = getPhotos($session, 'me', $_POST['album_id']);
-            print_r($listPhotos);
-            foreach($listPhotos as $photo){
-                echo "<img src='{$photo->getProperty("source")}' />", "<br />";
-                echo "??????????????";
-            }*/
-            //$albums = getAlbums($session, 'me');
-          //  print_r($albums);
+
             for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
                 $album = $albums->getProperty('data')->getProperty($i);
                 $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos?fields=picture&limit=5');
                 $response = $request->execute();
                 $photos = $response->getGraphObject();
                 $photos = $photos->getPropertyAsArray('data');
-              // print_r($photos->getProperty('data')  );
 
                 foreach($photos as $picture) {
 
@@ -137,12 +109,7 @@ if($session) {
 			   }
 
             }
-
-
-
-
-                    //do your stuff
-                }
+         }
 
         }
 
