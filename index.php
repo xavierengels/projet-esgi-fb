@@ -74,10 +74,11 @@ function getPhotos($session, $id_user, $album_id) {
         $request = new FacebookRequest($session, 'GET', '/'.$album->getProperty('id').'/photos');
         $response = $request->execute();
         $photos = $response->getGraphObject();
-        print_r($photos);
+
         for ($j = 0; null !== $photos->getProperty('data')->getProperty($j); $j++) {
             if($album_id == null || $album_id == $album->getProperty('id')){
                 $photo[] = $photos->getProperty('data')->getProperty($j);
+                print_r($photo);
             }
         }
     }
