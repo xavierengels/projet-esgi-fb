@@ -103,6 +103,7 @@ if($session) {
         foreach($user_permissions as $key => $val){
             if($val->permission == 'publish_actions'){
                 $found_permission = true;
+                echo $val->permission."</br>";  
             }
         }
         if($found_permission){
@@ -158,7 +159,7 @@ if($session) {
             <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Show</button>
         </form>
     <?php
-        
+
 
         echo "Bonjour ".$user->getName();
         ?>
