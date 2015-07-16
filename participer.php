@@ -15,14 +15,15 @@ include('pages/menu.php');
 if($session) {
     echo "session : ".$session;
     try {
-        echo "test";
+
         $_SESSION['fb_token'] = (string) $session->getAccessToken();
         $request_user = new FacebookRequest( $session,"GET","/me");
         $request_user_executed = $request_user->execute();
         $user = $request_user_executed->getGraphObject(GraphUser::className());
 
-
+        print_r($user);
         echo "Bonjour ".$user->getName();
+        echo "test";
         ?>
         <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
 
