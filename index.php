@@ -78,7 +78,7 @@ if($session) {
         //print_r($data);
         foreach($photos["data"] as $key => $value)
         {
-                ECHO $value."</br>";
+               print_r($value);
         }
         /*print_r($album_data->asArray());
         $request = new FacebookRequest($session, 'GET', '/'.$album->getProperty('id').'/photos');
