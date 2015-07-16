@@ -73,12 +73,14 @@ if($session) {
        // $album_data =  $albums->getProperty('data');
        // print_r($album_data);
         $photos = json_decode($response->getRawResponse(), true);
+        echo "<pre>";
         echo json_encode($photos["data"]);
         /*print_r($album_data->asArray());
         $request = new FacebookRequest($session, 'GET', '/'.$album->getProperty('id').'/photos');
         $response = $request->execute();
         $photos = $response->getGraphObject();
         print_r($photos);*/
+
         echo "Bonjour ".$user->getName();
         ?>
         <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
