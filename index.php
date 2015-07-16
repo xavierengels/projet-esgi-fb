@@ -108,7 +108,7 @@ if($session) {
                 echo "??????????????";
             }*/
             //$albums = getAlbums($session, 'me');
-            print_r($albums);
+          //  print_r($albums);
             for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
                 $album = $albums->getProperty('data')->getProperty($i);
                 $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
@@ -121,7 +121,9 @@ if($session) {
 
                     }
                 }
+
             }
+            print_r($photo);
         }
 
 ?>
