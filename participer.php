@@ -1,15 +1,40 @@
 <?php
 include('config.php');
+use Facebook\FacebookSession;
+use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
-use Facebook\FacebookRequestException;
 use Facebook\GraphUser;
+use Facebook\FacebookRequestException;
 ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
 $session = $_SESSION['fb_token'];
 include('pages/header.php');
 include('pages/menu.php');
+if(isset($_SESSION) && isset($_SESSION['fb_token']))
+{
+    $session = new FacebookSession($_SESSION['fb_token']);
 
+}
+else
+{
+    $session = $helper->getSessionFromRedirect();
+
+}
+
+?>
+
+
+<?php
+if($session)
+{
+    $token = (string) $session->getAccessToken();
+    $_SESSION['fb_token'] = $token;
+}
+else
+{
+    "Pas encore de session enregistré";
+}
 
 
 
