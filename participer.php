@@ -35,7 +35,7 @@ if($session)
 }
 else
 {
-    "Pas encore de session enregistré";
+    echo "Pas encore de session enregistré";
 }
 
 
