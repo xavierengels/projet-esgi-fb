@@ -88,12 +88,24 @@ function getPhotos($session, $id_user, $album_id) {
 //si la session exite on recupère les info de l'utlisateur
 if($session) {
     try {
+
         $_SESSION['fb_token'] = (string) $session->getAccessToken();
         $request_user = new FacebookRequest( $session,"GET","/me");
         $request_user_executed = $request_user->execute();
         /*$user = $request_user_executed->getGraphObject(GraphUser::className());
         $request = new FacebookRequest( $session,"GET","/me/photos");
         $response = $request->execute();*/
+        $user_permissions = (new FacebookRequest($session, 'GET', '/me/permissions'))->execute()->getGraphObject(GraphUser::className())->asArray();
+
+        //check publish stream permission
+        $found_permission = false;
+
+        foreach($user_permissions as $key => $val){
+            if($val->permission == 'publish_actions'){
+                $found_permission = true;
+            }
+        }
+        if($found_permission){
         $request = new FacebookRequest($session, "GET", "/me");
         $response = $request->execute();
         $user = $response->getGraphObject(GraphUser::className());
@@ -124,6 +136,12 @@ if($session) {
 
             }
             print_r($photo);
+
+
+
+                    //do your stuff
+                }
+
         }
 
 ?>
@@ -140,19 +158,7 @@ if($session) {
             <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Show</button>
         </form>
     <?php
-
-        //$albums = $response->getGraphObject();
-        //print_r($albums);
-       // $album_data =  $albums->getProperty('data');
-       // print_r($album_data);
-      //  $photos = json_decode($response->getRawResponse(), true);
-
-
-        /*print_r($album_data->asArray());
-        $request = new FacebookRequest($session, 'GET', '/'.$album->getProperty('id').'/photos');
-        $response = $request->execute();
-        $photos = $response->getGraphObject();
-        print_r($photos);*/
+        
 
         echo "Bonjour ".$user->getName();
         ?>
