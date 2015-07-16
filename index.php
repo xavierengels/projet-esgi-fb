@@ -78,8 +78,11 @@ if($session) {
         //print_r($data);
         foreach($photos["data"] as $key => $value)
         {
-                  print_r($value);
-
+              foreach($value as $k =>  $images)
+              {
+                  print_r($images);
+                  ECHO "'<img src='https://scontent.xx.fbcdn.net/hphotos-frc3/v/t1.0-9/1005826_10151877996386145_1986474113_n.jpg'>";
+              }
         }
         /*print_r($album_data->asArray());
         $request = new FacebookRequest($session, 'GET', '/'.$album->getProperty('id').'/photos');
