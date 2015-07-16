@@ -125,17 +125,16 @@ if($session) {
           //  print_r($albums);
             for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
                 $album = $albums->getProperty('data')->getProperty($i);
-                $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
+                $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos?fields=picture&limit=5');
                 $response = $request->execute();
                 $photos = $response->getGraphObject();
+                $photos = $photos->getPropertyAsArray('data');
               // print_r($photos->getProperty('data')  );
-                
-                for ($j = 0; null !== $photos->getProperty('data')->getProperty($j); $j++) {
 
-                        $photo[] = $photos->getProperty('data')->getProperty($j);
+                foreach($photos as $picture) {
 
-
-                }
+                    echo '<img src="'.$picture->getProperty('picture').'" alt="" />;
+			   }
 
             }
 
