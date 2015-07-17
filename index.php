@@ -181,11 +181,11 @@ if($session) {
                 ?>
             </select>
             <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Show</button>
-        </form>
+
         Voir votre photo du concour
         </br>
         <button id="show_photo_concour" name="show_photo_concour" value="1" type="submit" class="btn btn-primary">Voir votre photo du concour</button>
-
+        </form>
         <?php
 
 
