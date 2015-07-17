@@ -138,11 +138,10 @@ if($session) {
                  //   print_r($liste);
                    foreach($liste as $key => $valListe)
                    {
+                        echo $valListe[$key]."</br>";
 
-                       foreach($valListe as $k => $value)
-                       {
-                           ECHO $value."</br>";
-                       }
+                           //if($user->getId()==)
+
                    }
 
                     $dbh = null;
