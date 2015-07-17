@@ -8,8 +8,6 @@ use Facebook\FacebookRequest;
 use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
 use Facebook\FacebookCanvasLoginHelper;
-use Facebook\FacebookPageTabHelper;
-
 ini_set('display_errors', 1);
 error_reporting('E_ALL');
 
@@ -19,16 +17,17 @@ include('pages/menu.php');
 
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 
-$helper = new FacebookPageTabHelper();
-
-
-// get session from the page
-$session = $helper->getSession();
-echo $session;
-if ( isset( $session ) ) {
-
-// show logged-in user id
-    echo 'User Id: ' . $pageHelper->getUserId();
+$helper = new FacebookCanvasLoginHelper();
+try {
+    $session = $helper->getSession();
+    echo $session;
+} catch (FacebookRequestException $ex) {
+    // When Facebook returns an error
+} catch (\Exception $ex) {
+    // When validation fails or other local issues
+}
+if ($session) {
+    // Logged in.
 }
 
 
