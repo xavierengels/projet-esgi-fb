@@ -16,12 +16,10 @@ include('pages/header.php');
 include('pages/menu.php');
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 if(isset($_SESSION['fb_token'])) {
+    echo "test : ".$_SESSION['fb_token']."</br>";
     $session = new FacebookSession($_SESSION['fb_token']);
-    echo $session;
-    $request = new FacebookRequest($session, 'GET', '/me/albums');
-    $response = $request->execute();
-    $albums = json_decode($response->getRawResponse(), true);
-    echo json_encode($albums["data"]);
+    echo "session".$session."</br>";
+
 }
 
 
