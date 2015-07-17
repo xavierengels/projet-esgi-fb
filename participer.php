@@ -19,7 +19,7 @@ $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 if(isset($_SESSION) && isset($_SESSION['fb_token']))
 {
     $session = new FacebookSession($_SESSION['fb_token']);
-    echo "autre :"$session."</br>";
+    echo "autre :".$session."</br>";
 }
 else
 {
