@@ -24,7 +24,7 @@ if(isset($_SESSION) && isset($_SESSION['fb_token']))
 else
 {
     $session = $helper->getSessionFromRedirect();
-    echo "test33 : "$session."</br>";
+    echo "test33 : ".$session."</br>";
 
 }
 if(isset($_SESSION['fb_token'])) {
