@@ -138,8 +138,11 @@ if($session) {
                  //   print_r($liste);
                    foreach($liste as $key => $valListe)
                    {
-                        echo $valListe."</br>";
 
+                       foreach($valListe as $k => $value)
+                       {
+                           ECHO $value."</br>";
+                       }
                    }
 
                     $dbh = null;
