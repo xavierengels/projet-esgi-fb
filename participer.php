@@ -15,9 +15,22 @@ include('pages/menu.php');
 if($session) {
     echo "session : ".$session."</br>";
     try {
-        $_SESSION['fb_token'] = (string) $session->getAccessToken();
-        echo $_SESSION['fb_token']."</br>";
 
+        $user_permissions = (new FacebookRequest($session, 'GET', '/me/permissions'))->execute()->getGraphObject(GraphUser::className())->asArray();
+
+        //check publish stream permission
+        $found_permission = false;
+
+        foreach($user_permissions as $key => $val){
+            echo $val->permission."</br>";
+            if($val->permission == 'user_photos'){
+                $found_permission = true;
+
+            }
+        }
+        if($found_permission){
+            echo "TEST";
+        }
         ?>
 
 
