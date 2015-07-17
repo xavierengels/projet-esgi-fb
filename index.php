@@ -107,6 +107,7 @@ if($session) {
                         }
                     }
                 }?>
+            </select>
                 <button id="select_photos" name="select_photos" value="1" type="submit" class="btn btn-primary">Select</button>
         </form>
 <?php
