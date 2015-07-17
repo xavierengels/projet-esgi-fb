@@ -14,7 +14,7 @@ error_reporting('E_ALL');
 session_start();
 
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
-$helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
+$helper = new FacebookRedirectLoginHelper(FB_URL_SITE.'../participer.php');
 
 //récupère les informations de session facebook et associe à la session courante
 if(isset($_SESSION) && isset($_SESSION['fb_token']))

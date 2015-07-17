@@ -2,6 +2,7 @@
 
 
 <?php
+session_start();
 include('config.php');
 use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
