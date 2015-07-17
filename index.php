@@ -101,7 +101,7 @@ if($session) {
                     if($_POST['album_id']==$album->getProperty('id')) {
                         foreach ($photos as $picture) {
                             echo ('<img src="' . $picture->getProperty('picture') . '" alt="" />');
-                            echo('<option value='.$picture->getProperty('picture').'>'.$picture->getProperty('picture').'</option>');
+                            //echo('<option value='.$picture->getProperty('picture').'>'.$picture->getProperty('picture').'</option>');
 
                         }
                     }
