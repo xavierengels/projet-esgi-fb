@@ -9,7 +9,7 @@ use Facebook\FacebookCanvasLoginHelper;
 ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
-$session = (string) $_SESSION['fb_token'];
+
 include('pages/header.php');
 include('pages/menu.php');
 
