@@ -89,7 +89,7 @@ if($session) {
             $albums = getAlbums($session, 'me');
             if($_POST['show_photos'] == '1') {
              ?>   <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
-            <select name="photo_selected" id="photo_selected">
+
                 <?php
                 for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
                     $album = $albums->getProperty('data')->getProperty($i);
@@ -100,19 +100,20 @@ if($session) {
 
                     if($_POST['album_id']==$album->getProperty('id')) {
                         foreach ($photos as $picture) {
-                            echo ('<img src="' . $picture->getProperty('picture') . '" alt="" />');
+                            echo ('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ></input><input name="nom" value=' . $picture->getProperty('picture') . ' type="checkbox">');
                             //echo('<option value='.$picture->getProperty('picture').'>'.$picture->getProperty('picture').'</option>');
 
                         }
                     }
                 }?>
-            </select>
+
                 <button id="select_photos" name="select_photos" value="1" type="submit" class="btn btn-primary">Select</button>
         </form>
 <?php
             }
             if($_POST['select_photos'] == '1') {
                 echo "POST !!!";
+                echo $_POST['nom'];
             }
         }
 
