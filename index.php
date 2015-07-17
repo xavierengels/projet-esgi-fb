@@ -142,9 +142,25 @@ if($session) {
                        {
                             echo $key."</br>";
                            echo $k."</br>";
+                           if($k=='user_name')
+                           {
+                               $keyUser = $k;
+                           }
+                           if($keyUser=='user_name')
+                           {
+                               if($value==$user->getId())
+                               {
+                                    if($k=='user_photo')
+                                    {
+                                        echo 'Votre photo pour le jeu concour est : "."<img src="'.$value.'" alt="" >';
+                                    }
+                               }
+                           }
+
+
 
                        }
-                       // echo 'Votre photo pour le jeu concour est : "."<img src="'.$value.'" alt="" >';
+                       //
 
 
                        //if($user->getId()==)
