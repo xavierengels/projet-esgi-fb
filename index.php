@@ -96,7 +96,8 @@ if($session) {
                     $response = $request->execute();
                     $photos = $response->getGraphObject();
                     $photos = $photos->getPropertyAsArray('data');
-                    echo  $album->getProperty('name');
+                  
+                    print_r($_POST);
                     foreach($photos as $picture) {
                         echo '<img src="'.$picture->getProperty('picture').'" alt="" />';
                     }
