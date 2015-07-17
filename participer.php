@@ -8,50 +8,24 @@ use Facebook\FacebookRequest;
 use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
 use Facebook\FacebookCanvasLoginHelper;
+use Facebook\FacebookPageTabHelper;
+
 ini_set('display_errors', 1);
 error_reporting('E_ALL');
 
 
 include('pages/header.php');
 include('pages/menu.php');
-$fb = new Facebook\Facebook([
-    'app_id' => APP_ID,
-    'app_secret' => APP_SECRET,
-    'default_graph_version' => 'v2.2',
-]);
-print_r($fb);
 
-$helper = $fb->getPageTabHelper();
+FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 
-try {
-    $accessToken = $helper->getAccessToken();
-} catch(Facebook\Exceptions\FacebookResponseException $e) {
-    // When Graph returns an error
-    echo 'Graph returned an error: ' . $e->getMessage();
-    exit;
-} catch(Facebook\Exceptions\FacebookSDKException $e) {
-    // When validation fails or other local issues
-    echo 'Facebook SDK returned an error: ' . $e->getMessage();
-    exit;
-}
+$helper = new FacebookPageTabHelper();
 
-if (! isset($accessToken)) {
-    echo 'No OAuth data could be obtained from the signed request. User has not authorized your app yet.';
-    exit;
-}
+echo '<p>page id: ' . $helper->getPageId() . '</p>';
+echo '<p>liked: ' . $helper->isLiked() . '</p>';
+echo '<p>admin: ' . $helper->isAdmin() . '</p>';
 
-// Logged in
-echo '<h3>Page ID</h3>';
-var_dump($helper->getPageId());
 
-echo '<h3>User is admin of page</h3>';
-var_dump($helper->isAdmin());
-
-echo '<h3>Signed Request</h3>';
-var_dump($helper->getSignedRequest());
-
-echo '<h3>Access Token</h3>';
-var_dump($accessToken->getValue());
 
 
 
