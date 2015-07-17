@@ -76,7 +76,6 @@ if($session) {
         $found_permission = false;
 
         foreach($user_permissions as $key => $val){
-            echo $val->permission."</br>";
             if($val->permission == 'user_photos'){
                 $found_permission = true;
 
@@ -102,8 +101,8 @@ if($session) {
                     if($_POST['album_id']==$album->getProperty('id')) {
                         foreach ($photos as $picture) {
 
-                            echo('<option value='.$picture->getProperty('picture').'><img src="' . $picture->getProperty('picture') . '" alt="" /></option>');
-
+                            echo('<option value='.$picture->getProperty('picture').'>'.$picture->getProperty('picture').'</option>');
+                           
                         }
                     }
                 }?>
