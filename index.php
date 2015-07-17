@@ -89,7 +89,9 @@ if($session) {
 
             $albums = getAlbums($session, 'me');
             if($_POST['show_photos'] == '1') {
-
+             ?>   <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
+            <select name="photo_selected" id="photo_selected">
+                <?php
                 for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
                     $album = $albums->getProperty('data')->getProperty($i);
                     $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
@@ -100,14 +102,18 @@ if($session) {
                     if($_POST['album_id']==$album->getProperty('id')) {
                         foreach ($photos as $picture) {
 
-                            echo '<img src="' . $picture->getProperty('picture') . '" alt="" />';
-                            echo $user->getId();
+                            echo('<option value='.$picture->getProperty('picture').'><img src="' . $picture->getProperty('picture') . '" alt="" /></option>');
+
                         }
                     }
-                }
-
+                }?>
+                <button id="select_photos" name="select_photos" value="1" type="submit" class="btn btn-primary">Select</button>
+        </form>
+<?php
             }
-
+            if($_POST['select_photos'] == '1') {
+                echo "POST !!!";
+            }
         }
 
         ?>
