@@ -112,7 +112,37 @@ if($session) {
             }
             if($_POST['select_photos'] == '1') {
                 echo "POST !!!";
-                echo $_POST['nom'];
+                $image =  $_POST['nom'];
+                $idUser = $user->getId();
+                try {
+                    $user =  'blnwydiaqtvkyp';
+                    $pass =  'yODIF2ML7nUOjWl-jBPkS54hHw';
+                    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", $user, $pass);
+                    /*$q = $dbh->prepare("select column_name, data_type, character_maximum_length
+                                           from INFORMATION_SCHEMA.COLUMNS
+                                        where table_name = 'liste'");
+                    $q->execute();
+                    $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
+                    print_r($table_fields);*/
+
+                    $qry = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
+                    $qry->execute(array(
+                        ':user_name' => $idUser,
+                        ':user_photo' => $image
+                    ));
+
+
+                    $qry = $dbh->prepare("SELECT * from liste;");
+                    $qry->execute();
+                    $noms = $qry->fetchAll();
+                    print_r($noms);
+
+
+                    $dbh = null;
+                } catch (PDOException $e) {
+                    print "Erreur !: " . $e->getMessage() . "<br/>";
+                    die();
+                }
             }
         }
 
