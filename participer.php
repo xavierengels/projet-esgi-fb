@@ -20,10 +20,16 @@ include('pages/menu.php');
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 
 $helper = new FacebookPageTabHelper();
-print_r($helper);
-echo '<p>page id: ' . $helper->getPageId() . '</p>';
-echo '<p>liked: ' . $helper->isLiked() . '</p>';
-echo '<p>admin: ' . $helper->isAdmin() . '</p>';
+
+
+// get session from the page
+$session = $helper->getSession();
+echo $session;
+if ( isset( $session ) ) {
+
+// show logged-in user id
+    echo 'User Id: ' . $pageHelper->getUserId();
+}
 
 
 
