@@ -13,7 +13,7 @@ include('pages/header.php');
 include('pages/menu.php');
 
 if($session) {
-    echo "session : ".$session;
+    echo "session : ".$session."</br>";
     try {
         $_SESSION['fb_token'] = (string) $session->getAccessToken();
         echo $_SESSION['fb_token']."</br>";
