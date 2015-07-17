@@ -17,17 +17,22 @@ include('pages/menu.php');
 
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 
-$helper = new FacebookCanvasLoginHelper();
+$fb = new Facebook\Facebook([/* */]);
+$canvasHelper = $fb->getCanvasHelper();
+
 try {
-    $session = $helper->getSession();
-    echo $session;
-} catch (FacebookRequestException $ex) {
-    // When Facebook returns an error
-} catch (\Exception $ex) {
+    $accessToken = $canvasHelper->getAccessToken();
+} catch(Facebook\Exceptions\FacebookResponseException $e) {
+    // When Graph returns an error
+    echo 'Graph returned an error: ' . $e->getMessage();
+} catch(Facebook\Exceptions\FacebookSDKException $e) {
     // When validation fails or other local issues
+    echo 'Facebook SDK returned an error: ' . $e->getMessage();
 }
-if ($session) {
+
+if (isset($accessToken)) {
     // Logged in.
+    echo "test";
 }
 
 
