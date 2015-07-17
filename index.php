@@ -85,7 +85,7 @@ if($session) {
             $request = new FacebookRequest($session, "GET", "/me");
             $response = $request->execute();
             $user = $response->getGraphObject(GraphUser::className());
-
+            $idUser = $user->getId();
             $albums = getAlbums($session, 'me');
             if($_POST['show_photos'] == '1') {
              ?>   <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
@@ -113,7 +113,6 @@ if($session) {
             if($_POST['select_photos'] == '1') {
                 echo "POST !!!";
                 $image =  $_POST['nom'];
-                $idUser = $user->getId();
                 try {
                     $user =  'blnwydiaqtvkyp';
                     $pass =  'yODIF2ML7nUOjWl-jBPkS54hHw';
@@ -125,34 +124,49 @@ if($session) {
                     $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
                     print_r($table_fields);*/
 
-                   /* $qry = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
+                    $qry = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
                     $qry->execute(array(
                         ':user_name' => $idUser,
                         ':user_photo' => $image
-                    ));*/
+                    ));
 
-
-                    $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
-                    $qry->execute();
-                    $liste = $qry->fetchAll();
-                 //   print_r($liste);
-                   foreach($liste as $key => $valListe)
-                   {
-                       echo $valListe['user_name'];
-                       if($valListe['user_name']==$idUser)
-                       {
-                             echo 'Votre photo pour le jeu concour est : "."<img src="'.$valListe['user_photo'].'" alt="" >';
-                       }
-                       
-
-                   }
-
-                    $dbh = null;
+                    //$dbh = null;
                 } catch (PDOException $e) {
                     print "Erreur !: " . $e->getMessage() . "<br/>";
                     die();
                 }
             }
+
+
+            if($_POST['show_photo_concour'] == '1') {
+                echo "POST !!!";
+
+
+                try {
+                    $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
+                    $qry->execute();
+                    $liste = $qry->fetchAll();
+                    //   print_r($liste);
+                    foreach($liste as $key => $valListe)
+                    {
+                        if($valListe['user_name']==$idUser)
+                        {
+                            echo 'Votre photo pour le jeu concour est : "."<img src="'.$valListe['user_photo'].'" alt="" >';
+                        }
+
+
+                    }
+
+                   // $dbh = null;
+                } catch (PDOException $e) {
+                    print "Erreur !: " . $e->getMessage() . "<br/>";
+                    die();
+                }
+                ?>
+                <button id="update_photos" name="update_photos" value="1" type="submit" class="btn btn-primary">Modifier votre photo</button>
+            <?php
+            }
+
         }
 
         ?>
@@ -168,6 +182,10 @@ if($session) {
             </select>
             <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Show</button>
         </form>
+        Voir votre photo du concour
+        </br>
+        <button id="show_photo_concour" name="show_photo_concour" value="1" type="submit" class="btn btn-primary">Voir votre photo du concour</button>
+
         <?php
 
 
