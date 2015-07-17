@@ -23,38 +23,21 @@ else
     $session = $helper->getSessionFromRedirect();
 
 }
-function getAlbums($session, $id){
-    $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
-    $response = $request->execute();
-    $albums = $response->getGraphObject();
-
-    return $albums;
+if($session)
+{
+    $token = (string) $session->getAccessToken();
+    $_SESSION['fb_token'] = $token;
+}
+else
+{
+    "Pas encore de session enregistré";
 }
 if($session) {
 
     try {
+        $_SESSION['fb_token'] = (string) $session->getAccessToken();
         echo "session : ".$session."</br>";
-        $request = new FacebookRequest($session, "GET", "/me");
-        $response = $request->execute();
-        $user = $response->getGraphObject(GraphUser::className());
 
-        $albums = getAlbums($session, 'me');
-        if($_POST['show_photos'] == '1') {
-
-            for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-                $album = $albums->getProperty('data')->getProperty($i);
-                $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos?fields=picture&limit=5');
-                $response = $request->execute();
-                $photos = $response->getGraphObject();
-                $photos = $photos->getPropertyAsArray('data');
-
-                foreach($photos as $picture) {
-
-                    echo '<img src="'.$picture->getProperty('picture').'" alt="" />';
-                }
-
-            }
-        }
 
     } catch(FacebookRequestException $e) {
         echo "error";
