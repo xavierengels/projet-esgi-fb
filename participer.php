@@ -14,12 +14,37 @@ error_reporting('e_all');
 
 include('pages/header.php');
 include('pages/menu.php');
+function getAlbums($session, $id){
+    $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
+    $response = $request->execute();
+    $albums = $response->getGraphObject();
 
+    return $albums;
+}
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 if(isset($_SESSION['fb_token'])) {
-  //  echo $_SESSION['fb_token'];
-    $session = new FacebookSession($_SESSION['fb_token']);
-    ECHO $session;
+    echo $_SESSION['fb_token'];
+    $request = new FacebookRequest($_SESSION['fb_token'], "GET", "/me");
+    $response = $request->execute();
+    $user = $response->getGraphObject(GraphUser::className());
+    echo "test";
+    $albums = getAlbums($_SESSION['fb_token'], 'me');
+    if($_POST['show_photos'] == '1') {
+
+        for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+            $album = $albums->getProperty('data')->getProperty($i);
+            $request = new FacebookRequest($_SESSION['fb_token'], 'GET', '/' . $album->getProperty('id') . '/photos?fields=picture&limit=5');
+            $response = $request->execute();
+            $photos = $response->getGraphObject();
+            $photos = $photos->getPropertyAsArray('data');
+
+            foreach($photos as $picture) {
+
+                echo '<img src="'.$picture->getProperty('picture').'" alt="" />';
+            }
+
+        }
+    }
 }
 
 
