@@ -132,19 +132,13 @@ if($session) {
                     ));*/
 
 
-                    $qry = $dbh->prepare("SELECT * from liste;");
+                    $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
                     $qry->execute();
                     $liste = $qry->fetchAll();
                  //   print_r($liste);
                    foreach($liste as $key => $valListe)
                    {
-                       foreach($valListe as $k =>$value)
-                       {
-                            echo $value;
-                           print_r($valListe);
-
-
-                       }
+                       echo $valListe['user_name'];
                        //  echo 'Votre photo pour le jeu concour est : "."<img src="'.$value.'" alt="" >';
 
 
