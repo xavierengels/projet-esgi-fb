@@ -11,6 +11,18 @@ session_start();
 $session = (string) $_SESSION['fb_token'];
 include('pages/header.php');
 include('pages/menu.php');
+FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
+$helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
+if(isset($_SESSION) && isset($_SESSION['fb_token']))
+{
+    $session = new FacebookSession($_SESSION['fb_token']);
+
+}
+else
+{
+    $session = $helper->getSessionFromRedirect();
+
+}
 function getAlbums($session, $id){
     $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
     $response = $request->execute();
