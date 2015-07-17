@@ -8,7 +8,7 @@ use Facebook\FacebookRequest;
 use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
 use Facebook\FacebookCanvasLoginHelper;
-ini_set('display_errors', 1);
+    ini_set('display_errors', 1);
 error_reporting('E_ALL');
 
 
