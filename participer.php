@@ -11,154 +11,52 @@ use Facebook\FacebookCanvasLoginHelper;
 ini_set('display_errors', 1);
 error_reporting('E_ALL');
 
-session_start();
 
-FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
-$helper = new FacebookRedirectLoginHelper(FB_URL_SITE.'../participer.php');
-
-//récupère les informations de session facebook et associe à la session courante
-if(isset($_SESSION) && isset($_SESSION['fb_token']))
-{
-    $session = new FacebookSession($_SESSION['fb_token']);
-
-}
-else
-{
-    $session = $helper->getSessionFromRedirect();
-
-}
-
-?>
-
-
-<?php
-if($session)
-{
-    $token = (string) $session->getAccessToken();
-    $_SESSION['fb_token'] = $token;
-}
-else
-{
-    "Pas encore de session enregistré";
-}
 include('pages/header.php');
 include('pages/menu.php');
+$fb = new Facebook\Facebook([
+    'app_id' => APP_ID,
+    'app_secret' => APP_SECRET,
+    'default_graph_version' => 'v2.2',
+]);
+print_r($fb);
 
+$helper = $fb->getPageTabHelper();
 
-
-
-
-function getAlbums($session, $id){
-    $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
-    $response = $request->execute();
-    $albums = $response->getGraphObject();
-
-    return $albums;
+try {
+    $accessToken = $helper->getAccessToken();
+} catch(Facebook\Exceptions\FacebookResponseException $e) {
+    // When Graph returns an error
+    echo 'Graph returned an error: ' . $e->getMessage();
+    exit;
+} catch(Facebook\Exceptions\FacebookSDKException $e) {
+    // When validation fails or other local issues
+    echo 'Facebook SDK returned an error: ' . $e->getMessage();
+    exit;
 }
 
-//si la session exite on recupère les info de l'utlisateur
-if($session) {
-    try {
-
-        $_SESSION['fb_token'] = (string) $session->getAccessToken();
-        $request_user = new FacebookRequest( $session,"GET","/me");
-        $request_user_executed = $request_user->execute();
-        /*$user = $request_user_executed->getGraphObject(GraphUser::className());
-        $request = new FacebookRequest( $session,"GET","/me/photos");
-        $response = $request->execute();*/
-        $user_permissions = (new FacebookRequest($session, 'GET', '/me/permissions'))->execute()->getGraphObject(GraphUser::className())->asArray();
-
-        //check publish stream permission
-        $found_permission = false;
-
-        foreach($user_permissions as $key => $val){
-            echo $val->permission."</br>";
-            if($val->permission == 'user_photos'){
-                $found_permission = true;
-
-            }
-        }
-        if($found_permission){
-            $request = new FacebookRequest($session, "GET", "/me");
-            $response = $request->execute();
-            $user = $response->getGraphObject(GraphUser::className());
-
-            $albums = getAlbums($session, 'me');
-            if($_POST['show_photos'] == '1') {
-
-                for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-                    $album = $albums->getProperty('data')->getProperty($i);
-                    $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos?fields=picture&limit=5');
-                    $response = $request->execute();
-                    $photos = $response->getGraphObject();
-                    $photos = $photos->getPropertyAsArray('data');
-
-                    foreach($photos as $picture) {
-
-                        echo '<img src="'.$picture->getProperty('picture').'" alt="" />';
-                    }
-
-                }
-            }
-
-        }
-
-        ?>
-        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
-            <select name="album_id" id="album_id">
-                <?php
-                for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-                    $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
-                    $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
-                    echo('<option value='.$album_id.'>'.$album_name.'</option>');
-                }
-                ?>
-            </select>
-            <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Show</button>
-        </form>
-        <?php
-
-
-        echo "Bonjour ".$user->getName();
-        ?>
-        <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
-
-    <?php
-    } catch(FacebookRequestException $e) {
-        echo "error";
-        echo "Exception occured, code: " . $e->getCode();
-        echo " with message: " . $e->getMessage();
-    }
+if (! isset($accessToken)) {
+    echo 'No OAuth data could be obtained from the signed request. User has not authorized your app yet.';
+    exit;
 }
-else
-{
+
+// Logged in
+echo '<h3>Page ID</h3>';
+var_dump($helper->getPageId());
+
+echo '<h3>User is admin of page</h3>';
+var_dump($helper->isAdmin());
+
+echo '<h3>Signed Request</h3>';
+var_dump($helper->getSignedRequest());
+
+echo '<h3>Access Token</h3>';
+var_dump($accessToken->getValue());
 
 
-    $loginUrl = $helper->getLoginUrl();
 
-
-    echo "<a href='".$loginUrl."'>Se connecter</a>";
-}
 
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
