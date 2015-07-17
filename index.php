@@ -100,7 +100,7 @@ if($session) {
 
                     if($_POST['album_id']==$album->getProperty('id')) {
                         foreach ($photos as $picture) {
-                            echo ('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="checkbox"></input></input>');
+                            echo ('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>');
                             //echo('<option value='.$picture->getProperty('picture').'>'.$picture->getProperty('picture').'</option>');
 
                         }
