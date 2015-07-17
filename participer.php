@@ -17,7 +17,7 @@ include('pages/menu.php');
 
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 if(isset($_SESSION['fb_token'])) {
-    echo $_SESSION['fb_token'];
+  //  echo $_SESSION['fb_token'];
     $session = new FacebookSession($_SESSION['fb_token']);
     ECHO $session;
 }
