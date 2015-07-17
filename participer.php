@@ -77,7 +77,7 @@ else
     </select>
     <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Show</button>
 </form>
-          
+
 
                 <?php
 
