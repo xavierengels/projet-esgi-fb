@@ -15,7 +15,8 @@ include('pages/menu.php');
 if($session) {
     echo "session : ".$session;
     try {
-
+        $_SESSION['fb_token'] = (string) $session->getAccessToken();
+        echo $_SESSION['fb_token']."</br>";
 
         ?>
 
