@@ -142,12 +142,12 @@ if($session) {
                        {
                             echo $key."</br>";
                            echo $k."</br>";
-                           if($k=='user_name')
+                          /* if($k=='user_name')
                            {
                                $keyUser = $k;
-                           }
+                           }*/
 
-                           if($keyUser=='user_name'&&$value==$user->getId())
+                           if($value==$user->getId())
                            {
                                echo "K: ".$k;
                                if($k=='user_photo')
