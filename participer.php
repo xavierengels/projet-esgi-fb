@@ -1,5 +1,7 @@
 <?php
+session_start();
 include('config.php');
+require('facebook-php-sdk-v4-4.0-dev/autoload.php');
 use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
@@ -8,13 +10,14 @@ use Facebook\FacebookRequestException;
 use Facebook\FacebookCanvasLoginHelper;
 ini_set('display_errors', 1);
 error_reporting('e_all');
-session_start();
+
 
 include('pages/header.php');
 include('pages/menu.php');
 
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 if(isset($_SESSION['fb_token'])) {
+    echo $_SESSION['fb_token'];
     $session = new FacebookSession($_SESSION['fb_token']);
     ECHO $session;
 }
