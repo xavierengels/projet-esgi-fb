@@ -134,9 +134,13 @@ if($session) {
 
                     $qry = $dbh->prepare("SELECT * from liste;");
                     $qry->execute();
-                    $noms = $qry->fetchAll();
-                    print_r($noms);
+                    $liste = $qry->fetchAll();
+                 //   print_r($liste);
+                   foreach($liste as $key => $valListe)
+                   {
+                        echo $valListe."</br>";
 
+                   }
 
                     $dbh = null;
                 } catch (PDOException $e) {
