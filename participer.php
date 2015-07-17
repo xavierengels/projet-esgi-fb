@@ -15,6 +15,7 @@ error_reporting('E_ALL');
 include('pages/header.php');
 include('pages/menu.php');
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
+$helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 if(isset($_SESSION) && isset($_SESSION['fb_token']))
 {
     $session = new FacebookSession($_SESSION['fb_token']);
