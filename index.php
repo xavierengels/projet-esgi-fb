@@ -98,7 +98,7 @@ if($session) {
                     $photos = $photos->getPropertyAsArray('data');
 
                     foreach($photos as $picture) {
-
+                        print_r($picture);
                         echo '<img src="'.$picture->getProperty('picture').'" alt="" />';
                     }
 
