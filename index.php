@@ -142,11 +142,15 @@ if($session) {
                        {
                            if($key=='user_name') {
                                $keyUser = $key;
+                               echo $keyUser;
                            }
                               if($keyUser==$idUser)
-                              {
+                                  {
+                                      echo $idUser;
+                                      echo $key;
                                   if($key=='user_photo')
                                   {
+
                                       echo 'Votre photo pour le jeu concour est : "."<img src="'.$value.'" alt="" >';
                                   }
                               }
