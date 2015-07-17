@@ -8,35 +8,16 @@ use Facebook\FacebookRequestException;
 ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
-$session = $_SESSION['fb_token'];
+$session = (string) $_SESSION['fb_token'];
 include('pages/header.php');
 include('pages/menu.php');
 
 if($session) {
-    echo "session : ".$session."</br>";
+
     try {
-
-        $user_permissions = (new FacebookRequest($session, 'GET', '/me/permissions'))->execute()->getGraphObject(GraphUser::className())->asArray();
-
-        //check publish stream permission
-        $found_permission = false;
-
-        foreach($user_permissions as $key => $val){
-            echo $val->permission."</br>";
-            if($val->permission == 'user_photos'){
-                $found_permission = true;
-
-            }
-        }
-        if($found_permission){
-            echo "TEST";
-        }
-        ?>
+        echo "session : ".$session."</br>";
 
 
-        <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
-
-    <?php
     } catch(FacebookRequestException $e) {
         echo "error";
         echo "Exception occured, code: " . $e->getCode();
