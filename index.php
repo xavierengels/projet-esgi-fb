@@ -130,7 +130,7 @@ if($session) {
                         ':user_photo' => $image
                     ));
 
-                    //$dbh = null;
+                    $dbh = null;
                 } catch (PDOException $e) {
                     print "Erreur !: " . $e->getMessage() . "<br/>";
                     die();
@@ -143,6 +143,11 @@ if($session) {
 
 
                 try {
+                    echo "test";
+                    $user =  'blnwydiaqtvkyp';
+                    $pass =  'yODIF2ML7nUOjWl-jBPkS54hHw';
+                    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", $user, $pass);
+
                     $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
                     $qry->execute();
                     $liste = $qry->fetchAll();
@@ -157,7 +162,7 @@ if($session) {
 
                     }
 
-                   // $dbh = null;
+                    $dbh = null;
                 } catch (PDOException $e) {
                     print "Erreur !: " . $e->getMessage() . "<br/>";
                     die();
