@@ -139,10 +139,11 @@ if($session) {
                    foreach($liste as $key => $valListe)
                    {
                        echo $valListe['user_name'];
-                       //  echo 'Votre photo pour le jeu concour est : "."<img src="'.$value.'" alt="" >';
-
-
-                       //if($user->getId()==)
+                       if($valListe['user_name']==$idUser)
+                       {
+                             echo 'Votre photo pour le jeu concour est : "."<img src="'.$valListe['user_photo'].'" alt="" >';
+                       }
+                       
 
                    }
 
