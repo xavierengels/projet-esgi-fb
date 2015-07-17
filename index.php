@@ -97,10 +97,11 @@ if($session) {
                     $photos = $response->getGraphObject();
                     $photos = $photos->getPropertyAsArray('data');
 
-                    print_r($_POST);
-                    if($_POST['alnum_id']==$album->getProperty('id')) {
+                   
+                    if($_POST['album_id']==$album->getProperty('id')) {
                         foreach ($photos as $picture) {
                             echo '<img src="' . $picture->getProperty('picture') . '" alt="" />';
+
                         }
                     }
                 }
