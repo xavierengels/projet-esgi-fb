@@ -146,7 +146,8 @@ if($session) {
                            {
                                $keyUser = $k;
                            }*/
-
+                            echo $value."</br>";
+                           echo $user->getId();
                            if($value==$user->getId())
                            {
                                echo "K: ".$k;
