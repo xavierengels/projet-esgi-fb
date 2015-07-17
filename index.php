@@ -99,9 +99,9 @@ if($session) {
 
                     if($_POST['album_id']==$album->getProperty('id')) {
                         foreach ($photos as $picture) {
-                            print_r($picture);
-                            echo '<img src="' . $picture->getProperty('picture') . '" alt="" />';
 
+                            echo '<img src="' . $picture->getProperty('picture') . '" alt="" />';
+                            echo $user->getId();
                         }
                     }
                 }
