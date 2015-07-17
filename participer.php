@@ -11,12 +11,38 @@ session_start();
 $session = (string) $_SESSION['fb_token'];
 include('pages/header.php');
 include('pages/menu.php');
+function getAlbums($session, $id){
+    $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
+    $response = $request->execute();
+    $albums = $response->getGraphObject();
 
+    return $albums;
+}
 if($session) {
 
     try {
         echo "session : ".$session."</br>";
+        $request = new FacebookRequest($session, "GET", "/me");
+        $response = $request->execute();
+        $user = $response->getGraphObject(GraphUser::className());
 
+        $albums = getAlbums($session, 'me');
+        if($_POST['show_photos'] == '1') {
+
+            for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+                $album = $albums->getProperty('data')->getProperty($i);
+                $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos?fields=picture&limit=5');
+                $response = $request->execute();
+                $photos = $response->getGraphObject();
+                $photos = $photos->getPropertyAsArray('data');
+
+                foreach($photos as $picture) {
+
+                    echo '<img src="'.$picture->getProperty('picture').'" alt="" />';
+                }
+
+            }
+        }
 
     } catch(FacebookRequestException $e) {
         echo "error";
@@ -39,12 +65,19 @@ else
 
 ?>
 
-
-                <form method="post" action="" enctype="multipart/form-data">
-                    <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
-                    <input type="file" name="source" id="source" /><br />
-                    <input type="submit" name="submit" value="Envoyer" />
-                </form>
+<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
+    <select name="album_id" id="album_id">
+        <?php
+        for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+            $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
+            $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
+            echo('<option value='.$album_id.'>'.$album_name.'</option>');
+        }
+        ?>
+    </select>
+    <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Show</button>
+</form>
+          
 
                 <?php
 
