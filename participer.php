@@ -5,56 +5,19 @@ use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
 use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
+use Facebook\FacebookCanvasLoginHelper;
 ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
 $session = (string) $_SESSION['fb_token'];
 include('pages/header.php');
 include('pages/menu.php');
+
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
-$helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
-if(isset($_SESSION) && isset($_SESSION['fb_token']))
-{
+if(isset($_SESSION['fb_token'])) {
     $session = new FacebookSession($_SESSION['fb_token']);
-
+    ECHO $session;
 }
-else
-{
-    $session = $helper->getSessionFromRedirect();
-
-}
-if($session)
-{
-    $token = (string) $session->getAccessToken();
-    $_SESSION['fb_token'] = $token;
-}
-else
-{
-    "Pas encore de session enregistré";
-}
-if($session) {
-
-    try {
-        $_SESSION['fb_token'] = (string) $session->getAccessToken();
-        echo "session : ".$session."</br>";
-
-
-    } catch(FacebookRequestException $e) {
-        echo "error";
-        echo "Exception occured, code: " . $e->getCode();
-        echo " with message: " . $e->getMessage();
-    }
-}
-else
-{
-
-
-    $loginUrl = $helper->getLoginUrl();
-
-
-    echo "<a href='".$loginUrl."'>Se connecter</a>";
-}
-
 
 
 

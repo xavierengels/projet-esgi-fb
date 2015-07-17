@@ -19,12 +19,12 @@ $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 //récupère les informations de session facebook et associe à la session courante
 if(isset($_SESSION) && isset($_SESSION['fb_token']))
 {
-    $session = new FacebookSession($_SESSION['fb_token']);
+  $session = new FacebookSession($_SESSION['fb_token']);
 
 }
 else
 {
-    $session = $helper->getSessionFromRedirect();
+     $session = $helper->getSessionFromRedirect();
 
 }
 
