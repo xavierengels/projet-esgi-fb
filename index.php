@@ -125,11 +125,11 @@ if($session) {
                     $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
                     print_r($table_fields);*/
 
-                    $qry = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
+                   /* $qry = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
                     $qry->execute(array(
                         ':user_name' => $idUser,
                         ':user_photo' => $image
-                    ));
+                    ));*/
 
 
                     $qry = $dbh->prepare("SELECT * from liste;");
@@ -138,7 +138,20 @@ if($session) {
                  //   print_r($liste);
                    foreach($liste as $key => $valListe)
                    {
-                        echo $valListe[$key]."</br>";
+                       foreach($valListe as $k =>$value)
+                       {
+                           if($key=='user_name') {
+                               $keyUser = $key;
+                           }
+                              if($keyUser==$idUser)
+                              {
+                                  if($key=='user_photo')
+                                  {
+                                      echo 'Votre photo pour le jeu concour est : "."<img src="'.$value.'" alt="" >';
+                                  }
+                              }
+
+                       }
 
                            //if($user->getId()==)
 
