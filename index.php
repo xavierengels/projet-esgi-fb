@@ -92,7 +92,7 @@ if($session) {
 
                 for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
                     $album = $albums->getProperty('data')->getProperty($i);
-                    $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos?fields=picture&limit=5');
+                    $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
                     $response = $request->execute();
                     $photos = $response->getGraphObject();
                     $photos = $photos->getPropertyAsArray('data');
@@ -142,7 +142,7 @@ else
     $loginUrl = $helper->getLoginUrl();
 
 
-    //echo "<a href='".$loginUrl."'>Se connecter</a>";
+    echo "<a href='".$loginUrl."'>Se connecter</a>";
     ?>
     <div>
 <a href="<?=$loginUrl?>" class="btn btn-block btn-lg btn-default">Je Participe</a>
