@@ -99,7 +99,7 @@ if($session) {
 
                     foreach($photos as $picture) {
                         //print_r($picture);
-                        echo '<img src="'.$picture->getProperty('source').'" alt="" />';
+                        echo '<img src="'.$picture->getProperty('picture').'" alt="" />';
                     }
 
                 }
