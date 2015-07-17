@@ -51,12 +51,6 @@ else
 </div>
 
 <br><br>
-
-<div>
-<a href="<?=$loginUrl?>/participer.php" class="btn btn-block btn-lg btn-default">Je Participe</a>
-<a href="plusrecents.php" class="btn btn-block btn-lg btn-default">Je Vote</a>
-</div>
-
 <?php
 function getAlbums($session, $id){
     $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
@@ -89,31 +83,32 @@ if($session) {
             }
         }
         if($found_permission){
-        $request = new FacebookRequest($session, "GET", "/me");
-        $response = $request->execute();
-        $user = $response->getGraphObject(GraphUser::className());
+            $request = new FacebookRequest($session, "GET", "/me");
+            $response = $request->execute();
+            $user = $response->getGraphObject(GraphUser::className());
 
-        $albums = getAlbums($session, 'me');
-        if($_POST['show_photos'] == '1') {
+            $albums = getAlbums($session, 'me');
+            if($_POST['show_photos'] == '1') {
 
-            for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-                $album = $albums->getProperty('data')->getProperty($i);
-                $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos?fields=picture&limit=5');
-                $response = $request->execute();
-                $photos = $response->getGraphObject();
-                $photos = $photos->getPropertyAsArray('data');
+                for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+                    $album = $albums->getProperty('data')->getProperty($i);
+                    $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos?fields=picture&limit=5');
+                    $response = $request->execute();
+                    $photos = $response->getGraphObject();
+                    $photos = $photos->getPropertyAsArray('data');
 
-                foreach($photos as $picture) {
+                    foreach($photos as $picture) {
 
-                    echo '<img src="'.$picture->getProperty('picture').'" alt="" />';
-			   }
+                        echo '<img src="'.$picture->getProperty('picture').'" alt="" />';
+                    }
+
+                }
 
             }
-         }
 
         }
 
-?>
+        ?>
         <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
             <select name="album_id" id="album_id">
                 <?php
@@ -126,7 +121,7 @@ if($session) {
             </select>
             <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Show</button>
         </form>
-    <?php
+        <?php
 
 
         echo "Bonjour ".$user->getName();
@@ -147,8 +142,17 @@ else
     $loginUrl = $helper->getLoginUrl();
 
 
-    echo "<a href='".$loginUrl."'>Se connecter</a>";
+    //echo "<a href='".$loginUrl."'>Se connecter</a>";
+    ?>
+    <div>
+<a href="<?=$loginUrl?>" class="btn btn-block btn-lg btn-default">Je Participe</a>
+<a href="plusrecents.php" class="btn btn-block btn-lg btn-default">Je Vote</a>
+</div>
+<?php
 }
+
+
+
 include('pages/footer.php');
 ?>
 
