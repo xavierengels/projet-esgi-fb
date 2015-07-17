@@ -140,24 +140,14 @@ if($session) {
                    {
                        foreach($valListe as $k =>$value)
                        {
-                           if($key=='user_name') {
-                               $keyUser = $key;
-                               echo $keyUser;
-                           }
-                              if($keyUser==$idUser)
-                                  {
-                                      echo $idUser;
-                                      echo $key;
-                                  if($key=='user_photo')
-                                  {
-
-                                      echo 'Votre photo pour le jeu concour est : "."<img src="'.$value.'" alt="" >';
-                                  }
-                              }
+                            echo $key."</br>";
+                           echo $k."</br>";
 
                        }
+                       // echo 'Votre photo pour le jeu concour est : "."<img src="'.$value.'" alt="" >';
 
-                           //if($user->getId()==)
+
+                       //if($user->getId()==)
 
                    }
 
