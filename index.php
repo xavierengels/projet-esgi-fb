@@ -3,7 +3,7 @@
 
 <?php
 include('config.php');
-include('function.php');
+require('function.php');
 use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
