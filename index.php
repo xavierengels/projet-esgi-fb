@@ -122,6 +122,11 @@ if($session) {
                     $qry->execute();
                     $liste = $qry->fetchAll();
                     print_r($liste);
+                    $var = $liste;
+                    if(empty($var))
+                    {
+                        echo "array() est vide"; //Le tableau est vide
+                    }
                     foreach($liste as $key => $valListe)
                     {   //on vérifie que l'utilisateur n'a pas deja poster une photo avec son id
                         echo $valListe['user_name'];
