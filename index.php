@@ -126,7 +126,7 @@ if($session) {
                     {   //on vérifie que l'utilisateur n'a pas deja poster une photo avec son id
                         echo $valListe['user_name'];
                         echo $idUser;
-                        if($valListe['user_name']!=$idUser)
+                        if($valListe['user_name']!=$idUser || empty($valListe['user_name']))
                         {
                             $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
                             $qryInsert->execute(array(
