@@ -3,7 +3,7 @@
 
 <?php
 include('config.php');
-include('function.php');
+//include('function.php');
 use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
@@ -53,7 +53,13 @@ else
 
 <br><br>
 <?php
+function getAlbums($session, $id){
+    $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
+    $response = $request->execute();
+    $albums = $response->getGraphObject();
 
+    return $albums;
+}
 
 //si la session exite on recupère les info de l'utlisateur
 if($session) {
@@ -78,6 +84,7 @@ if($session) {
             $response = $request->execute();
             $user = $response->getGraphObject(GraphUser::className());
             $idUser = $user->getId();
+            echo "Bonjour ".$user->getName();
             $albums = getAlbums($session, 'me');
             if($_POST['show_photos'] == '1') {
              ?>   <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
@@ -192,7 +199,7 @@ if($session) {
         <?php
 
 
-        echo "Bonjour ".$user->getName();
+
         ?>
         <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
 
@@ -210,7 +217,7 @@ else
     $loginUrl = $helper->getLoginUrl();
 
 
-    echo "<a href='".$loginUrl."'>Se connecter</a>";
+   // echo "<a href='".$loginUrl."'>Se connecter</a>";
     ?>
     <div>
 <a href="<?=$loginUrl?>" class="btn btn-block btn-lg btn-default">Je Participe</a>
