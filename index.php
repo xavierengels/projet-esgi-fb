@@ -123,24 +123,29 @@ if($session) {
                     $liste = $qry->fetchAll();
                     print_r($liste);
                     $var = $liste;
-                    if(empty($var))
-                    {
-                        echo "array() est vide"; //Le tableau est vide
-                    }
-                    foreach($liste as $key => $valListe)
-                    {   //on vérifie que l'utilisateur n'a pas deja poster une photo avec son id
-                        echo $valListe['user_name'];
-                        echo $idUser;
-                        if($valListe['user_name']!=$idUser || empty($valListe['user_name']))
-                        {
+                    if(empty($var)) {
+
+
                             $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
                             $qryInsert->execute(array(
-                                ':user_name' => $idUser,
-                                ':user_photo' => $image
+                                 ':user_name' => $idUser,
+                                 ':user_photo' => $image
                             ));
+                    }else{
+                            foreach ($liste as $key => $valListe) {
+                            echo $valListe['user_name'];
+                            echo $idUser;
+                            //on vérifie que l'utilisateur n'a pas deja poster une photo avec son id
+                            if ($valListe['user_name'] != $idUser || empty($valListe['user_name'])) {
+                                $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
+                                $qryInsert->execute(array(
+                                    ':user_name' => $idUser,
+                                    ':user_photo' => $image
+                                ));
+                            }
+
+
                         }
-
-
                     }
                     $dbh = null;
                 } catch (PDOException $e) {
