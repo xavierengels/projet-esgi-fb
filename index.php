@@ -3,6 +3,7 @@
 
 <?php
 include('config.php');
+include('function.php');
 use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
@@ -42,7 +43,7 @@ else
     "Pas encore de session enregistré";
   }
   include('pages/header.php');
-  include('pages/menu.php');
+
   ?>
 
 
@@ -52,13 +53,7 @@ else
 
 <br><br>
 <?php
-function getAlbums($session, $id){
-    $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
-    $response = $request->execute();
-    $albums = $response->getGraphObject();
 
-    return $albums;
-}
 
 //si la session exite on recupère les info de l'utlisateur
 if($session) {
@@ -67,9 +62,6 @@ if($session) {
         $_SESSION['fb_token'] = (string) $session->getAccessToken();
         $request_user = new FacebookRequest( $session,"GET","/me");
         $request_user_executed = $request_user->execute();
-        /*$user = $request_user_executed->getGraphObject(GraphUser::className());
-        $request = new FacebookRequest( $session,"GET","/me/photos");
-        $response = $request->execute();*/
         $user_permissions = (new FacebookRequest($session, 'GET', '/me/permissions'))->execute()->getGraphObject(GraphUser::className())->asArray();
 
         //check publish stream permission
@@ -117,19 +109,25 @@ if($session) {
                     $user =  'blnwydiaqtvkyp';
                     $pass =  'yODIF2ML7nUOjWl-jBPkS54hHw';
                     $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", $user, $pass);
-                    /*$q = $dbh->prepare("select column_name, data_type, character_maximum_length
-                                           from INFORMATION_SCHEMA.COLUMNS
-                                        where table_name = 'liste'");
-                    $q->execute();
-                    $table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
-                    print_r($table_fields);*/
 
-                    $qry = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
-                    $qry->execute(array(
-                        ':user_name' => $idUser,
-                        ':user_photo' => $image
-                    ));
 
+                    $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
+                    $qry->execute();
+                    $liste = $qry->fetchAll();
+
+                    foreach($liste as $key => $valListe)
+                    {   //on vérifie que l'utilisateur n'a pas deja poster une photo avec son id
+                        if($valListe['user_name']!=$idUser)
+                        {
+                            $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
+                            $qryInsert->execute(array(
+                                ':user_name' => $idUser,
+                                ':user_photo' => $image
+                            ));
+                        }
+
+
+                    }
                     $dbh = null;
                 } catch (PDOException $e) {
                     print "Erreur !: " . $e->getMessage() . "<br/>";
