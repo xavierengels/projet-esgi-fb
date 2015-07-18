@@ -3,7 +3,7 @@
 
 <?php
 include('config.php');
-//include('function.php');
+include('function.php');
 use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
@@ -53,13 +53,7 @@ else
 
 <br><br>
 <?php
-function getAlbums($session, $id){
-    $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
-    $response = $request->execute();
-    $albums = $response->getGraphObject();
 
-    return $albums;
-}
 
 //si la session exite on recupère les info de l'utlisateur
 if($session) {
