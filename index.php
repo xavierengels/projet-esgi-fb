@@ -227,7 +227,7 @@ if($session) {
                         if($valListe['user_name']==$idUser)
                         {   echo $valListe['user_name'];
                             echo 'Votre photo pour le jeu concour est : <img src="'.$valListe['user_photo'].'" alt="" >';
-                            $qryUpdate = $dbh->prepare("UPDATE liste SET user_photo=:user_photo WHERE user_name = :user_name;");
+                            $qryUpdate = $dbh->prepare("UPDATE liste SET user_photo=:user_photo WHERE user_name = :user_name");
                             $qryUpdate->execute(array(
                                 ':user_name' => $idUser,
                                 ':user_photo' => $valListe['user_photo']
