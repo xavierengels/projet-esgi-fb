@@ -98,8 +98,8 @@ function uploadPhoto($session, $id_user){
     }
 }
 //si la session exite on recupère les info de l'utlisateur
-$vote =$false;
-if($session) {
+
+if($session && $_GET['page'] == '1') {
     try {
 
         $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -123,7 +123,6 @@ if($session) {
             $idUser = $user->getId();
             echo "Bonjour ".$user->getName();
             $albums = getAlbums($session, 'me');
-            if($vote == false) {
                 if ($_POST['show_photos'] == '1') {
                     ?>
                     <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
@@ -292,9 +291,9 @@ if($session) {
                 if ($_POST['submit_upload_photo'] == '1') {
                     uploadPhoto($session, 'me');
                 }
-            }
+
         }
-        if($_POST['vote']=='1')
+        if($_POST['vote']=='1' && $_GET['page'] == '2')
         {
             $vote = true;
             ECHO "POST VOTE";
@@ -349,8 +348,8 @@ else
    // echo "<a href='".$loginUrl."'>Se connecter</a>";
     ?>
     <div>
-<a href="<?=$loginUrl?>" class="btn btn-block btn-lg btn-default">Je Participe</a>
-        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="<?=$loginUrl?>">
+<a href="<?=$loginUrl?>?page=1" class="btn btn-block btn-lg btn-default">Je Participe</a>
+        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="<?=$loginUrl?>?page=2">
             <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
         </form>
 </div>
