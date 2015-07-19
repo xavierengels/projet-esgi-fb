@@ -335,10 +335,8 @@ if($session) {
 }
 else
 {
-    //$loginUrl = $helper->getLoginUrl();
+    $loginUrl = $helper->getLoginUrl();
    // echo "<a href='".$loginUrl."'>Se connecter</a>";
-
-    $loginUrl = $facebook->getLoginUrl();
     ?>
     <div>
 <a href="<?=$loginUrl?>" class="btn btn-block btn-lg btn-default">Je Participe</a>
