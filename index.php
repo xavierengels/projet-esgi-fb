@@ -345,8 +345,8 @@ else
     ?>
     <div>
 <a href="<?=$loginUrl?>" class="btn btn-block btn-lg btn-default">Je Participe</a>
-        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
-            <button id="vote" name="vote" value="1" type="submit" <a href="<?=$loginUrl?>" class="btn btn-block btn-lg btn-default">Je Vote</a>>
+        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="<?=$loginUrl?>">
+            <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default"></button>>Je Vote</button>
         </form>
 </div>
 <?php
