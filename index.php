@@ -133,8 +133,6 @@ if($session) {
                                     ':user_photo' => $image
                                 ));
                             }
-
-
                         }
                     }
                     $dbh = null;
@@ -169,7 +167,9 @@ if($session) {
                     die();
                 }
                 ?>
-                <button id="update_photos" name="update_photos" value="1" type="submit" class="btn btn-primary">Modifier votre photo</button>
+                <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
+                    <button id="update_photos" name="update_photos" value="1" type="submit" class="btn btn-primary">Modifier votre photo</button>
+                </form>
             <?php
             }
             if($_POST['update_photos'] == '1') {
@@ -208,8 +208,6 @@ if($session) {
                             ));
                             $dbh = null;
                         }
-
-
                     }
 
                 } catch (PDOException $e) {
