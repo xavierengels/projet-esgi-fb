@@ -335,8 +335,7 @@ if($session) {
 }
 else
 {
-    //$loginUrl = $helper->getLoginUrl();
-    $loginUrl = $helper->getLoginUrl(["public_profile", "publish_actions"]);
+    $loginUrl = $helper->getLoginUrl();
    // echo "<a href='".$loginUrl."'>Se connecter</a>";
     ?>
     <div>
