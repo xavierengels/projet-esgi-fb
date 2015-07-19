@@ -110,7 +110,7 @@ if($session) {
         $found_permission = false;
 
         foreach($user_permissions as $key => $val){
-            if($val->permission == 'user_photos'){
+            if($val->permission == 'user_photos' && $val->permission == 'publish_actions'){
                 $found_permission = true;
 
             }
