@@ -190,8 +190,33 @@ if($session) {
             }
             if($_POST['show_photos_update'] == '1')
             {
+
+                ?><form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
+
+                <?php
+                for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+                    $album = $albums->getProperty('data')->getProperty($i);
+                    $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
+                    $response = $request->execute();
+                    $photos = $response->getGraphObject();
+                    $photos = $photos->getPropertyAsArray('data');
+
+                    if($_POST['album_id']==$album->getProperty('id')) {
+                        foreach ($photos as $picture) {
+                            echo ('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>'."</br>");
+
+                        }
+                    }
+                }?>
+
+                <button id="select_photos_update" name="select_photos_update" value="1" type="submit" class="btn btn-primary">Select</button>
+        </form>
+                <?php
+        }
+            if($_POST['select_photos_update'] == '1')
+            {
                 try {
-                $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
+                    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
                     $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
                     $qry->execute();
                     $liste = $qry->fetchAll();
