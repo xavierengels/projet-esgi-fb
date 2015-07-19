@@ -338,7 +338,7 @@ else
     //$loginUrl = $helper->getLoginUrl();
    // echo "<a href='".$loginUrl."'>Se connecter</a>";
     $params = array(
-        scope => 'read_stream,publish_stream,publish_actions,read_friendlists',
+        $scope => 'read_stream,publish_stream,publish_actions,read_friendlists',
         //redirect_uri => $url
     );
     $loginUrl = $facebook->getLoginUrl($params);
