@@ -290,6 +290,10 @@ if($session) {
             }
 
         }
+        if($_POST['vote']=='1')
+        {
+            ECHO "POST VOTE";
+        }
 
         ?>
         <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
@@ -332,6 +336,7 @@ if($session) {
         echo "Exception occured, code: " . $e->getCode();
         echo " with message: " . $e->getMessage();
     }
+
 }
 else
 {
@@ -340,7 +345,9 @@ else
     ?>
     <div>
 <a href="<?=$loginUrl?>" class="btn btn-block btn-lg btn-default">Je Participe</a>
-<a href="plusrecents.php" class="btn btn-block btn-lg btn-default">Je Vote</a>
+        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
+            <button id="vote" name="vote" value="1" type="submit" <a href="<?=$loginUrl?>" class="btn btn-block btn-lg btn-default">Je Vote</a>>
+        </form>
 </div>
 <?php
 }
