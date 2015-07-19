@@ -105,7 +105,7 @@ if($_POST['vote'] ==  '1')
 }else{
     $vote =false;
 }
-if($session) {
+if($session && $vote == false) {
     try {
 
         $_SESSION['fb_token'] = (string) $session->getAccessToken();
