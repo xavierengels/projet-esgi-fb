@@ -173,6 +173,24 @@ if($session) {
             <?php
             }
             if($_POST['update_photos'] == '1') {
+
+                ?>
+                <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
+                    <select name="album_id" id="album_id">
+                        <?php
+                        for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+                            $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
+                            $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
+                            echo('<option value='.$album_id.'>'.$album_name.'</option>');
+                        }
+                        ?>
+                    </select>
+                    <button id="show_photos_update" name="show_photos_update" value="1" type="submit" class="btn btn-primary">Selectionner une autre photo</button>
+                </form>
+                <?php
+            }
+            if($_POST['show_photos_update'] == '1')
+            {
                 try {
                 $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
                     $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
@@ -219,6 +237,7 @@ if($session) {
 
         <button id="show_photo_concour" name="show_photo_concour" value="1" type="submit" class="btn btn-primary">Voir votre photo du concour</button>
         </form>
+
 
         <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
             <input id="photo" name="photo" class="input-file" type="file">
