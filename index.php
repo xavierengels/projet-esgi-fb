@@ -105,7 +105,7 @@ if($_POST['vote'] ==  '1')
 }else{
     $vote =false;
 }
-if($session && $vote==false) {
+if($session) {
     try {
 
         $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -355,7 +355,7 @@ else
     ?>
     <div>
 <a href="<?=$loginUrl?>" class="btn btn-block btn-lg btn-default">Je Participe</a>
-        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="<?=$loginUrl?>">
+        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
             <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
         </form>
 </div>
