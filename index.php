@@ -174,20 +174,19 @@ if($session) {
             }
             if($_POST['update_photos'] == '1') {
 
-                ?>
-                <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
-                    <select name="album_id" id="album_id">
-                        <?php
+         echo'<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
+                    <select name="album_id" id="album_id">';
+
                         for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
                             $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
                             $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
                             echo('<option value='.$album_id.'>'.$album_name.'</option>');
                         }
-                        ?>
-                    </select>
+
+                   echo'</select>
                     <button id="show_photos_update" name="show_photos_update" value="1" type="submit" class="btn btn-primary">Selectionner une autre photo</button>
-                </form>
-                <?php
+                </form>';
+
             }
             if($_POST['show_photos_update'] == '1')
             {
