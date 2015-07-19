@@ -190,7 +190,7 @@ if($session) {
             }
             if($_POST['show_photos_update'] == '1')
             {
-
+                ECHO "post chow photos update";
                 ?><form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
 
                 <?php
@@ -202,6 +202,7 @@ if($session) {
                     $photos = $photos->getPropertyAsArray('data');
 
                     if($_POST['album_id']==$album->getProperty('id')) {
+                        echo "post album id";
                         foreach ($photos as $picture) {
                             echo ('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>'."</br>");
 
