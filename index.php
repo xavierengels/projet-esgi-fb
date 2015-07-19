@@ -98,6 +98,7 @@ function uploadPhoto($session, $id_user){
     }
 }
 //si la session exite on recupère les info de l'utlisateur
+$vote =$false;
 if($session) {
     try {
 
