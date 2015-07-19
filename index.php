@@ -30,8 +30,6 @@ else
 }
 
 ?>
-
-
   <?php
   if($session)
   {
@@ -43,10 +41,7 @@ else
     "Pas encore de session enregistré";
   }
   include('pages/header.php');
-
   ?>
-
-
 <div>
 <center><img src="/images/concourstotal.jpg"></center>
 </div>
@@ -113,10 +108,7 @@ if($session) {
                 echo "POST !!!";
                 $image =  $_POST['nom'];
                 try {
-                    $user =  'blnwydiaqtvkyp';
-                    $pass =  'yODIF2ML7nUOjWl-jBPkS54hHw';
-                    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", $user, $pass);
-
+                    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
 
                     $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
                     $qry->execute();
@@ -133,10 +125,8 @@ if($session) {
                             ));
                     }else{
                             foreach ($liste as $key => $valListe) {
-                            echo $valListe['user_name'];
-                            echo $idUser;
                             //on vérifie que l'utilisateur n'a pas deja poster une photo avec son id
-                            if ($valListe['user_name'] != $idUser || empty($valListe['user_name'])) {
+                            if ($valListe['user_name'] != $idUser ) {
                                 $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
                                 $qryInsert->execute(array(
                                     ':user_name' => $idUser,
@@ -156,14 +146,8 @@ if($session) {
 
 
             if($_POST['show_photo_concour'] == '1') {
-                echo "POST !!!";
-
-
-                try {
-                    echo "test";
-                    $user =  'blnwydiaqtvkyp';
-                    $pass =  'yODIF2ML7nUOjWl-jBPkS54hHw';
-                    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", $user, $pass);
+                    try {
+                    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
 
                     $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
                     $qry->execute();
@@ -173,7 +157,7 @@ if($session) {
                     {
                         if($valListe['user_name']==$idUser)
                         {
-                            echo 'Votre photo pour le jeu concour est : "."<img src="'.$valListe['user_photo'].'" alt="" >';
+                            echo 'Votre photo pour le jeu concour est : <img src="'.$valListe['user_photo'].'" alt="" >';
                         }
 
 
@@ -187,6 +171,34 @@ if($session) {
                 ?>
                 <button id="update_photos" name="update_photos" value="1" type="submit" class="btn btn-primary">Modifier votre photo</button>
             <?php
+            }
+            if($_POST['update_photos'] == '1') {
+                try {
+                $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
+                    $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
+                    $qry->execute();
+                    $liste = $qry->fetchAll();
+                    //   print_r($liste);
+                    foreach($liste as $key => $valListe)
+                    {
+                        if($valListe['user_name']==$idUser)
+                        {
+                            echo 'Votre photo pour le jeu concour est : <img src="'.$valListe['user_photo'].'" alt="" >';
+                            $qryUpdate = $dbh->prepare("UPDATE liste SET user_photo=:user_photo WHERE user_name = :user_name;");
+                            $qryUpdate->execute(array(
+                                ':user_name' => $idUser,
+                                ':user_photo' => $valListe['user_photo']
+                            ));
+                            $dbh = null;
+                        }
+
+
+                    }
+
+                } catch (PDOException $e) {
+                    print "Erreur !: " . $e->getMessage() . "<br/>";
+                    die();
+                }
             }
 
         }
@@ -202,17 +214,27 @@ if($session) {
                 }
                 ?>
             </select>
-            <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Show</button>
+            <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Selectionner une photo parmis vos album</button>
 
-        Voir votre photo du concour
-        </br>
+
         <button id="show_photo_concour" name="show_photo_concour" value="1" type="submit" class="btn btn-primary">Voir votre photo du concour</button>
         </form>
-        <?php
 
-
-
-        ?>
+        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
+            <input id="photo" name="photo" class="input-file" type="file">
+            <select name="album_id" id="album_id">
+                <?php
+                for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+                    $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
+                    $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
+                    echo('<option value='.$album_id.'>'.$album_name.'</option>');
+                }
+                ?>
+                <option value='-1'>Nouvel Album</option>
+            </select>
+            <input id="new_album_name" name="new_album_name" class="input-file" type="text">
+            <button id="submit_upload_photo" name="submit_upload_photo" value="1" type="submit" class="btn btn-primary">Upload une photo dans vos albums</button>
+        </form>
         <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
 
     <?php
@@ -224,11 +246,7 @@ if($session) {
 }
 else
 {
-
-
     $loginUrl = $helper->getLoginUrl();
-
-
    // echo "<a href='".$loginUrl."'>Se connecter</a>";
     ?>
     <div>
