@@ -337,11 +337,8 @@ else
 {
     //$loginUrl = $helper->getLoginUrl();
    // echo "<a href='".$loginUrl."'>Se connecter</a>";
-    $params = array(
-        $scope => 'read_stream,publish_stream,publish_actions,read_friendlists',
-        //redirect_uri => $url
-    );
-    $loginUrl = $facebook->getLoginUrl($params);
+
+    $loginUrl = $facebook->getLoginUrl();
     ?>
     <div>
 <a href="<?=$loginUrl?>" class="btn btn-block btn-lg btn-default">Je Participe</a>
