@@ -56,6 +56,22 @@ function getAlbums($session, $id){
 
     return $albums;
 }
+
+function uploadPhoto($session, $id_user){
+    if($_POST['album_id'] == -1){
+        $album_id = createAlbum($_POST['new_album_name'], $session, $id_user);
+    } else{
+        $album_id = $_POST['album_id'];
+    }
+
+    $curlFile = array('source' => new CURLFile($_FILES['photo']['tmp_name'], $_FILES['photo']['type']));
+    try {
+        $up = new FacebookRequest ($session, 'POST', '/'.$album_id.'/photos', $curlFile);
+        $up->execute()->getGraphObject("Facebook\GraphUser");
+    } catch (FacebookApiException $e) {
+        error_log($e);
+    }
+}
 //si la session exite on recupère les info de l'utlisateur
 if($session) {
     try {
@@ -241,6 +257,11 @@ if($session) {
                     print "Erreur !: " . $e->getMessage() . "<br/>";
                     die();
                 }
+            }
+
+            if($_POST['submit_upload_photo'] == '1')
+            {
+                uploadPhoto($session, 'me');
             }
 
         }
