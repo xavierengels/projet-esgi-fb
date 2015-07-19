@@ -216,6 +216,8 @@ if($session) {
             if($_POST['select_photos_update'] == '1')
             {
                 echo "post select_photos_update";
+                $image =  $_POST['nom'];
+                echo $image;
                 try {
                     $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
                     $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
@@ -228,13 +230,14 @@ if($session) {
                         {   echo $valListe['user_name'];
                             echo 'Votre photo pour le jeu concour est : <img src="'.$valListe['user_photo'].'" alt="" >';
                             $qryUpdate = $dbh->prepare("UPDATE liste SET user_photo= ?  WHERE user_name = ?");
-                            $qryUpdate->execute(array($title,$author));
+                            $qryUpdate->execute(array($image,$idUser));
                             print_r($qryUpdate);
-                            $dbh = null;
+
                         }
                     }
-
+                    $dbh = null;
                 } catch (PDOException $e) {
+                    echo "ERROR";
                     print "Erreur !: " . $e->getMessage() . "<br/>";
                     die();
                 }
