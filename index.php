@@ -56,6 +56,30 @@ function getAlbums($session, $id){
 
     return $albums;
 }
+function createAlbum($name, $session, $id){
+    $albums = getAlbums($session, $id);
+    if ($albums) {
+        for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+            if ($albums->getProperty('data')->getProperty($i)->getProperty('name') == $name) {
+                $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
+                break;
+            } else {
+                $album_id = 'blank';
+            }
+        }
+    }
+
+    // if the album is not present, create the album
+    if ($album_id == 'blank') {
+        $album_data = array('name' => $_POST['new_album_name'], 'message' => $album_description, );
+
+        $new_album = new FacebookRequest ($session, 'POST', '/'.$id.'/albums', $album_data);
+        $new_album = $new_album->execute()->getGraphObject("Facebook\GraphUser");
+        $album_id = $new_album->getProperty('id');
+    }
+
+    return $album_id;
+}
 
 function uploadPhoto($session, $id_user){
     if($_POST['album_id'] == -1){
@@ -65,6 +89,7 @@ function uploadPhoto($session, $id_user){
     }
 
     $curlFile = array('source' => new CURLFile($_FILES['photo']['tmp_name'], $_FILES['photo']['type']));
+    print_r($curlFile);
     try {
         $up = new FacebookRequest ($session, 'POST', '/'.$album_id.'/photos', $curlFile);
         $up->execute()->getGraphObject("Facebook\GraphUser");
