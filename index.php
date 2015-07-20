@@ -48,7 +48,22 @@ else
 
 <br><br>
 <?php
+function getPermission($session)
+{
+    $_SESSION['fb_token'] = (string) $session->getAccessToken();
+    $user_permissions = (new FacebookRequest($session, 'GET', '/me/permissions'))->execute()->getGraphObject(GraphUser::className())->asArray();
 
+    //check publish stream permission
+    $found_permission = false;
+
+    foreach($user_permissions as $key => $val){
+        if($val->permission == 'user_photos' ){
+            $found_permission = true;
+
+        }
+    }
+    return $found_permission;
+}
 function getAlbums($session, $id){
     $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
     $response = $request->execute();
@@ -108,22 +123,7 @@ if($session) {
     if($_POST['participe'] == '1')
     {
         try {
-
-        $_SESSION['fb_token'] = (string) $session->getAccessToken();
-        $request_user = new FacebookRequest( $session,"GET","/me");
-        $request_user_executed = $request_user->execute();
-        $user_permissions = (new FacebookRequest($session, 'GET', '/me/permissions'))->execute()->getGraphObject(GraphUser::className())->asArray();
-
-        //check publish stream permission
-        $found_permission = false;
-
-        foreach($user_permissions as $key => $val){
-            if($val->permission == 'user_photos' ){
-                $found_permission = true;
-
-            }
-        }
-        if($found_permission){
+        if(getPermission($session)){
             $request = new FacebookRequest($session, "GET", "/me");
             $response = $request->execute();
             $user = $response->getGraphObject(GraphUser::className());
@@ -335,7 +335,6 @@ if($session) {
             <input id="new_album_name" name="new_album_name" class="input-file" type="text">
             <button id="submit_upload_photo" name="submit_upload_photo" value="1" type="submit" class="btn btn-primary">Upload une photo dans vos albums</button>
         </form>
-        <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
 
     <?php
     } catch(FacebookRequestException $e) {
@@ -346,7 +345,10 @@ if($session) {
     }
     else if($_POST['vote'] == '1')
     {
-        echo "vote";
+
+       ?>
+        <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+<?php
     }
 }
 
