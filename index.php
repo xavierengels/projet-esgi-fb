@@ -97,15 +97,8 @@ function uploadPhoto($session, $id_user){
         error_log($e);
     }
 }
-//si la session exite on recupère les info de l'utlisateur
 
-if($_POST['vote'] ==  '1')
-{
-    $vote =true;
-}else{
-    $vote =false;
-}
-if($session && $vote == false) {
+if($_POST['participe'] == '1') {
     try {
 
         $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -344,23 +337,24 @@ if($session && $vote == false) {
     }
 
 }
-else if($session && $vote ==true)
+else if($POS['vote'] == '1')
 {
-
+    echo "VOTE";
 }
-else
-{
-    $loginUrl = $helper->getLoginUrl();
-   // echo "<a href='".$loginUrl."'>Se connecter</a>";
+
     ?>
     <div>
-<a href="<?=$loginUrl?>" class="btn btn-block btn-lg btn-default">Je Participe</a>
+        <?php if(!$session){
+            $loginUrl = $helper->getLoginUrl();?>
+        <a href="<?=$loginUrl?>" class="btn btn-block btn-lg btn-default"Se connecter</a>
+        <?php  }else if($session){ ?>
         <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
+            <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
             <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
-        </form>
+        </form><?php }?>
 </div>
 <?php
-}
+
 
 
 
