@@ -99,7 +99,15 @@ function uploadPhoto($session, $id_user){
 }
 
 if($session) {
-    /*try {
+
+    ?>
+        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
+            <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
+            <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
+        </form><?php
+    if($_POST['participe'] == '1')
+    {
+        try {
 
         $_SESSION['fb_token'] = (string) $session->getAccessToken();
         $request_user = new FacebookRequest( $session,"GET","/me");
@@ -334,13 +342,8 @@ if($session) {
         echo "error";
         echo "Exception occured, code: " . $e->getCode();
         echo " with message: " . $e->getMessage();
-    }*/
-    ?>
-
-
-        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
-            <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
-        </form><?php
+    }
+    }
 }
 
 else
