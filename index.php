@@ -1,6 +1,4 @@
 
-
-
 <?php
 include('config.php');
 
@@ -16,8 +14,6 @@ session_start();
 
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
-
-
 
 
 function getPermission($session)
@@ -351,38 +347,7 @@ if($session) {
     else if($_POST['vote'] == '1') {
 
 
-        try {
-            if (getPermission($session)) {
-                $request = new FacebookRequest($session, "GET", "/me");
-                $response = $request->execute();
-                $user = $response->getGraphObject(GraphUser::className());
-                $idUser = $user->getId();
-                echo "Bonjour " . $user->getName();
-
-                try {
-                    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
-
-                    $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
-                    $qry->execute();
-                    $liste = $qry->fetchAll();
-                    //   print_r($liste);
-                    foreach ($liste as $key => $valListe) {
-                            echo 'Voter pour une photo : <img src="' . $valListe['user_photo'] . '" alt="" >';
-                    }
-
-                    $dbh = null;
-                } catch (PDOException $e) {
-                    print "Erreur !: " . $e->getMessage() . "<br/>";
-                    die();
-                }
-
-
-            }
-        } catch (FacebookRequestException $e) {
-            echo "error";
-            echo "Exception occured, code: " . $e->getCode();
-            echo " with message: " . $e->getMessage();
-        }
+      
     }
 
 
