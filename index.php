@@ -17,37 +17,6 @@ session_start();
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 
-//récupère les informations de session facebook et associe à la session courante
-if(isset($_SESSION) && isset($_SESSION['fb_token']))
-{
-  $session = new FacebookSession($_SESSION['fb_token']);
-
-}
-else
-{
-     $session = $helper->getSessionFromRedirect();
-
-}
-
-?>
-  <?php
-  if($session)
-  {
-     $token = (string) $session->getAccessToken();
-     $_SESSION['fb_token'] = $token;
-  }
-  else
-  {
-    "Pas encore de session enregistré";
-  }
-  include('pages/header.php');
-  ?>
-<div>
-<center><img src="/images/concourstotal.jpg"></center>
-</div>
-
-<br><br>
-<?php
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -112,6 +81,38 @@ function uploadPhoto($session, $id_user){
         error_log($e);
     }
 }
+
+//récupère les informations de session facebook et associe à la session courante
+if(isset($_SESSION) && isset($_SESSION['fb_token']))
+{
+  $session = new FacebookSession($_SESSION['fb_token']);
+
+}
+else
+{
+     $session = $helper->getSessionFromRedirect();
+
+}
+
+?>
+  <?php
+  if($session)
+  {
+     $token = (string) $session->getAccessToken();
+     $_SESSION['fb_token'] = $token;
+  }
+  else
+  {
+    "Pas encore de session enregistré";
+  }
+  include('pages/header.php');
+  ?>
+<div>
+<center><img src="/images/concourstotal.jpg"></center>
+</div>
+
+<br><br>
+<?php
 
 if($session) {
 
@@ -345,7 +346,7 @@ if($session) {
     }
     else if($_POST['vote'] == '1')
     {
-
+            vote
        ?>
         <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
 <?php
@@ -357,9 +358,14 @@ else
     $loginUrl = $helper->getLoginUrl();
     echo "<a href='".$loginUrl."'>Se connecter</a>";
     ?>
-    <div>
-
-</div>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.4&appId=830895360333908";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
 <?php
 }
 
