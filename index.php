@@ -102,8 +102,8 @@ if($session) {
 
     ?>
         <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
-            <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
             <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
+            <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
         </form><?php
     if($_POST['participe'] == '1')
     {
@@ -343,6 +343,10 @@ if($session) {
         echo "Exception occured, code: " . $e->getCode();
         echo " with message: " . $e->getMessage();
     }
+    }
+    else if($_POST['vote'] == '1')
+    {
+        echo "vote";
     }
 }
 
