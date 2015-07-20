@@ -17,6 +17,31 @@ session_start();
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 
+function showPhotosForm($albums,$session)
+{
+ECHO'<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
+
+
+                        for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+                            $album = $albums->getProperty('data')->getProperty($i);
+                            $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
+                            $response = $request->execute();
+                            $photos = $response->getGraphObject();
+                            $photos = $photos->getPropertyAsArray('data');
+
+                            if ($_POST['album_id'] == $album->getProperty('id')) {
+                                foreach ($photos as $picture) {
+                                    echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
+
+                                }
+                            }
+                        }
+
+ECHO'<button id="select_photos" name="select_photos" value="1" type="submit" class="btn btn-primary">
+    Select
+</button>
+</form>';
+}
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -132,30 +157,7 @@ if($session) {
             echo "Bonjour ".$user->getName();
             $albums = getAlbums($session, 'me');
                 if ($_POST['show_photos'] == '1') {
-                    ?>
-                    <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
-
-                        <?php
-                        for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-                            $album = $albums->getProperty('data')->getProperty($i);
-                            $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
-                            $response = $request->execute();
-                            $photos = $response->getGraphObject();
-                            $photos = $photos->getPropertyAsArray('data');
-
-                            if ($_POST['album_id'] == $album->getProperty('id')) {
-                                foreach ($photos as $picture) {
-                                    echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
-
-                                }
-                            }
-                        } ?>
-
-                        <button id="select_photos" name="select_photos" value="1" type="submit" class="btn btn-primary">
-                            Select
-                        </button>
-                    </form>
-                <?php
+                  showPhotosForm($albums,$session);
                 }
                 if ($_POST['select_photos'] == '1') {
                     echo "POST !!!";
@@ -346,9 +348,9 @@ if($session) {
     }
     else if($_POST['vote'] == '1')
     {
-            vote
+
+
        ?>
-        <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
 <?php
     }
 }
@@ -358,14 +360,7 @@ else
     $loginUrl = $helper->getLoginUrl();
     echo "<a href='".$loginUrl."'>Se connecter</a>";
     ?>
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.4&appId=830895360333908";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
+
 <?php
 }
 
