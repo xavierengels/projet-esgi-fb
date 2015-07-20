@@ -98,9 +98,12 @@ function uploadPhoto($session, $id_user){
     }
 }
 
-if($_POST['participe'] == '1') {
+if($session) {
     try {
-
+        echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
+            <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
+            <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
+        </form>';
         $_SESSION['fb_token'] = (string) $session->getAccessToken();
         $request_user = new FacebookRequest( $session,"GET","/me");
         $request_user_executed = $request_user->execute();
@@ -336,31 +339,10 @@ if($_POST['participe'] == '1') {
         echo " with message: " . $e->getMessage();
     }
 
+ }else{
+    $loginUrl = $helper->getLoginUrl();
+    echo '<a href="<?=$loginUrl?>" class="btn btn-block btn-lg btn-default"Se connecter</a>';
 }
-else if($POS['vote'] == '1')
-{
-    echo "VOTE";
-}
-
-    ?>
-    <div>
-        <?php  if($session){
-            $_SESSION['fb_token'] = (string) $session->getAccessToken();
-       echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
-            <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
-            <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
-        </form>';
-        }
-       else{
-            $loginUrl = $helper->getLoginUrl();
-            echo '<a href="<?=$loginUrl?>" class="btn btn-block btn-lg btn-default"Se connecter</a>';
-        }
-        ?>
-</div>
-<?php
-
-
-
 
 include('pages/footer.php');
 ?>
