@@ -258,11 +258,6 @@ if($session) {
             }
 
         }
-        if($_POST['vote']=='1')
-        {
-            $vote = true;
-            ECHO "POST VOTE";
-        }
         ?>
         <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
             <select name="album_id" id="album_id">
@@ -313,6 +308,14 @@ else
             <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
     </form>
    <?
+}
+if($_POST['vote']=='1' && $session)
+{
+    $vote = true;
+    ECHO "POST VOTE";
+}
+else {
+    $loginUrl = $helper->getLoginUrl();
 }
     ?>
     <div>
