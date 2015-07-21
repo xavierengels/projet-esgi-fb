@@ -15,20 +15,6 @@ $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 
 
 
-$helperr = new FacebookJavaScriptLoginHelper();
-try {
-    $test = $helperr->getSession();
-} catch(FacebookRequestException $ex) {
-    // When Facebook returns an error
-    echo $ex->getMessage();
-} catch(\Exception $ex) {
-    echo $ex->getMessage();
-    // When validation fails or other local issues
-}
-if ($session) {
-    echo $test;
-}
-
 
 function getPermission($session)
 {
