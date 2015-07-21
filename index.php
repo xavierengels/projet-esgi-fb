@@ -340,9 +340,16 @@ if($_POST['vote_photos'] == '1' && $session)
         $img =  $_POST['image'];
         echo $nbVote;
         echo $img;
-        $qryUpdate = $dbh->prepare("UPDATE liste SET nb_vote= ?  WHERE user_photo = ?");
-        $qryUpdate->execute(array($nbVote, $img));
-        print_r($qryUpdate);
+        $qry = $dbh->prepare("SELECT * from liste;");
+        $qry->execute();
+        $liste = $qry->fetchAll();
+        foreach ($liste as $key => $valListe) {
+            if ($idUser != $valListe['user_name']) {
+                $qryUpdate = $dbh->prepare("UPDATE liste SET nb_vote= ?  WHERE user_photo = ?");
+                $qryUpdate->execute(array($nbVote, $img));
+            }
+        }
+
 
         $dbh = null;
     } catch (PDOException $e) {
