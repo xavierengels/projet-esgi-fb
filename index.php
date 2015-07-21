@@ -18,9 +18,11 @@ try {
     $session = $helper->getSession();
 } catch(FacebookRequestException $ex) {
     // When Facebook returns an error
+   var_dump($ex);
 
 } catch(\Exception $ex) {
     // When validation fails or other local issues
+    var_dump($ex);
 }
 if($session) {
 
