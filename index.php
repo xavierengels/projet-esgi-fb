@@ -307,15 +307,29 @@ if($session) {
             $qry->execute();
             $liste = $qry->fetchAll();
             //   print_r($liste);
-            foreach ($liste as $key => $valListe) {
-                    echo 'Voter pour ue photo : <img src="' . $valListe['user_photo'] . '" alt="" ></br>';
-                    echo "Nombre de vote : ".$valListe['nb_vote']."</nr>";
-                    echo '<button name="vote"></button>';
+            echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
+            foreach ($liste as $key => $valListe)
+            {
+                    echo 'Voter pour ue photo : <input type="image" name="img_vote" src="' . $valListe['user_photo'] . '"  ></input>';
+
+                    echo "<input name='value_nb_vote' Nombre de vote : ".$valListe['nb_vote']."></input>";
+                    echo '<button name="vote_photos">Vote</button>';
+
             }
+            echo'</form>';
             $dbh = null;
         } catch (PDOException $e) {
             print "Erreur !: " . $e->getMessage() . "<br/>";
             die();
+        }
+        if($_POST['vote_photos'] == '1')
+        {
+            $nbVote =$_POST['value_nb_vote'];
+            $img =  $_POST['img_vote'];
+            echo $img;
+            $qryUpdate = $dbh->prepare("UPDATE liste SET nb_vote= ?  WHERE user_photo = ?");
+            $qryUpdate->execute(array($nbVote, $img));
+            print_r($qryUpdate);
         }
     }
 }
@@ -324,14 +338,7 @@ else
     $loginUrl = $helper->getLoginUrl();
     echo "<a href='".$loginUrl."'>Se connecter</a>";
     ?>
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.4&appId=830895360333908";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
+
 <?php
 }
 include('pages/footer.php');
