@@ -94,7 +94,7 @@ function uploadPhoto($session, $id_user){
     }
 }
 //si la session exite on recupère les info de l'utlisateur
-if($session && $_POST['vote'] !='1' && $_POST['participe'] =='1') {
+if($session) {
     try {
         if(getPermission($session)){
             $request = new FacebookRequest($session, "GET", "/me");
@@ -327,8 +327,21 @@ else if($_POST['vote']=='1' && $session)
 else if($_POST['vote']=='1' && !$session)
 {
     echo "Vous n êtes pas identifié !";
-    $loginUrl = $helper->getLoginUrl();
-    echo "<a href='".$loginUrl."'>Se connecter</a>";
+    $loginUrl = $helper->getLoginUrl();?>
+    <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="<?=$loginUrl?>">
+        <button id="connect" name="connect" value="1" type="submit"class="btn btn-block btn-lg btn-default">Se connecter</button>
+    </form>
+    <?
+}
+else if($_POST['connect'] == '1' && $session)
+{
+    ?>
+    <div>
+        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
+            <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
+        </form>
+    </div>
+    <?
 }
 
 else
