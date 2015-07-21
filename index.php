@@ -11,6 +11,7 @@ error_reporting('e_all');
 session_start();
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
+
 //print_r($_POST);
 function getPermission($session)
 {
@@ -42,6 +43,7 @@ if($session)
 {
     $token = (string) $session->getAccessToken();
     $_SESSION['fb_token'] = $token;
+    echo  $_SESSION['fb_token'];
 }
 else
 {
@@ -329,6 +331,7 @@ else if($_POST['vote']=='1' && $session)
 }
 else
 {
+    echo "test";
     $loginUrl = $helper->getLoginUrl();
 
     //
