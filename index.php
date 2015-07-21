@@ -1,66 +1,40 @@
-<?php
-echo "test";
-include('config.php');
+Skip to content
+This repository
+Pull requests
+Issues
+Gist
+@xavierengels
+Unwatch 3
+Star 0
+Fork 0xavierengels/projet-esgi-fb
+tree: 2ff97760cf  projet-esgi-fb/index.php
+xavier engels an hour ago no message
+2 contributors @Toumy @Baptiste-Flesch
+RawBlameHistory    377 lines (316 sloc)  15.749 kB
 
+
+
+<?php
+include('config.php');
 use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
 use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
-
 ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
-
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
-
-
-
-//récupère les informations de session facebook et associe à la session courante
-if(isset($_SESSION) && isset($_SESSION['fb_token']))
-{
-  $session = new FacebookSession($_SESSION['fb_token']);
-
-}
-else
-{
-     $session = $helper->getSessionFromRedirect();
-
-}
-
-?>
-  <?php
-  if($session)
-  {
-     $token = (string) $session->getAccessToken();
-     $_SESSION['fb_token'] = $token;
-  }
-  else
-  {
-    "Pas encore de session enregistré";
-  }
-  include('pages/header.php');
-  ?>
-<div>
-<center><img src="/images/concourstotal.jpg"></center>
-</div>
-
-<br><br>
-<?php
-
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
     $user_permissions = (new FacebookRequest($session, 'GET', '/me/permissions'))->execute()->getGraphObject(GraphUser::className())->asArray();
-
     //check publish stream permission
     $found_permission = false;
-
     foreach($user_permissions as $key => $val){
         if($val->permission == 'user_photos' ){
             $found_permission = true;
-
         }
     }
     return $found_permission;
@@ -69,7 +43,6 @@ function getAlbums($session, $id){
     $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
     $response = $request->execute();
     $albums = $response->getGraphObject();
-
     return $albums;
 }
 function createAlbum($name, $session, $id){
@@ -84,26 +57,21 @@ function createAlbum($name, $session, $id){
             }
         }
     }
-
     // if the album is not present, create the album
     if ($album_id == 'blank') {
         $album_data = array('name' => $_POST['new_album_name'], 'message' => $album_description, );
-
         $new_album = new FacebookRequest ($session, 'POST', '/'.$id.'/albums', $album_data);
         $new_album = $new_album->execute()->getGraphObject("Facebook\GraphUser");
         $album_id = $new_album->getProperty('id');
     }
-
     return $album_id;
 }
-
 function uploadPhoto($session, $id_user){
     if($_POST['album_id'] == -1){
         $album_id = createAlbum($_POST['new_album_name'], $session, $id_user);
     } else{
         $album_id = $_POST['album_id'];
     }
-
     $curlFile = array('source' => new CURLFile($_FILES['photo']['tmp_name'], $_FILES['photo']['type']));
     print_r($curlFile);
     try {
@@ -113,62 +81,85 @@ function uploadPhoto($session, $id_user){
         error_log($e);
     }
 }
-if($session) {
+//récupère les informations de session facebook et associe à la session courante
+if(isset($_SESSION) && isset($_SESSION['fb_token']))
+{
+    $session = new FacebookSession($_SESSION['fb_token']);
+}
+else
+{
+    $session = $helper->getSessionFromRedirect();
+}
+?>
+<?php
+if($session)
+{
+    $token = (string) $session->getAccessToken();
+    $_SESSION['fb_token'] = $token;
+}
+else
+{
+    "Pas encore de session enregistré";
+}
+include('pages/header.php');
+?>
+<div>
+    <center><img src="/images/concourstotal.jpg"></center>
+</div>
 
+<br><br>
+<?php
+if($session) {
     ?>
     <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
-        <button id="participe" name="participe" value="1" type="submit" class="btn btn-block btn-lg btn-default">Je
-            Participe
-        </button>
-        <button id="vote" name="vote" value="1" type="submit" class="btn btn-block btn-lg btn-default">Je Vote</button>
+        <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
+        <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
     </form><?php
-    if ($_POST['participe'] == '1') {
+    if($_POST['participe'] == '1')
+    {
         try {
-            if (getPermission($session)) {
+            if(getPermission($session)){
                 $request = new FacebookRequest($session, "GET", "/me");
                 $response = $request->execute();
                 $user = $response->getGraphObject(GraphUser::className());
                 $idUser = $user->getId();
-                echo "Bonjour " . $user->getName();
+                echo "Bonjour ".$user->getName();
                 $albums = getAlbums($session, 'me');
-                if ($_POST['show_photos'] == '1') {?>
-                    <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">;
+                if ($_POST['show_photos'] == '1') {
+                    ?>
+                    <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
 
-                    <?php
-                    for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-                        $album = $albums->getProperty('data')->getProperty($i);
-                        $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
-                        $response = $request->execute();
-                        $photos = $response->getGraphObject();
-                        $photos = $photos->getPropertyAsArray('data');
-
-                        if ($_POST['album_id'] == $album->getProperty('id')) {
-                            foreach ($photos as $picture) {
-                                echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
-
+                        <?php
+                        for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+                            $album = $albums->getProperty('data')->getProperty($i);
+                            $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
+                            $response = $request->execute();
+                            $photos = $response->getGraphObject();
+                            $photos = $photos->getPropertyAsArray('data');
+                            if ($_POST['album_id'] == $album->getProperty('id')) {
+                                foreach ($photos as $picture) {
+                                    echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
+                                }
                             }
-                        }
-                    }
+                        } ?>
 
-                    ?><button id="select_photos" name="select_photos" value="1" type="submit" class="btn btn-primary">
-                    Select
-                    </button>
-                    </form>;
-                <?php}
+                        <button id="select_photos" name="select_photos" value="1" type="submit" class="btn btn-primary">
+                            Select
+                        </button>
+                    </form>
+                <?php
+                }
                 if ($_POST['select_photos'] == '1') {
                     echo "POST !!!";
                     $image = $_POST['nom'];
                     try {
                         $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
-
                         $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
                         $qry->execute();
                         $liste = $qry->fetchAll();
                         print_r($liste);
                         $var = $liste;
                         if (empty($var)) {
-
-
                             $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
                             $qryInsert->execute(array(
                                 ':user_name' => $idUser,
@@ -192,12 +183,9 @@ if($session) {
                         die();
                     }
                 }
-
-
                 if ($_POST['show_photo_concour'] == '1') {
                     try {
                         $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
-
                         $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
                         $qry->execute();
                         $liste = $qry->fetchAll();
@@ -206,10 +194,7 @@ if($session) {
                             if ($valListe['user_name'] == $idUser) {
                                 echo 'Votre photo pour le jeu concour est : <img src="' . $valListe['user_photo'] . '" alt="" >';
                             }
-
-
                         }
-
                         $dbh = null;
                     } catch (PDOException $e) {
                         print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -224,23 +209,18 @@ if($session) {
                 <?php
                 }
                 if ($_POST['update_photos'] == '1') {
-
                     echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
                     <select name="album_id" id="album_id">';
-
                     for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
                         $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
                         $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
                         echo('<option value=' . $album_id . '>' . $album_name . '</option>');
                     }
-
                     echo '</select>
                     <button id="show_photos_update" name="show_photos_update" value="1" type="submit" class="btn btn-primary">Selectionner une autre photo</button>
                 </form>';
-
                 }
                 if ($_POST['show_photos_update'] == '1') {
-
                     ?>
                     <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
 
@@ -251,14 +231,12 @@ if($session) {
                             $response = $request->execute();
                             $photos = $response->getGraphObject();
                             $photos = $photos->getPropertyAsArray('data');
-
                             if ($_POST['album_id'] == $album->getProperty('id')) {
                                 foreach ($photos as $picture) {
                                     echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
-
                                 }
                             }
-                        } ?>
+                        }?>
 
                         <button id="select_photos_update" name="select_photos_update" value="1" type="submit"
                                 class="btn btn-primary">Select
@@ -283,7 +261,6 @@ if($session) {
                                 $qryUpdate = $dbh->prepare("UPDATE liste SET user_photo= ?  WHERE user_name = ?");
                                 $qryUpdate->execute(array($image, $idUser));
                                 print_r($qryUpdate);
-
                             }
                         }
                         $dbh = null;
@@ -293,31 +270,28 @@ if($session) {
                         die();
                     }
                 }
-
                 if ($_POST['submit_upload_photo'] == '1') {
                     uploadPhoto($session, 'me');
                 }
-
             }
-
             ?>
-
-
             <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
-                <select name="album_id" id="album_id">';
+                <select name="album_id" id="album_id">
                     <?php
                     for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-                    $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
-                    $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
-                    echo('<option value='.$album_id.'>'.$album_name.'</option>');
+                        $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
+                        $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
+                        echo('<option value='.$album_id.'>'.$album_name.'</option>');
                     }
                     ?>
-                    </select>
+                </select>
                 <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Selectionner une photo parmis vos album</button>
 
 
                 <button id="show_photo_concour" name="show_photo_concour" value="1" type="submit" class="btn btn-primary">Voir votre photo du concour</button>
             </form>
+
+
             <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
                 <input id="photo" name="photo" class="input-file" type="file">
                 <select name="album_id" id="album_id">
@@ -325,73 +299,45 @@ if($session) {
                     for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
                         $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
                         $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
-                        echo('<option value=' . $album_id . '>' . $album_name . '</option>');
+                        echo('<option value='.$album_id.'>'.$album_name.'</option>');
                     }
                     ?>
                     <option value='-1'>Nouvel Album</option>
                 </select>
                 <input id="new_album_name" name="new_album_name" class="input-file" type="text">
-                <button id="submit_upload_photo" name="submit_upload_photo" value="1" type="submit"
-                        class="btn btn-primary">Upload une photo dans vos albums
-                </button>
+                <button id="submit_upload_photo" name="submit_upload_photo" value="1" type="submit" class="btn btn-primary">Upload une photo dans vos albums</button>
             </form>
 
         <?php
-        } catch (FacebookRequestException $e) {
+        } catch(FacebookRequestException $e) {
             echo "error";
             echo "Exception occured, code: " . $e->getCode();
             echo " with message: " . $e->getMessage();
         }
+    }
+    else if($_POST['vote'] == '1')
+    {
+        vote
+        ?>
+        <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+    <?php
     }
 }
-    else if($_POST['vote'] == '1') {
-
-        try {
-            if (getPermission($session)) {
-                $request = new FacebookRequest($session, "GET", "/me");
-                $response = $request->execute();
-                $user = $response->getGraphObject(GraphUser::className());
-                $idUser = $user->getId();
-                echo "Bonjour " . $user->getName();
-
-                try {
-                    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
-
-                    $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
-                    $qry->execute();
-                    $liste = $qry->fetchAll();
-                    foreach ($liste as $key => $valListe) {
-                        echo 'Voter pour une photo : <img src="' . $valListe['user_photo'] . '" alt="" >';
-                    }
-
-                    $dbh = null;
-                } catch (PDOException $e) {
-                    print "Erreur !: " . $e->getMessage() . "<br/>";
-                    die();
-                }
-
-
-            }
-        } catch (FacebookRequestException $e) {
-            echo "error";
-            echo "Exception occured, code: " . $e->getCode();
-            echo " with message: " . $e->getMessage();
-        }
-
-    }
-
-
 else
 {
     $loginUrl = $helper->getLoginUrl();
     echo "<a href='".$loginUrl."'>Se connecter</a>";
     ?>
-
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.4&appId=830895360333908";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
 <?php
 }
-
-
-
 include('pages/footer.php');
 ?>
 
