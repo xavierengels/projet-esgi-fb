@@ -299,7 +299,7 @@ if($session && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1') {
 }
 else if($_POST['vote']=='1' && $session)
 {
-
+    echo "VOTE";
     try {
         $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
         $qry = $dbh->prepare("SELECT * from liste;");
@@ -309,7 +309,7 @@ else if($_POST['vote']=='1' && $session)
         echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
         foreach ($liste as $key => $valListe)
         {
-            echo('Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" ><button value="'.$picture->getProperty('picture').'" type="submit" name="vote_photos">Vote</button>' . "</br>");
+            echo('Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" ><button value="'.$valListe['user_photo']).'" type="submit" name="vote_photos">Vote</button>' . "</br>";
             echo '<input type="hidden" value="'.$valListe['nb_vote'].'" name="value_nb_vote" ></input>';
             echo '<div>Nombre de vote : '.$valListe['nb_vote'].'</div>';
 
@@ -317,20 +317,12 @@ else if($_POST['vote']=='1' && $session)
         }
         echo'</form>';
 
-
-
         $dbh = null;
     } catch (PDOException $e) {
         print "Erreur !: " . $e->getMessage() . "<br/>";
         die();
     }
-
-
 }
-
-
-
-
 else
 {
     $loginUrl = $helper->getLoginUrl();
