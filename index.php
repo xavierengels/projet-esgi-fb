@@ -305,14 +305,7 @@ else
     </form>
    <?
 }
-if($_POST['vote']=='1' && $session)
-{
 
-    ECHO "POST VOTE";
-}
-else {
-    echo "<a href='".$loginUrl."'>Se connecter</a>";
-}
     ?>
     <div>
         <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
