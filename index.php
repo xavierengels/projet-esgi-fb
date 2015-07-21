@@ -309,9 +309,10 @@ else if($_POST['vote']=='1' && $session)
         echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
         foreach ($liste as $key => $valListe)
         {
-            echo 'Voter pour une photo : <input type="image" name="img_vote" src="' . $valListe['user_photo'] . '"  ></input>';
-            echo '<div name="value_nb_vote" >Nombre de vote : '.$valListe['nb_vote'].'</div>';
-            echo '<button value="1" type="submit" name="vote_photos">Vote</button>';
+            echo('Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" ><button value="'.$picture->getProperty('picture').'" type="submit" name="vote_photos">Vote</button>' . "</br>");
+            echo '<input type="hidden" value="'.$valListe['nb_vote'].'" name="value_nb_vote" ></input>';
+            echo '<div>Nombre de vote : '.$valListe['nb_vote'].'</div>';
+
 
         }
         echo'</form>';
