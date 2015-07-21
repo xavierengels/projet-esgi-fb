@@ -11,6 +11,19 @@ error_reporting('e_all');
 session_start();
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
+function getPermission($session)
+{
+    $_SESSION['fb_token'] = (string) $session->getAccessToken();
+    $user_permissions = (new FacebookRequest($session, 'GET', '/me/permissions'))->execute()->getGraphObject(GraphUser::className())->asArray();
+    //check publish stream permission
+    $found_permission = false;
+    foreach($user_permissions as $key => $val){
+        if($val->permission == 'user_photos' ){
+            $found_permission = true;
+        }
+    }
+    return $found_permission;
+}
 //récupère les informations de session facebook et associe à la session courante
 if(isset($_SESSION) && isset($_SESSION['fb_token']))
 {
@@ -73,7 +86,6 @@ function uploadPhoto($session, $id_user){
         $album_id = $_POST['album_id'];
     }
     $curlFile = array('source' => new CURLFile($_FILES['photo']['tmp_name'], $_FILES['photo']['type']));
-    print_r($curlFile);
     try {
         $up = new FacebookRequest ($session, 'POST', '/'.$album_id.'/photos', $curlFile);
         $up->execute()->getGraphObject("Facebook\GraphUser");
@@ -84,18 +96,10 @@ function uploadPhoto($session, $id_user){
 //si la session exite on recupère les info de l'utlisateur
 if($session) {
     try {
-        $_SESSION['fb_token'] = (string) $session->getAccessToken();
-        $request_user = new FacebookRequest( $session,"GET","/me");
-        $request_user_executed = $request_user->execute();
-        $user_permissions = (new FacebookRequest($session, 'GET', '/me/permissions'))->execute()->getGraphObject(GraphUser::className())->asArray();
-        //check publish stream permission
-        $found_permission = false;
-        foreach($user_permissions as $key => $val){
-            if($val->permission == 'user_photos' ){
-                $found_permission = true;
-            }
-        }
-        if($found_permission){
+
+
+
+        if(getPermission($session)){
             $request = new FacebookRequest($session, "GET", "/me");
             $response = $request->execute();
             $user = $response->getGraphObject(GraphUser::className());
