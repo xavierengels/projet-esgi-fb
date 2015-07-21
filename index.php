@@ -7,23 +7,21 @@ use Facebook\FacebookRequest;
 use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
 use Facebook\FacebookJavaScriptLoginHelper;
-
 ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
+//print_r($_POST);
 $helper = new FacebookJavaScriptLoginHelper();
 try {
     $session = $helper->getSession();
 } catch(FacebookRequestException $ex) {
     // When Facebook returns an error
-   var_dump($ex);
-
 } catch(\Exception $ex) {
     // When validation fails or other local issues
-    var_dump($ex);
 }
+
 if($session) {
 
     try {
@@ -46,7 +44,6 @@ if($session) {
     }
 
 }
-//print_r($_POST);
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -67,9 +64,7 @@ if(isset($_SESSION) && isset($_SESSION['fb_token']))
 }
 else
 {
-    echo "TEST";
     $session = $helper->getSessionFromRedirect();
-    echo $session;
 }
 ?>
 <?php
@@ -77,7 +72,6 @@ if($session)
 {
     $token = (string) $session->getAccessToken();
     $_SESSION['fb_token'] = $token;
-    echo  $_SESSION['fb_token'];
 }
 else
 {
@@ -134,7 +128,6 @@ function uploadPhoto($session, $id_user){
 }
 //si la session exite on recupère les info de l'utlisateur
 if($session && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
-    echo "session : ".$session;
     try {
         if(getPermission($session)){
             $request = new FacebookRequest($session, "GET", "/me");
@@ -365,14 +358,14 @@ else if($_POST['vote']=='1' && $session)
 }
 else
 {
-    echo "test";
     $loginUrl = $helper->getLoginUrl();
 
     //
     // use javaascript api to open dialogue and perform
     // the facebook connect process by inserting the fb:login-button
     ?>
-
+    <div id="fb-root"></div>
+    <fb:login-button scope='email,user_birthday'></fb:login-button>
 <?php
 
 
@@ -407,16 +400,34 @@ if($_POST['vote_photos'] == '1' && $session)
 }
     ?>
 
-
-<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="<?=$loginUrl?>">
-    <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
-    <button id="vote" name="vote" value="1" type="submit" class="btn btn-block btn-lg btn-default">Je Vote</button>
-</form>
-
-
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-</fb:login-button>
 <?php
 
 include('pages/footer.php');
 ?>
+<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="<?=$loginUrl?>">
+    <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
+    <button id="vote" name="vote" value="1" type="submit" class="btn btn-block btn-lg btn-default">Je Vote</button>
+</form>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId : <?=APP_ID?>,
+            status : true,
+            cookie : true,
+            xfbml : true
+        });
+
+        FB.Event.subscribe('auth.login', function(response) {
+            // ------------------------------------------------------
+            // This is the callback if everything is ok
+            window.location.reload();
+        });
+    };
+
+    (function(d){
+        var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+        js = d.createElement('script'); js.id = id; js.async = true;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        d.getElementsByTagName('head')[0].appendChild(js);
+    }(document));
+</script>
