@@ -312,7 +312,7 @@ if($session) {
             {
                     echo 'Voter pour ue photo : <input type="image" name="img_vote" src="' . $valListe['user_photo'] . '"  ></input>';
 
-                    echo "<input name='value_nb_vote' Nombre de vote : ".$valListe['nb_vote']."></input>";
+                    echo "<div name='value_nb_vote' Nombre de vote : ".$valListe['nb_vote']."></div>";
                     echo '<button name="vote_photos">Vote</button>';
 
             }
