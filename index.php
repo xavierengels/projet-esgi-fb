@@ -311,10 +311,10 @@ if($session) {
             foreach ($liste as $key => $valListe)
             {
                     echo $valListe['nb_vote'];
-                  
+
                     echo 'Voter pour une photo : <input type="image" name="img_vote" src="' . $valListe['user_photo'] . '"  ></input>';
 
-                    echo "<div name='value_nb_vote' Nombre de vote : ".$valListe['nb_vote']."></div>";
+                    echo '<div name="value_nb_vote" Nombre de vote : "'.$valListe['nb_vote'].'"></div>';
                     echo '<button name="vote_photos">Vote</button>';
 
             }
