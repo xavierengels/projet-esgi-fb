@@ -335,7 +335,7 @@ else
     // use javaascript api to open dialogue and perform
     // the facebook connect process by inserting the fb:login-button
     ?>
-    
+
 <?php
 
 
@@ -375,6 +375,13 @@ if($_POST['vote_photos'] == '1' && $session)
     <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
     <button id="vote" name="vote" value="1" type="submit" class="btn btn-block btn-lg btn-default">Je Vote</button>
 </form>
+
+
+<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>
+
+
+
+
 <?php
 
 include('pages/footer.php');
