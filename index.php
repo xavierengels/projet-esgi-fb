@@ -94,7 +94,7 @@ function uploadPhoto($session, $id_user){
     }
 }
 //si la session exite on recupère les info de l'utlisateur
-if($_POST['participe']=='1' && $session) {
+if($session) {
     try {
         if(getPermission($session)){
             $request = new FacebookRequest($session, "GET", "/me");
@@ -296,6 +296,8 @@ if($_POST['participe']=='1' && $session) {
         echo " with message: " . $e->getMessage();
     }
 }
+
+
 else
 {
     $loginUrl = $helper->getLoginUrl();
