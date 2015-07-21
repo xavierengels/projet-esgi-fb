@@ -311,7 +311,7 @@ else if($_POST['vote']=='1' && $session)
         {
             echo 'Voter pour une photo : <input type="image" name="img_vote" src="' . $valListe['user_photo'] . '"  ></input>';
             echo '<div name="value_nb_vote" >Nombre de vote : '.$valListe['nb_vote'].'</div>';
-            echo '<button name="vote_photos">Vote</button>';
+            echo '<button value="1" type="submit" name="vote_photos">Vote</button>';
 
         }
         echo'</form>';
