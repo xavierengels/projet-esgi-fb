@@ -96,9 +96,6 @@ function uploadPhoto($session, $id_user){
 //si la session exite on recupère les info de l'utlisateur
 if($session) {
     try {
-
-
-
         if(getPermission($session)){
             $request = new FacebookRequest($session, "GET", "/me");
             $response = $request->execute();
@@ -106,7 +103,7 @@ if($session) {
             $idUser = $user->getId();
             echo "Bonjour ".$user->getName();
             $albums = getAlbums($session, 'me');
-            if($vote == false) {
+
                 if ($_POST['show_photos'] == '1') {
                     ?>
                     <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
@@ -255,7 +252,6 @@ if($session) {
                 if ($_POST['submit_upload_photo'] == '1') {
                     uploadPhoto($session, 'me');
                 }
-            }
 
         }
         ?>
@@ -311,7 +307,7 @@ else
 }
 if($_POST['vote']=='1' && $session)
 {
-    $vote = true;
+
     ECHO "POST VOTE";
 }
 else {
