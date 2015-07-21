@@ -94,8 +94,12 @@ include('pages/header.php');
 <br><br>
 <?php
 if($session ) {
-
-
+    print_r($_POST);
+?>
+    <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
+    <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
+    <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
+</form><?
     if($_POST['participe'] == '1')
     {$_POST['participe']='1';
 
@@ -342,7 +346,4 @@ else
 }
 include('pages/footer.php');
 ?>
-<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
-    <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
-    <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
-</form>
+
