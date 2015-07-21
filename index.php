@@ -1,3 +1,4 @@
+
 <?php
 include('config.php');
 use Facebook\FacebookSession;
@@ -10,34 +11,19 @@ error_reporting('e_all');
 session_start();
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
-//récupère les informations de session facebook et associe à la session courante
-if(isset($_SESSION) && isset($_SESSION['fb_token']))
+function getPermission($session)
 {
-    $session = new FacebookSession($_SESSION['fb_token']);
+    $_SESSION['fb_token'] = (string) $session->getAccessToken();
+    $user_permissions = (new FacebookRequest($session, 'GET', '/me/permissions'))->execute()->getGraphObject(GraphUser::className())->asArray();
+    //check publish stream permission
+    $found_permission = false;
+    foreach($user_permissions as $key => $val){
+        if($val->permission == 'user_photos' ){
+            $found_permission = true;
+        }
+    }
+    return $found_permission;
 }
-else
-{
-    $session = $helper->getSessionFromRedirect();
-}
-?>
-<?php
-if($session)
-{
-    $token = (string) $session->getAccessToken();
-    $_SESSION['fb_token'] = $token;
-}
-else
-{
-    "Pas encore de session enregistré";
-}
-include('pages/header.php');
-?>
-    <div>
-        <center><img src="/images/concourstotal.jpg"></center>
-    </div>
-
-    <br><br>
-<?php
 function getAlbums($session, $id){
     $request = new FacebookRequest($session, 'GET', '/' . $id . '/albums');
     $response = $request->execute();
@@ -80,28 +66,50 @@ function uploadPhoto($session, $id_user){
         error_log($e);
     }
 }
-//si la session exite on recupère les info de l'utlisateur
+//récupère les informations de session facebook et associe à la session courante
+if(isset($_SESSION) && isset($_SESSION['fb_token']))
+{
+    $session = new FacebookSession($_SESSION['fb_token']);
+}
+else
+{
+    $session = $helper->getSessionFromRedirect();
+}
+?>
+<?php
+if($session)
+{
+    $token = (string) $session->getAccessToken();
+    $_SESSION['fb_token'] = $token;
+}
+else
+{
+    "Pas encore de session enregistré";
+}
+include('pages/header.php');
+?>
+<div>
+    <center><img src="/images/concourstotal.jpg"></center>
+</div>
+
+<br><br>
+<?php
 if($session) {
-    try {
-        $_SESSION['fb_token'] = (string) $session->getAccessToken();
-        $request_user = new FacebookRequest( $session,"GET","/me");
-        $request_user_executed = $request_user->execute();
-        $user_permissions = (new FacebookRequest($session, 'GET', '/me/permissions'))->execute()->getGraphObject(GraphUser::className())->asArray();
-        //check publish stream permission
-        $found_permission = false;
-        foreach($user_permissions as $key => $val){
-            if($val->permission == 'user_photos' ){
-                $found_permission = true;
-            }
-        }
-        if($found_permission){
-            $request = new FacebookRequest($session, "GET", "/me");
-            $response = $request->execute();
-            $user = $response->getGraphObject(GraphUser::className());
-            $idUser = $user->getId();
-            echo "Bonjour ".$user->getName();
-            $albums = getAlbums($session, 'me');
-            if($vote == false) {
+    ?>
+    <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
+        <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
+        <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
+    </form><?php
+    if($_POST['participe'] == '1')
+    {
+        try {
+            if(getPermission($session)){
+                $request = new FacebookRequest($session, "GET", "/me");
+                $response = $request->execute();
+                $user = $response->getGraphObject(GraphUser::className());
+                $idUser = $user->getId();
+                echo "Bonjour ".$user->getName();
+                $albums = getAlbums($session, 'me');
                 if ($_POST['show_photos'] == '1') {
                     ?>
                     <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
@@ -251,66 +259,73 @@ if($session) {
                     uploadPhoto($session, 'me');
                 }
             }
+            ?>
+            <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
+                <select name="album_id" id="album_id">
+                    <?php
+                    for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+                        $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
+                        $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
+                        echo('<option value='.$album_id.'>'.$album_name.'</option>');
+                    }
+                    ?>
+                </select>
+                <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Selectionner une photo parmis vos album</button>
+
+
+                <button id="show_photo_concour" name="show_photo_concour" value="1" type="submit" class="btn btn-primary">Voir votre photo du concour</button>
+            </form>
+
+
+            <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
+                <input id="photo" name="photo" class="input-file" type="file">
+                <select name="album_id" id="album_id">
+                    <?php
+                    for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+                        $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
+                        $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
+                        echo('<option value='.$album_id.'>'.$album_name.'</option>');
+                    }
+                    ?>
+                    <option value='-1'>Nouvel Album</option>
+                </select>
+                <input id="new_album_name" name="new_album_name" class="input-file" type="text">
+                <button id="submit_upload_photo" name="submit_upload_photo" value="1" type="submit" class="btn btn-primary">Upload une photo dans vos albums</button>
+            </form>
+
+        <?php
+        } catch(FacebookRequestException $e) {
+            echo "error";
+            echo "Exception occured, code: " . $e->getCode();
+            echo " with message: " . $e->getMessage();
         }
-        if($_POST['vote']=='1')
-        {
-            $vote = true;
-            ECHO "POST VOTE";
+    }
+    else if($_POST['vote'] == '1')
+    {
+        try {
+            $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
+            $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
+            $qry->execute();
+            $liste = $qry->fetchAll();
+            //   print_r($liste);
+            foreach ($liste as $key => $valListe) {
+                echo 'Voter pour ue photo : <img src="' . $valListe['user_photo'] . '" alt="" ></br>';
+                echo "Nombre de vote : ".$valListe['nb_vote']."</nr>";
+                echo '<button name="vote"></button>';
+            }
+            $dbh = null;
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage() . "<br/>";
+            die();
         }
-        ?>
-        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
-            <select name="album_id" id="album_id">
-                <?php
-                for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-                    $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
-                    $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
-                    echo('<option value='.$album_id.'>'.$album_name.'</option>');
-                }
-                ?>
-            </select>
-            <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Selectionner une photo parmis vos album</button>
-
-
-            <button id="show_photo_concour" name="show_photo_concour" value="1" type="submit" class="btn btn-primary">Voir votre photo du concour</button>
-        </form>
-
-
-        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
-            <input id="photo" name="photo" class="input-file" type="file">
-            <select name="album_id" id="album_id">
-                <?php
-                for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-                    $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
-                    $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
-                    echo('<option value='.$album_id.'>'.$album_name.'</option>');
-                }
-                ?>
-                <option value='-1'>Nouvel Album</option>
-            </select>
-            <input id="new_album_name" name="new_album_name" class="input-file" type="text">
-            <button id="submit_upload_photo" name="submit_upload_photo" value="1" type="submit" class="btn btn-primary">Upload une photo dans vos albums</button>
-        </form>
-        <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
-
-    <?php
-    } catch(FacebookRequestException $e) {
-        echo "error";
-        echo "Exception occured, code: " . $e->getCode();
-        echo " with message: " . $e->getMessage();
     }
 }
 else
 {
     $loginUrl = $helper->getLoginUrl();
-    // echo "<a href='".$loginUrl."'>Se connecter</a>";
+    echo "<a href='".$loginUrl."'>Se connecter</a>";
     ?>
-    <div>
-
-        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="<?=$loginUrl?>">
-            <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
-            <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
-        </form>
-    </div>
+   
 <?php
 }
 include('pages/footer.php');
