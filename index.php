@@ -10,7 +10,7 @@ ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
-$helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
+$helper = new FacebookRedirectLoginHelper(FB_URL_SITE_TEST);
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -94,7 +94,7 @@ function uploadPhoto($session, $id_user){
     }
 }
 //si la session exite on recupère les info de l'utlisateur
-if($session && $_POST['vote'] != '1') {
+if($session && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1') {
     try {
         if(getPermission($session)){
             $request = new FacebookRequest($session, "GET", "/me");
