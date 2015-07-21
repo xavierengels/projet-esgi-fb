@@ -314,7 +314,7 @@ else if($_POST['vote']=='1' && $session)
 
         }
         echo'</form>';
-        $dbh = null;
+
 
     if($_POST['vote_photos'] == '1')
     {
@@ -325,6 +325,7 @@ else if($_POST['vote']=='1' && $session)
         $qryUpdate->execute(array($nbVote, $img));
         print_r($qryUpdate);
     }
+        $dbh = null;
     } catch (PDOException $e) {
         print "Erreur !: " . $e->getMessage() . "<br/>";
         die();
