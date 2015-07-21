@@ -14,8 +14,22 @@ FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 
 
+$code = $_REQUEST["code"];
+if(empty($code)) {
+    $dialog_url = "http://www.facebook.com/dialog/oauth?client_id="
+        . APP_ID . "&redirect_uri=" . urlencode(FB_URL_SITE) ;
+    echo("<script>top.location.href='" . $dialog_url . "'</script>");
+}
 
-
+$token_url = "https://graph.facebook.com/oauth/access_token?client_id="
+    . APP_ID . "&redirect_uri=" . urlencode(FB_URL_SITE)
+    . "&client_secret=" . APP_SECRET
+    . "&code=" . $code;
+$response = file_get_contents($token_url);
+$params = null;
+parse_str($response, $params);
+$access_token = $params['access_token'];
+$_SESSION['fb_token'] =$access_token;
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
