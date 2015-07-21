@@ -322,9 +322,7 @@ else if($_POST['vote']=='1' && $session)
         print "Erreur !: " . $e->getMessage() . "<br/>";
         die();
     }
-    ?><form class="form-horizontal" enctype="multipart/form-data" method="POST" action="<?=$loginUrl?>">
-            <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
-    </form><?
+
 }
 
 
@@ -332,7 +330,7 @@ else if($_POST['vote']=='1' && $session)
 else
 {
     $loginUrl = $helper->getLoginUrl();
-    
+
 }
 if($_POST['vote_photos'] == '1')
 {
