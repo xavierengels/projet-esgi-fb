@@ -299,7 +299,42 @@ if($session && $_POST['vote'] !='1') {
 else if($_POST['vote']=='1' && $session)
 {
 
-    ECHO "POST VOTE";
+    try {
+        $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
+        $qry = $dbh->prepare("SELECT * from liste;");
+        $qry->execute();
+        $liste = $qry->fetchAll();
+        //   print_r($liste);
+        echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
+        foreach ($liste as $key => $valListe)
+        {
+            echo 'Voter pour une photo : <input type="image" name="img_vote" src="' . $valListe['user_photo'] . '"  ></input>';
+            echo '<div name="value_nb_vote" >Nombre de vote : '.$valListe['nb_vote'].'</div>';
+            echo '<button name="vote_photos">Vote</button>';
+
+        }
+        echo'</form>';
+        $dbh = null;
+
+    if($_POST['vote_photos'] == '1')
+    {
+        $nbVote =$_POST['value_nb_vote'];
+        $img =  $_POST['img_vote'];
+        print_r($_POST);
+        $qryUpdate = $dbh->prepare("UPDATE liste SET nb_vote= ?  WHERE user_photo = ?");
+        $qryUpdate->execute(array($nbVote, $img));
+        print_r($qryUpdate);
+    }
+    } catch (PDOException $e) {
+        print "Erreur !: " . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+else if($_POST['vote']=='1' && !$session)
+{
+    echo "Vous n êtes pas identifié !";
+    $loginUrl = $helper->getLoginUrl();
+    echo "<a href='".$loginUrl."'>Se connecter</a>";
 }
 
 else
