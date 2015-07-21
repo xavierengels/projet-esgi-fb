@@ -310,6 +310,8 @@ if($session) {
             echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
             foreach ($liste as $key => $valListe)
             {
+                    echo $valListe['nb_vote'];
+                    print_r($valListe);
                     echo 'Voter pour ue photo : <input type="image" name="img_vote" src="' . $valListe['user_photo'] . '"  ></input>';
 
                     echo "<div name='value_nb_vote' Nombre de vote : ".$valListe['nb_vote']."></div>";
