@@ -8,6 +8,7 @@ use Facebook\FacebookRequestException;
 ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
+$post =false;
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 function getPermission($session)
@@ -94,15 +95,16 @@ include('pages/header.php');
 <br><br>
 <?php
 if($session ) {
+
     print_r($_POST);
-    if(!isset($_POST)){
+if(!$post)
+{
 ?>
     <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
     <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
     <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
 </form><?}
-    if($_POST['participe'] == '1')
-    {$_POST['participe']='1';
+    if($_POST['participe'] == '1') {
 
         try {
             if(getPermission($session)){
@@ -113,6 +115,7 @@ if($session ) {
                 echo "Bonjour ".$user->getName();
                 $albums = getAlbums($session, 'me');
                 if ($_POST['show_photos'] == '1') {
+                    $post = true;
                     ?>
                     <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
 
@@ -137,6 +140,7 @@ if($session ) {
                 <?php
                 }
                 if ($_POST['select_photos'] == '1') {
+                    $post = true;
                     echo "POST !!!";
                     $image = $_POST['nom'];
                     try {
@@ -171,7 +175,7 @@ if($session ) {
                     }
                 }
                 if ($_POST['show_photo_concour'] == '1') {
-
+                    $post = true;
                     try {
                         $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
                         $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
@@ -197,6 +201,7 @@ if($session ) {
                 <?php
                 }
                 if ($_POST['update_photos'] == '1') {
+                    $post = true;
                     echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
                     <select name="album_id" id="album_id">';
                     for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
@@ -209,6 +214,7 @@ if($session ) {
                 </form>';
                 }
                 if ($_POST['show_photos_update'] == '1') {
+                    $post = true;
                     ?>
                     <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
 
@@ -233,6 +239,7 @@ if($session ) {
                 <?php
                 }
                 if ($_POST['select_photos_update'] == '1') {
+                    $post = true;
                     echo "post select_photos_update";
                     $image = $_POST['nom'];
                     echo $image;
