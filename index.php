@@ -26,7 +26,7 @@ function getPermission($session)
     return $found_permission;
 }
 //récupère les informations de session facebook et associe à la session courante
-if(isset($_S    ESSION) && isset($_SESSION['fb_token']))
+if(isset($_SESSION) && isset($_SESSION['fb_token']))
 {
     $session = new FacebookSession($_SESSION['fb_token']);
 }
@@ -333,7 +333,7 @@ else
     // the facebook connect process by inserting the fb:login-button
     ?>
     <div id="fb-root"></div>
-    <fb:login-button scope='email,user_birthday'></fb:login-button>
+    <fb:login-button scope='email'></fb:login-button>
 <?php
 
 
