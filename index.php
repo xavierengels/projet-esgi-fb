@@ -95,7 +95,7 @@ function uploadPhoto($session, $id_user){
     }
 }
 //si la session exite on recupère les info de l'utlisateur
-if($session && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1')ECHO "session";
+if($session && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
     try {
         if(getPermission($session)){
             $request = new FacebookRequest($session, "GET", "/me");
@@ -383,7 +383,7 @@ include('pages/footer.php');
             status : true,
             cookie : true,
             xfbml : true,
-            oauth : true,
+            oauth : true
         });
 
         FB.Event.subscribe('auth.login', function(response) {
