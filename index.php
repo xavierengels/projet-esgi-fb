@@ -11,7 +11,7 @@ error_reporting('e_all');
 session_start();
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
-print_r($_POST);
+//print_r($_POST);
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -309,7 +309,7 @@ else if($_POST['vote']=='1' && $session)
         echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
         foreach ($liste as $key => $valListe)
         {
-            echo('Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" ><button value="'.$valListe['user_photo']).'" type="submit" name="vote_photos">Vote</button>' . "</br>";
+            echo('Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" ><button value="'.$valListe['user_photo']).'" value="1" type="submit" name="vote_photos">Vote</button>' . "</br>";
             echo '<input type="hidden" value="'.$valListe['nb_vote'].'" name="value_nb_vote" ></input>';
             echo '<div>Nombre de vote : '.$valListe['nb_vote'].'</div>';
 
