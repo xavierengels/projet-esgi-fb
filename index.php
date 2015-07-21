@@ -95,14 +95,14 @@ include('pages/header.php');
 <?php
 if($session ) {
     print_r($_POST);
-    if(!isset($_POST) || $_POST==['participe']){
+    if(!isset($_POST) || $_POST['participe'] == '1'){
 ?>
     <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
     <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
     <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
 </form><?}
     if($_POST['participe'] == '1')
-    {$_POST['participe']='1';
+    {
 
         try {
             if(getPermission($session)){
