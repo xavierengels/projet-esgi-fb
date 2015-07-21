@@ -95,9 +95,9 @@ include('pages/header.php');
 <?php
 if($session ) {
 
-    echo $_POST['participe'];
+
     if($_POST['participe'] == '1')
-    {
+    {$_POST['participe']='1';
 
         try {
             if(getPermission($session)){
