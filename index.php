@@ -332,12 +332,7 @@ else if($_POST['vote']=='1' && $session)
 else
 {
     $loginUrl = $helper->getLoginUrl();
-    // echo "<a href='".$loginUrl."'>Se connecter</a>";
-    ?><form class="form-horizontal" enctype="multipart/form-data" method="POST" action="<?=$loginUrl?>">
-            <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
-        <button id="vote" name="vote" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Vote</button>
-    </form>
-   <?
+    
 }
 if($_POST['vote_photos'] == '1')
 {
