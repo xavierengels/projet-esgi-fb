@@ -94,10 +94,11 @@ include('pages/header.php');
 <br><br>
 <?php
 if($session ) {
-    ?>
-    <?php
+
+    echo $_POST['participe'];
     if($_POST['participe'] == '1')
     {
+
         try {
             if(getPermission($session)){
                 $request = new FacebookRequest($session, "GET", "/me");
@@ -165,7 +166,7 @@ if($session ) {
                     }
                 }
                 if ($_POST['show_photo_concour'] == '1') {
-                    echo $_POST['participe'];
+
                     try {
                         $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
                         $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
