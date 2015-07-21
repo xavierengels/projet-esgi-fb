@@ -310,7 +310,7 @@ else if($_POST['vote']=='1' && $session)
         foreach ($liste as $key => $valListe)
         {
             echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" ><button  value="1" type="submit" name="vote_photos">Vote</button>' . "</input>";
-            echo '<input type="hidden" value="'.$valListe['nb_vote'].'" name="image" ></input>';
+            echo '<input type="hidden" value="'.$valListe['user_photo'].'" name="image" ></input>';
             echo '<input type="hidden" value="'.$valListe['nb_vote'].'" name="value_nb_vote" ></input>';
             echo '<div>Nombre de vote : '.$valListe['nb_vote'].'</div>';
 
