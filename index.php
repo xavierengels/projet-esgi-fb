@@ -1,5 +1,5 @@
-
 <?php
+echo "test";
 include('config.php');
 
 use Facebook\FacebookSession;
