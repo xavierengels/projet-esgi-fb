@@ -256,6 +256,7 @@ if($session) {
                     uploadPhoto($session, 'me');
                 }
             }
+
         }
         if($_POST['vote']=='1')
         {
@@ -308,6 +309,7 @@ else
 {
     $loginUrl = $helper->getLoginUrl();
     // echo "<a href='".$loginUrl."'>Se connecter</a>";
+}
     ?>
     <div>
 
@@ -317,6 +319,6 @@ else
         </form>
     </div>
 <?php
-}
+
 include('pages/footer.php');
 ?>
