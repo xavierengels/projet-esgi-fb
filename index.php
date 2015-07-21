@@ -1,19 +1,3 @@
-Skip to content
-This repository
-Pull requests
-Issues
-Gist
-@xavierengels
-Unwatch 3
-Star 0
-Fork 0xavierengels/projet-esgi-fb
-tree: 2ff97760cf  projet-esgi-fb/index.php
-xavier engels an hour ago no message
-2 contributors @Toumy @Baptiste-Flesch
-RawBlameHistory    377 lines (316 sloc)  15.749 kB
-
-
-
 <?php
 include('config.php');
 use Facebook\FacebookSession;
@@ -317,10 +301,21 @@ if($session) {
     }
     else if($_POST['vote'] == '1')
     {
-        vote
-        ?>
-        <div class="fb-like" data-href="https://www.facebook.com/concoursmariageprojetesgi/app_449000611931438" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
-    <?php
+        try {
+            $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
+            $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
+            $qry->execute();
+            $liste = $qry->fetchAll();
+            //   print_r($liste);
+            foreach ($liste as $key => $valListe) {
+                    echo 'Voter pour ue photo : <img src="' . $valListe['user_photo'] . '" alt="" >';
+
+            }
+            $dbh = null;
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage() . "<br/>";
+            die();
+        }
     }
 }
 else
