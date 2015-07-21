@@ -12,8 +12,10 @@ session_start();
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 //print_r($_POST);
+$loginUrl = $helper->getLoginUrl();
 
-
+$connectLink = '<a href='.$loginUrl.'>Login</a>';
+echo $connectLink;
 
 function getPermission($session)
 {
