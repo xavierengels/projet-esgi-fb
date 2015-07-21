@@ -308,8 +308,9 @@ if($session) {
             $liste = $qry->fetchAll();
             //   print_r($liste);
             foreach ($liste as $key => $valListe) {
-                    echo 'Voter pour ue photo : <img src="' . $valListe['user_photo'] . '" alt="" >';
-
+                    echo 'Voter pour ue photo : <img src="' . $valListe['user_photo'] . '" alt="" ></br>';
+                    echo "Nombre de vote : ".$valListe['nb_vote']."</nr>";
+                    echo '<button name="vote"></button>';
             }
             $dbh = null;
         } catch (PDOException $e) {
