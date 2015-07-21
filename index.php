@@ -93,7 +93,7 @@ include('pages/header.php');
 
 <br><br>
 <?php
-if($session) {
+if($session && $_POST['participe'] == '0') {
     ?>
     <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="">
         <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
