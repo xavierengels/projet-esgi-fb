@@ -316,21 +316,14 @@ else if($_POST['vote']=='1' && $session)
         echo'</form>';
 
 
-    if($_POST['vote_photos'] == '1')
-    {
-        $nbVote =$_POST['value_nb_vote'];
-        $img =  $_POST['img_vote'];
-        print_r($_POST);
-        $qryUpdate = $dbh->prepare("UPDATE liste SET nb_vote= ?  WHERE user_photo = ?");
-        $qryUpdate->execute(array($nbVote, $img));
-        print_r($qryUpdate);
-    }
+
         $dbh = null;
     } catch (PDOException $e) {
         print "Erreur !: " . $e->getMessage() . "<br/>";
         die();
     }
 }
+
 else if($_POST['vote']=='1' && !$session)
 {
     echo "Vous n êtes pas identifié !";
@@ -338,7 +331,7 @@ else if($_POST['vote']=='1' && !$session)
     echo "<a href='".$loginUrl."'>Se connecter</a>";
 }
 
-else
+else if(!$session && $_POST['participe'] != '1')
 {
     $loginUrl = $helper->getLoginUrl();
     // echo "<a href='".$loginUrl."'>Se connecter</a>";
@@ -346,6 +339,24 @@ else
             <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
     </form>
    <?
+}
+if($_POST['vote_photos'] == '1')
+{
+    try{
+    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
+
+    $nbVote =$_POST['value_nb_vote'];
+    $img =  $_POST['img_vote'];
+    print_r($_POST);
+    $qryUpdate = $dbh->prepare("UPDATE liste SET nb_vote= ?  WHERE user_photo = ?");
+    $qryUpdate->execute(array($nbVote, $img));
+    print_r($qryUpdate);
+
+    $dbh = null;
+    } catch (PDOException $e) {
+        print "Erreur !: " . $e->getMessage() . "<br/>";
+        die();
+    }
 }
 
     ?>
