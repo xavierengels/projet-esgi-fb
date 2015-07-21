@@ -335,9 +335,10 @@ if($_POST['vote_photos'] == '1' && $session)
     try{
         $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
 
-        $nbVote =$_POST['value_nb_vote'];
-        $img =  $_POST['img_vote'];
-        print_r($_POST);
+        $nbVote =$_POST['value_nb_vote']+1;
+        $img =  $_POST['icone'];
+        echo $nbVote;
+        echo $img;
         $qryUpdate = $dbh->prepare("UPDATE liste SET nb_vote= ?  WHERE user_photo = ?");
         $qryUpdate->execute(array($nbVote, $img));
         print_r($qryUpdate);
