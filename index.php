@@ -6,12 +6,44 @@ use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
 use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
+use Facebook\FacebookJavaScriptLoginHelper;
+
 ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
+$helper = new FacebookJavaScriptLoginHelper();
+try {
+    $session = $helper->getSession();
+} catch(FacebookRequestException $ex) {
+    // When Facebook returns an error
 
+} catch(\Exception $ex) {
+    // When validation fails or other local issues
+}
+if($session) {
+
+    try {
+
+        $user_profile = (new FacebookRequest(
+            $session, 'GET', '/me'
+        ))->execute()->getGraphObject(GraphUser::className());
+
+        echo "Name: " . $user_profile->getName();
+        echo '<br>';
+        echo "Id: " . $user_profile->getId();
+        echo '<br>';
+        echo "Link: " . $user_profile->getLink();
+
+    } catch(FacebookRequestException $e) {
+
+        echo "Exception occured, code: " . $e->getCode();
+        echo " with message: " . $e->getMessage();
+
+    }
+
+}
 //print_r($_POST);
 function getPermission($session)
 {
