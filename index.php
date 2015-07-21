@@ -33,6 +33,7 @@ if(isset($_SESSION) && isset($_SESSION['fb_token']))
 else
 {
     $session = $helper->getSessionFromRedirect();
+    echo $session;
 }
 ?>
 <?php
@@ -332,8 +333,7 @@ else
     // use javaascript api to open dialogue and perform
     // the facebook connect process by inserting the fb:login-button
     ?>
-    <div id="fb-root"></div>
-    <fb:login-button scope='email'></fb:login-button>
+
 <?php
 
 
