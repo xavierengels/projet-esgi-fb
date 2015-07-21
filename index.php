@@ -94,7 +94,7 @@ function uploadPhoto($session, $id_user){
     }
 }
 //si la session exite on recupère les info de l'utlisateur
-if($session) {
+if($_POST['participe']=='1' && $session) {
     try {
         if(getPermission($session)){
             $request = new FacebookRequest($session, "GET", "/me");
