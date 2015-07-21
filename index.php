@@ -6,44 +6,15 @@ use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
 use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
-use Facebook\FacebookJavaScriptLoginHelper;
 ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 //print_r($_POST);
-$helper = new FacebookJavaScriptLoginHelper();
-try {
-    $session = $helper->getSession();
-} catch(FacebookRequestException $ex) {
-    // When Facebook returns an error
-} catch(\Exception $ex) {
-    // When validation fails or other local issues
-}
 
-if($session) {
 
-    try {
 
-        $user_profile = (new FacebookRequest(
-            $session, 'GET', '/me'
-        ))->execute()->getGraphObject(GraphUser::className());
-
-        echo "Name: " . $user_profile->getName();
-        echo '<br>';
-        echo "Id: " . $user_profile->getId();
-        echo '<br>';
-        echo "Link: " . $user_profile->getLink();
-
-    } catch(FacebookRequestException $e) {
-
-        echo "Exception occured, code: " . $e->getCode();
-        echo " with message: " . $e->getMessage();
-
-    }
-
-}
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -364,8 +335,7 @@ else
     // use javaascript api to open dialogue and perform
     // the facebook connect process by inserting the fb:login-button
     ?>
-    <div id="fb-root"></div>
-    <fb:login-button scope='email,user_birthday'></fb:login-button>
+    
 <?php
 
 
@@ -400,34 +370,12 @@ if($_POST['vote_photos'] == '1' && $session)
 }
     ?>
 
-<?php
 
-include('pages/footer.php');
-?>
 <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="<?=$loginUrl?>">
     <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
     <button id="vote" name="vote" value="1" type="submit" class="btn btn-block btn-lg btn-default">Je Vote</button>
 </form>
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId : <?=APP_ID?>,
-            status : true,
-            cookie : true,
-            xfbml : true
-        });
+<?php
 
-        FB.Event.subscribe('auth.login', function(response) {
-            // ------------------------------------------------------
-            // This is the callback if everything is ok
-            window.location.reload();
-        });
-    };
-
-    (function(d){
-        var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
-        js = d.createElement('script'); js.id = id; js.async = true;
-        js.src = "//connect.facebook.net/en_US/all.js";
-        d.getElementsByTagName('head')[0].appendChild(js);
-    }(document));
-</script>
+include('pages/footer.php');
+?>
