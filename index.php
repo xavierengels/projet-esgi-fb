@@ -97,6 +97,7 @@ function uploadPhoto($session, $id_user){
 }
 //si la session exite on recupère les info de l'utlisateur
 if($session && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
+    echo "session : ".$session;
     try {
         if(getPermission($session)){
             $request = new FacebookRequest($session, "GET", "/me");
@@ -333,7 +334,8 @@ else
     // use javaascript api to open dialogue and perform
     // the facebook connect process by inserting the fb:login-button
     ?>
-
+    <div id="fb-root"></div>
+    <fb:login-button scope='email'></fb:login-button>
 <?php
 
 
