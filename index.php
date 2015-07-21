@@ -16,6 +16,39 @@ FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 
 
+
+//récupère les informations de session facebook et associe à la session courante
+if(isset($_SESSION) && isset($_SESSION['fb_token']))
+{
+  $session = new FacebookSession($_SESSION['fb_token']);
+
+}
+else
+{
+     $session = $helper->getSessionFromRedirect();
+
+}
+
+?>
+  <?php
+  if($session)
+  {
+     $token = (string) $session->getAccessToken();
+     $_SESSION['fb_token'] = $token;
+  }
+  else
+  {
+    "Pas encore de session enregistré";
+  }
+  include('pages/header.php');
+  ?>
+<div>
+<center><img src="/images/concourstotal.jpg"></center>
+</div>
+
+<br><br>
+<?php
+
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -80,39 +113,6 @@ function uploadPhoto($session, $id_user){
         error_log($e);
     }
 }
-
-//récupère les informations de session facebook et associe à la session courante
-if(isset($_SESSION) && isset($_SESSION['fb_token']))
-{
-  $session = new FacebookSession($_SESSION['fb_token']);
-
-}
-else
-{
-     $session = $helper->getSessionFromRedirect();
-
-}
-
-?>
-  <?php
-  if($session)
-  {
-     $token = (string) $session->getAccessToken();
-     $_SESSION['fb_token'] = $token;
-  }
-  else
-  {
-    "Pas encore de session enregistré";
-  }
-  include('pages/header.php');
-  ?>
-<div>
-<center><img src="/images/concourstotal.jpg"></center>
-</div>
-
-<br><br>
-<?php
-
 if($session) {
 
     ?>
@@ -346,8 +346,38 @@ if($session) {
 }
     else if($_POST['vote'] == '1') {
 
+        try {
+            if (getPermission($session)) {
+                $request = new FacebookRequest($session, "GET", "/me");
+                $response = $request->execute();
+                $user = $response->getGraphObject(GraphUser::className());
+                $idUser = $user->getId();
+                echo "Bonjour " . $user->getName();
 
-      
+                try {
+                    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
+
+                    $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
+                    $qry->execute();
+                    $liste = $qry->fetchAll();
+                    foreach ($liste as $key => $valListe) {
+                        echo 'Voter pour une photo : <img src="' . $valListe['user_photo'] . '" alt="" >';
+                    }
+
+                    $dbh = null;
+                } catch (PDOException $e) {
+                    print "Erreur !: " . $e->getMessage() . "<br/>";
+                    die();
+                }
+
+
+            }
+        } catch (FacebookRequestException $e) {
+            echo "error";
+            echo "Exception occured, code: " . $e->getCode();
+            echo " with message: " . $e->getMessage();
+        }
+
     }
 
 
