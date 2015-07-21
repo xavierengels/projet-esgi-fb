@@ -26,7 +26,7 @@ function getPermission($session)
     return $found_permission;
 }
 //récupère les informations de session facebook et associe à la session courante
-if(isset($_SESSION) && isset($_SESSION['fb_token']))
+if(isset($_S    ESSION) && isset($_SESSION['fb_token']))
 {
     $session = new FacebookSession($_SESSION['fb_token']);
 }
@@ -95,7 +95,7 @@ function uploadPhoto($session, $id_user){
     }
 }
 //si la session exite on recupère les info de l'utlisateur
-if($session && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1') {
+if($session && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1')ECHO "session";
     try {
         if(getPermission($session)){
             $request = new FacebookRequest($session, "GET", "/me");
@@ -328,6 +328,15 @@ else
 {
     $loginUrl = $helper->getLoginUrl();
 
+    //
+    // use javaascript api to open dialogue and perform
+    // the facebook connect process by inserting the fb:login-button
+    ?>
+    <div id="fb-root"></div>
+    <fb:login-button scope='email,user_birthday'></fb:login-button>
+<?php
+
+
 }
 
 if($_POST['vote_photos'] == '1' && $session)
@@ -367,3 +376,27 @@ include('pages/footer.php');
     <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
     <button id="vote" name="vote" value="1" type="submit" class="btn btn-block btn-lg btn-default">Je Vote</button>
 </form>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId : <?=APP_ID?>,
+            status : true,
+            cookie : true,
+            xfbml : true,
+            oauth : true,
+        });
+
+        FB.Event.subscribe('auth.login', function(response) {
+            // ------------------------------------------------------
+            // This is the callback if everything is ok
+            window.location.reload();
+        });
+    };
+
+    (function(d){
+        var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+        js = d.createElement('script'); js.id = id; js.async = true;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        d.getElementsByTagName('head')[0].appendChild(js);
+    }(document));
+</script>
