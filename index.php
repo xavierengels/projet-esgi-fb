@@ -309,7 +309,8 @@ else if($_POST['vote']=='1' && $session)
         echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
         foreach ($liste as $key => $valListe)
         {
-            echo'Voter pour une photo : <input type="image" value="' .$valListe['user_photo']. '" name="icone" src="' .$valListe['user_photo']. '" alt="" ><button  value="1" type="submit" name="vote_photos">Vote</button>' . "</input>";
+            echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" ><button  value="1" type="submit" name="vote_photos">Vote</button>' . "</input>";
+            echo '<input type="hidden" value="'.$valListe['nb_vote'].'" name="image" ></input>';
             echo '<input type="hidden" value="'.$valListe['nb_vote'].'" name="value_nb_vote" ></input>';
             echo '<div>Nombre de vote : '.$valListe['nb_vote'].'</div>';
 
@@ -336,7 +337,7 @@ if($_POST['vote_photos'] == '1' && $session)
         $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
         print_r($_POST);
         $nbVote =$_POST['value_nb_vote']+1;
-        $img =  $_POST['icone'];
+        $img =  $_POST['image'];
         echo $nbVote;
         echo $img;
         $qryUpdate = $dbh->prepare("UPDATE liste SET nb_vote= ?  WHERE user_photo = ?");
