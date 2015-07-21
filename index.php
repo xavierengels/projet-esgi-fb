@@ -15,7 +15,7 @@ $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 
 
 
-$helperr = new FacebookJavaScriptLoginHelper(FB_URL_SITE);
+$helperr = new FacebookJavaScriptLoginHelper();
 try {
     $test = $helperr->getSession();
 } catch(FacebookRequestException $ex) {
