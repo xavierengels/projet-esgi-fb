@@ -10,7 +10,7 @@ ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
-$helper = new FacebookRedirectLoginHelper(FB_URL_SITE_TEST);
+$helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
