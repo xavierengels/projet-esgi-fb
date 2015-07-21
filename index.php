@@ -226,43 +226,44 @@ if($session ) {
         echo "UPLOAD";
         uploadPhoto($session, 'me');
     }
+    if(getPermission($session)){
+        $request = new FacebookRequest($session, "GET", "/me");
+        $response = $request->execute();
+        $user = $response->getGraphObject(GraphUser::className());
+        $idUser = $user->getId();
+        echo "Bonjour ".$user->getName();
+        $albums = getAlbums($session, 'me');
+        if ($_POST['show_photos'] == '1') {
+            ?>
+            <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
+
+                <?php
+                for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+                    $album = $albums->getProperty('data')->getProperty($i);
+                    $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
+                    $response = $request->execute();
+                    $photos = $response->getGraphObject();
+                    $photos = $photos->getPropertyAsArray('data');
+                    if ($_POST['album_id'] == $album->getProperty('id')) {
+                        foreach ($photos as $picture) {
+                            echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
+                        }
+                    }
+                } ?>
+
+                <button id="select_photos" name="select_photos" value="1" type="submit" class="btn btn-primary">
+                    Select
+                </button>
+            </form>
+        <?php
+        }
+
+    }
     if($_POST['participe'] == '1')
     {
 
         try {
-            if(getPermission($session)){
-                $request = new FacebookRequest($session, "GET", "/me");
-                $response = $request->execute();
-                $user = $response->getGraphObject(GraphUser::className());
-                $idUser = $user->getId();
-                echo "Bonjour ".$user->getName();
-                $albums = getAlbums($session, 'me');
-                if ($_POST['show_photos'] == '1') {
-                    ?>
-                    <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
 
-                        <?php
-                        for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-                            $album = $albums->getProperty('data')->getProperty($i);
-                            $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
-                            $response = $request->execute();
-                            $photos = $response->getGraphObject();
-                            $photos = $photos->getPropertyAsArray('data');
-                            if ($_POST['album_id'] == $album->getProperty('id')) {
-                                foreach ($photos as $picture) {
-                                    echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
-                                }
-                            }
-                        } ?>
-
-                        <button id="select_photos" name="select_photos" value="1" type="submit" class="btn btn-primary">
-                            Select
-                        </button>
-                    </form>
-                <?php
-                }
-
-            }
             ?>
             <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
                 <select name="album_id" id="album_id">
