@@ -11,6 +11,7 @@ error_reporting('e_all');
 session_start();
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
+print_r($_POST);
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -323,7 +324,9 @@ else if($_POST['vote']=='1' && $session)
         die();
     }
 
+
 }
+
 
 
 
@@ -332,25 +335,25 @@ else
     $loginUrl = $helper->getLoginUrl();
 
 }
-if($_POST['vote_photos'] == '1')
+
+if($_POST['vote_photos'] == '1' && $session)
 {
     try{
-    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
+        $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
 
-    $nbVote =$_POST['value_nb_vote'];
-    $img =  $_POST['img_vote'];
-    print_r($_POST);
-    $qryUpdate = $dbh->prepare("UPDATE liste SET nb_vote= ?  WHERE user_photo = ?");
-    $qryUpdate->execute(array($nbVote, $img));
-    print_r($qryUpdate);
+        $nbVote =$_POST['value_nb_vote'];
+        $img =  $_POST['img_vote'];
+        print_r($_POST);
+        $qryUpdate = $dbh->prepare("UPDATE liste SET nb_vote= ?  WHERE user_photo = ?");
+        $qryUpdate->execute(array($nbVote, $img));
+        print_r($qryUpdate);
 
-    $dbh = null;
+        $dbh = null;
     } catch (PDOException $e) {
         print "Erreur !: " . $e->getMessage() . "<br/>";
         die();
     }
 }
-
     ?>
 
 <?php
