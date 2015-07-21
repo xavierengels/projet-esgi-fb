@@ -311,7 +311,7 @@ if($_POST['vote']=='1' && $session)
     ECHO "POST VOTE";
 }
 else {
-    $loginUrl = $helper->getLoginUrl();
+    echo "<a href='".$loginUrl."'>Se connecter</a>";
 }
     ?>
     <div>
