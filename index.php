@@ -352,23 +352,14 @@ else if($_POST['vote']=='1' && isset($session))
         echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
         foreach ($liste as $key => $valListe)
         {
-            for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+
                 $album = $albums->getProperty('data')->getProperty($i);
                 $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
                 $qry = $dbh->prepare("SELECT * from liste;");
                 $qry->execute();
                 $liste = $qry->fetchAll();
                 //   print_r($liste);
-                $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
-                $response = $request->execute();
-                $photos = $response->getGraphObject();
-                $photos = $photos->getPropertyAsArray('data');
-                if ($_POST['album_id'] == $album->getProperty('id')) {
-                    foreach ($photos as $picture) {
-                        echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
-                    }
-                }
-            }
+
             //getAllLikes($valListe['user_photo'])
             echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
             echo $valListe['user_photo'];
