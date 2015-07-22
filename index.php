@@ -298,7 +298,20 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
         echo " with message: " . $e->getMessage();
     }
 }
-else if($_POST['vote']=='1' && $session)
+
+else
+{
+    // $permissions = ['user_photos'];
+    $params = array('scope' => 'public_profile, user_photos');
+    $loginUrl = $helper->getLoginUrl($params);
+    //
+    // use javaascript api to open dialogue and perform
+    // the facebook connect process by inserting the fb:login-button
+    ?>
+
+<?php
+}
+if($_POST['vote']=='1' && $session)
 {
     echo "VOTE";
     try {
@@ -311,7 +324,7 @@ else if($_POST['vote']=='1' && $session)
         foreach ($liste as $key => $valListe)
         {
             //getAllLikes($valListe['user_photo'])
-             echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
+            echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
             echo $valListe['user_photo'];
             echo' <div class="fb-like" href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
 
@@ -322,18 +335,6 @@ else if($_POST['vote']=='1' && $session)
         print "Erreur !: " . $e->getMessage() . "<br/>";
         die();
     }
-}
-else
-{
-    // $permissions = ['user_photos'];
-    $params = array('scope' => 'public_profile, user_photos');
-    $loginUrl = $helper->getLoginUrl($params);
-    //
-    // use javaascript api to open dialogue and perform
-    // the facebook connect process by inserting the fb:login-button
-    ?>
-
-<?php
 }
 if($_POST['vote_photos'] == '1' && $session)
 {
