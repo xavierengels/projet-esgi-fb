@@ -179,7 +179,7 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                         //   print_r($liste);
                         foreach ($liste as $key => $valListe) {
                             if ($valListe['user_name'] == $idUser) {
-                                echo 'Votre photo pour le jeu concour est : <img src="' . $valListe['user_photo'] . '" alt="" >';
+                                echo 'Votre photo pour le jeu concours est : <img src="' . $valListe['user_photo'] . '" alt="" >';
                             }
                         }
                         $dbh = null;
@@ -316,10 +316,10 @@ else if($_POST['vote']=='1' && isset($session))
         echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
         foreach ($liste as $key => $valListe)
         {
-            echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" ><button  value="1" type="submit" name="vote_photos">Vote</button>' . "</input>";
-            echo '<input type="hidden" value="'.$valListe['user_photo'].'" name="image" ></input>';
-            echo '<input type="hidden" value="'.$valListe['nb_vote'].'" name="value_nb_vote" ></input>';
-            echo '<div>Nombre de vote : '.$valListe['nb_vote'].'</div>';
+            echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
+            echo $valListe['user_photo']."/{{".photo.photo_id."}}/ft/likes";
+            echo' <div class="fb-like" data-href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
+
 
 
         }
