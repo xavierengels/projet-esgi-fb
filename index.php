@@ -334,8 +334,12 @@ else if($_POST['vote']=='1' && $session)
 }
 else
 {
-    echo "lOGINURL";
-    $loginUrl = $helper->getLoginUrl();
+
+    $params = array(
+        scope => 'user_photos',
+        redirect_uri => FB_URL_SITE
+    );
+    $loginUrl = $helper->getLoginUrl($params);
 
     //
     // use javaascript api to open dialogue and perform
@@ -383,8 +387,6 @@ if($_POST['vote_photos'] == '1' && $session)
 </form>
 
 
-
-<div class="fb-login-button" scope ="photos" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>
 
 
 <?php
