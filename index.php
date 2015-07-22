@@ -7,23 +7,38 @@ use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
 use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
-use Facebook\FacebookCanvasLoginHelper;
-use Facebook\FacebookPageTabHelper;
+
 ini_set('display_errors', 1);
 error_reporting('e_all');
 
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
-$helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
+$helper = new FacebookRedirectLoginHelper(FB_URL_SITE) ;
 
-private function getAllLikes($photos,$url) {
+function getLikePhoto($photos,$url,$session)
+{
+    $albums = getAlbums($session, 'me');
+    for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+        $album = $albums->getProperty('data')->getProperty($i);
+        $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
+        $response = $request->execute();
+        $photos = $response->getGraphObject();
+        $photos = $photos->getPropertyAsArray('data');
+        if ($_POST['album_id'] == $album->getProperty('id')) {
+            foreach ($photos as $picture) {
+                echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
+            }
+        }
+    }
     $all_likes = 0;
     foreach ($photos as $photo) {
-       // $url = 'https://find-u.io/photo/'.$photo->photo_id.'/ft';
+
+        //$url = 'https://find-u.io/photo/'.$photo->photo_id.'/ft';
         $likes = $this->facebook->getGraphObject('/'.$url.'/likes', 'GET')->asArray();
         $all_likes = $all_likes + $likes['share']->share_count;
     }
     return $all_likes;
 }
+
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -42,9 +57,9 @@ try{
     $session = $helper->getSessionFromRedirect();
     var_dump($session);
 }catch(FacebookRequestException $ex){
-    var_dump($ex);
+    echo $ex->getMessage();
 }catch(Exception $ex){
-    var_dump($ex);
+    echo $ex->getMessage();
 }
 if($session){
     var_dump($session);
@@ -356,7 +371,7 @@ else if($_POST['vote']=='1' && isset($session))
             }
             //getAllLikes($valListe['user_photo'])
             echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
-            echo $valListe['user_photo']."/{{".photo.photo_id."}}/ft/likes";
+            echo $valListe['user_photo'];
             echo' <div class="fb-like" data-href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
 
 
@@ -393,7 +408,7 @@ if($_POST['vote_photos'] == '1' && isset($session))
     try{
         $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
         print_r($_POST);
-        $nbVote =$_POST['value_nb_vote']+1;
+
         $img =  $_POST['image'];
         echo $nbVote;
         echo $img;
@@ -402,6 +417,7 @@ if($_POST['vote_photos'] == '1' && isset($session))
         $liste = $qry->fetchAll();
         foreach ($liste as $key => $valListe) {
             if ($idUser != $valListe['user_name']) {
+                $nbVote =$_POST['value_nb_vote']+1;
                 $qryUpdate = $dbh->prepare("UPDATE liste SET nb_vote= ?  WHERE user_photo = ?");
                 $qryUpdate->execute(array($nbVote, $img));
             }
