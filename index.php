@@ -354,7 +354,7 @@ else if($_POST['vote']=='1' && isset($session))
                     }
                 }
             }
-            getAllLikes($valListe['user_photo'])
+            //getAllLikes($valListe['user_photo'])
             echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
             echo $valListe['user_photo']."/{{".photo.photo_id."}}/ft/likes";
             echo' <div class="fb-like" data-href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
