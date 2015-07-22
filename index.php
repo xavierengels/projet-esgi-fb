@@ -8,15 +8,22 @@ use Facebook\FacebookRequest;
 use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
 use Facebook\FacebookCanvasLoginHelper;
+use Facebook\FacebookPageTabHelper;
 ini_set('display_errors', 1);
 error_reporting('e_all');
 
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
-//$helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
-// Now you have the session
-$session = $helper->getSessionFromRedirect();
-$_SESSION['fb_token'] = $session->getToken();
+// init page tab helper
+$pageHelper = new FacebookPageTabHelper();
+// get session from the page
+$session = $pageHelper->getSession();
+// get page_id
+echo '<p>You are currently viewing page: '. $pageHelper->getPageId() . '</p>';
+// get like status - use for likegates
+echo '<p>You have '. ( $pageHelper->isLiked() ? 'LIKED' : 'NOT liked' ) . ' this page</p>';
+// get admin status
+echo '<p>You are '. ( $pageHelper->isAdmin() ? 'an ADMIN' : 'NOT an ADMIN' ) . '</p>';
 
 
 function getPermission($session)
