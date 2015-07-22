@@ -15,7 +15,15 @@ error_reporting('e_all');
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 
-
+private function getAllLikes($photos,$url) {
+    $all_likes = 0;
+    foreach ($photos as $photo) {
+       // $url = 'https://find-u.io/photo/'.$photo->photo_id.'/ft';
+        $likes = $this->facebook->getGraphObject('/'.$url.'/likes', 'GET')->asArray();
+        $all_likes = $all_likes + $likes['share']->share_count;
+    }
+    return $all_likes;
+}
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -308,14 +316,27 @@ else if($_POST['vote']=='1' && isset($session))
 {
     echo "VOTE";
     try {
-        $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
-        $qry = $dbh->prepare("SELECT * from liste;");
-        $qry->execute();
-        $liste = $qry->fetchAll();
-        //   print_r($liste);
         echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
         foreach ($liste as $key => $valListe)
         {
+            for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+                $album = $albums->getProperty('data')->getProperty($i);
+                $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
+                $qry = $dbh->prepare("SELECT * from liste;");
+                $qry->execute();
+                $liste = $qry->fetchAll();
+                //   print_r($liste);
+                $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
+                $response = $request->execute();
+                $photos = $response->getGraphObject();
+                $photos = $photos->getPropertyAsArray('data');
+                if ($_POST['album_id'] == $album->getProperty('id')) {
+                    foreach ($photos as $picture) {
+                        echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
+                    }
+                }
+            }
+            getAllLikes($valListe['user_photo'])
             echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
             echo $valListe['user_photo']."/{{".photo.photo_id."}}/ft/likes";
             echo' <div class="fb-like" data-href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
