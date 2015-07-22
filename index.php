@@ -53,7 +53,7 @@ function getPermission($session)
     return $found_permission;
 }
 
-try{
+/*try{
     $session = $helper->getSessionFromRedirect();
     var_dump($session);
 }catch(FacebookRequestException $ex){
@@ -69,8 +69,8 @@ else{
     $loginUrl = $helper->getLoginUrl();
     header("location:".$loginUrl);
     exit;
-}
-/*
+}*/
+
 //récupère les informations de session facebook et associe à la session courante
 if(isset($_SESSION) && isset($_SESSION['fb_token']))
 {
@@ -92,7 +92,7 @@ if($session)
 else
 {
     "Pas encore de session enregistré";
-}*/
+}
 include('pages/header.php');
 ?>
 <div>
