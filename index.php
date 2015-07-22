@@ -34,9 +34,9 @@ try{
     $session = $helper->getSessionFromRedirect();
     var_dump($session);
 }catch(FacebookRequestException $ex){
-    var_dump($ex);
+    echo $ex->getMessage();
 }catch(Exception $ex){
-    var_dump($ex);
+    echo $ex->getMessage();
 }
 if($session){
     var_dump($session);
