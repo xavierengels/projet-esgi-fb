@@ -196,7 +196,7 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                         //   print_r($liste);
                         foreach ($liste as $key => $valListe) {
                             if ($valListe['user_name'] == $idUser) {
-                                echo 'Votre photo pour le jeu concour est : <img src="' . $valListe['user_photo'] . '" alt="" >';
+                                echo 'Votre photo pour le jeu concours est : <img src="' . $valListe['user_photo'] . '" alt="" >';
                             }
                         }
                         $dbh = null;
@@ -321,7 +321,7 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
         echo " with message: " . $e->getMessage();
     }
 }
-else if($_POST['vote']=='1' && $session)
+else if($_POST['vote']=='1' && isset($session))
 {
     echo "VOTE";
     try {
@@ -333,10 +333,10 @@ else if($_POST['vote']=='1' && $session)
         echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
         foreach ($liste as $key => $valListe)
         {
-            echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" ><button  value="1" type="submit" name="vote_photos">Vote</button>' . "</input>";
-            echo '<input type="hidden" value="'.$valListe['user_photo'].'" name="image" ></input>';
-            echo '<input type="hidden" value="'.$valListe['nb_vote'].'" name="value_nb_vote" ></input>';
-            echo '<div>Nombre de vote : '.$valListe['nb_vote'].'</div>';
+            echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
+            echo $valListe['user_photo']."/{{".photo.photo_id."}}/ft/likes";
+            echo' <div class="fb-like" data-href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
+
 
 
         }
@@ -365,7 +365,7 @@ else
 
 }
 
-if($_POST['vote_photos'] == '1' && $session)
+if($_POST['vote_photos'] == '1' && isset($session))
 {
 
     try{
@@ -392,17 +392,29 @@ if($_POST['vote_photos'] == '1' && $session)
         die();
     }
 }
+if($_POST['regle'] == '1' && isset($session))
+{
+
+}
     ?>
 
 
 <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="<?=$loginUrl?>">
     <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
     <button id="vote" name="vote" value="1" type="submit" class="btn btn-block btn-lg btn-default">Je Vote</button>
+    <button id="regle" name="regle" value="1" type="submit" class="btn btn-block btn-lg btn-default">Règle du jeu</button>
 </form>
 
 
 
-
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.4&appId=449000611931438";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 <?php
 
 include('pages/footer.php');
