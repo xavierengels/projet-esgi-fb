@@ -44,7 +44,6 @@ else
 <?php
 if($session)
 {
-    echo "access token";
     $token = (string) $session->getAccessToken();
     $_SESSION['fb_token'] = $token;
     //$_SESSION['fb_token'] = $this->session->getToken();
@@ -385,7 +384,7 @@ if($_POST['vote_photos'] == '1' && $session)
 
 
 
-
+<div class="fb-login-button" scope ="photos" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>
 
 
 <?php
