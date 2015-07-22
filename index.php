@@ -7,38 +7,12 @@ use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
 use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
-
+use Facebook\FacebookCanvasLoginHelper;
+use Facebook\FacebookPageTabHelper;
 ini_set('display_errors', 1);
 error_reporting('e_all');
-
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
-$helper = new FacebookRedirectLoginHelper(FB_URL_SITE) ;
-
-function getLikePhoto($photos,$url,$session)
-{
-    $albums = getAlbums($session, 'me');
-    for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-        $album = $albums->getProperty('data')->getProperty($i);
-        $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
-        $response = $request->execute();
-        $photos = $response->getGraphObject();
-        $photos = $photos->getPropertyAsArray('data');
-        if ($_POST['album_id'] == $album->getProperty('id')) {
-            foreach ($photos as $picture) {
-                echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
-            }
-        }
-    }
-    $all_likes = 0;
-    foreach ($photos as $photo) {
-
-        //$url = 'https://find-u.io/photo/'.$photo->photo_id.'/ft';
-        $likes = $this->facebook->getGraphObject('/'.$url.'/likes', 'GET')->asArray();
-        $all_likes = $all_likes + $likes['share']->share_count;
-    }
-    return $all_likes;
-}
-
+$helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -52,25 +26,6 @@ function getPermission($session)
     }
     return $found_permission;
 }
-
-try{
-    $session = $helper->getSessionFromRedirect();
-    var_dump($session);
-}catch(FacebookRequestException $ex){
-    echo $ex->getMessage();
-}catch(Exception $ex){
-    echo $ex->getMessage();
-}
-if($session){
-    var_dump($session);
-}
-else{
-    echo 'ici';
-    $loginUrl = $helper->getLoginUrl();
-    header("location:".$loginUrl);
-    exit;
-}
-/*
 //récupère les informations de session facebook et associe à la session courante
 if(isset($_SESSION) && isset($_SESSION['fb_token']))
 {
@@ -81,18 +36,18 @@ else
     $session = $helper->getSessionFromRedirect();
     var_dump($session);
 }
-
+?>
+<?php
 if($session)
 {
     $token = (string) $session->getAccessToken();
     $_SESSION['fb_token'] = $token;
     //$_SESSION['fb_token'] = $this->session->getToken();
-
 }
 else
 {
     "Pas encore de session enregistré";
-}*/
+}
 include('pages/header.php');
 ?>
 <div>
@@ -152,156 +107,154 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
             $idUser = $user->getId();
             echo "Bonjour ".$user->getName();
             $albums = getAlbums($session, 'me');
+            if ($_POST['show_photos'] == '1') {
+                ?>
+                <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
 
-                if ($_POST['show_photos'] == '1') {
-                    ?>
-                    <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
-
-                        <?php
-                        for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-                            $album = $albums->getProperty('data')->getProperty($i);
-                            $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
-                            $response = $request->execute();
-                            $photos = $response->getGraphObject();
-                            $photos = $photos->getPropertyAsArray('data');
-                            if ($_POST['album_id'] == $album->getProperty('id')) {
-                                foreach ($photos as $picture) {
-                                    echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
-                                }
-                            }
-                        } ?>
-
-                        <button id="select_photos" name="select_photos" value="1" type="submit" class="btn btn-primary">
-                            Select
-                        </button>
-                    </form>
-                <?php
-                }
-                if ($_POST['select_photos'] == '1') {
-                    echo "POST !!!";
-                    $image = $_POST['nom'];
-                    try {
-                        $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
-                        $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
-                        $qry->execute();
-                        $liste = $qry->fetchAll();
-                        print_r($liste);
-                        $var = $liste;
-                        if (empty($var)) {
-                            $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
-                            $qryInsert->execute(array(
-                                ':user_name' => $idUser,
-                                ':user_photo' => $image
-                            ));
-                        } else {
-                            foreach ($liste as $key => $valListe) {
-                                //on vérifie que l'utilisateur n'a pas deja poster une photo avec son id
-                                if ($valListe['user_name'] != $idUser) {
-                                    $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
-                                    $qryInsert->execute(array(
-                                        ':user_name' => $idUser,
-                                        ':user_photo' => $image
-                                    ));
-                                }
-                            }
-                        }
-                        $dbh = null;
-                    } catch (PDOException $e) {
-                        print "Erreur !: " . $e->getMessage() . "<br/>";
-                        die();
-                    }
-                }
-                if ($_POST['show_photo_concour'] == '1') {
-                    try {
-                        $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
-                        $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
-                        $qry->execute();
-                        $liste = $qry->fetchAll();
-                        //   print_r($liste);
-                        foreach ($liste as $key => $valListe) {
-                            if ($valListe['user_name'] == $idUser) {
-                                echo 'Votre photo pour le jeu concours est : <img src="' . $valListe['user_photo'] . '" alt="" >';
-                            }
-                        }
-                        $dbh = null;
-                    } catch (PDOException $e) {
-                        print "Erreur !: " . $e->getMessage() . "<br/>";
-                        die();
-                    }
-                    ?>
-                    <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
-                        <button id="update_photos" name="update_photos" value="1" type="submit" class="btn btn-primary">
-                            Modifier votre photo
-                        </button>
-                    </form>
-                <?php
-                }
-                if ($_POST['update_photos'] == '1') {
-                    echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
-                    <select name="album_id" id="album_id">';
+                    <?php
                     for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-                        $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
-                        $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
-                        echo('<option value=' . $album_id . '>' . $album_name . '</option>');
+                        $album = $albums->getProperty('data')->getProperty($i);
+                        $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
+                        $response = $request->execute();
+                        $photos = $response->getGraphObject();
+                        $photos = $photos->getPropertyAsArray('data');
+                        if ($_POST['album_id'] == $album->getProperty('id')) {
+                            foreach ($photos as $picture) {
+                                echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
+                            }
+                        }
+                    } ?>
+
+                    <button id="select_photos" name="select_photos" value="1" type="submit" class="btn btn-primary">
+                        Select
+                    </button>
+                </form>
+            <?php
+            }
+            if ($_POST['select_photos'] == '1') {
+                echo "POST !!!";
+                $image = $_POST['nom'];
+                try {
+                    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
+                    $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
+                    $qry->execute();
+                    $liste = $qry->fetchAll();
+                    print_r($liste);
+                    $var = $liste;
+                    if (empty($var)) {
+                        $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
+                        $qryInsert->execute(array(
+                            ':user_name' => $idUser,
+                            ':user_photo' => $image
+                        ));
+                    } else {
+                        foreach ($liste as $key => $valListe) {
+                            //on vérifie que l'utilisateur n'a pas deja poster une photo avec son id
+                            if ($valListe['user_name'] != $idUser) {
+                                $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
+                                $qryInsert->execute(array(
+                                    ':user_name' => $idUser,
+                                    ':user_photo' => $image
+                                ));
+                            }
+                        }
                     }
-                    echo '</select>
+                    $dbh = null;
+                } catch (PDOException $e) {
+                    print "Erreur !: " . $e->getMessage() . "<br/>";
+                    die();
+                }
+            }
+            if ($_POST['show_photo_concour'] == '1') {
+                try {
+                    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
+                    $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
+                    $qry->execute();
+                    $liste = $qry->fetchAll();
+                    //   print_r($liste);
+                    foreach ($liste as $key => $valListe) {
+                        if ($valListe['user_name'] == $idUser) {
+                            echo 'Votre photo pour le jeu concour est : <img src="' . $valListe['user_photo'] . '" alt="" >';
+                        }
+                    }
+                    $dbh = null;
+                } catch (PDOException $e) {
+                    print "Erreur !: " . $e->getMessage() . "<br/>";
+                    die();
+                }
+                ?>
+                <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
+                    <button id="update_photos" name="update_photos" value="1" type="submit" class="btn btn-primary">
+                        Modifier votre photo
+                    </button>
+                </form>
+            <?php
+            }
+            if ($_POST['update_photos'] == '1') {
+                echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
+                    <select name="album_id" id="album_id">';
+                for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+                    $album_id = $albums->getProperty('data')->getProperty($i)->getProperty('id');
+                    $album_name = $albums->getProperty('data')->getProperty($i)->getProperty('name');
+                    echo('<option value=' . $album_id . '>' . $album_name . '</option>');
+                }
+                echo '</select>
                     <button id="show_photos_update" name="show_photos_update" value="1" type="submit" class="btn btn-primary">Selectionner une autre photo</button>
                 </form>';
-                }
-                if ($_POST['show_photos_update'] == '1') {
-                    ?>
-                    <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
+            }
+            if ($_POST['show_photos_update'] == '1') {
+                ?>
+                <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
 
-                        <?php
-                        for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
-                            $album = $albums->getProperty('data')->getProperty($i);
-                            $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
-                            $response = $request->execute();
-                            $photos = $response->getGraphObject();
-                            $photos = $photos->getPropertyAsArray('data');
-                            if ($_POST['album_id'] == $album->getProperty('id')) {
-                                foreach ($photos as $picture) {
-                                    echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
-                                }
-                            }
-                        }?>
-
-                        <button id="select_photos_update" name="select_photos_update" value="1" type="submit"
-                                class="btn btn-primary">Select
-                        </button>
-                    </form>
-                <?php
-                }
-                if ($_POST['select_photos_update'] == '1') {
-                    echo "post select_photos_update";
-                    $image = $_POST['nom'];
-                    echo $image;
-                    try {
-                        $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
-                        $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
-                        $qry->execute();
-                        $liste = $qry->fetchAll();
-                        //   print_r($liste);
-                        foreach ($liste as $key => $valListe) {
-                            if ($valListe['user_name'] == $idUser) {
-                                echo $valListe['user_name'];
-                                echo 'Votre photo pour le jeu concour est : <img src="' . $valListe['user_photo'] . '" alt="" >';
-                                $qryUpdate = $dbh->prepare("UPDATE liste SET user_photo= ?  WHERE user_name = ?");
-                                $qryUpdate->execute(array($image, $idUser));
-                                print_r($qryUpdate);
+                    <?php
+                    for ($i = 0; null !== $albums->getProperty('data')->getProperty($i); $i++) {
+                        $album = $albums->getProperty('data')->getProperty($i);
+                        $request = new FacebookRequest($session, 'GET', '/' . $album->getProperty('id') . '/photos');
+                        $response = $request->execute();
+                        $photos = $response->getGraphObject();
+                        $photos = $photos->getPropertyAsArray('data');
+                        if ($_POST['album_id'] == $album->getProperty('id')) {
+                            foreach ($photos as $picture) {
+                                echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
                             }
                         }
-                        $dbh = null;
-                    } catch (PDOException $e) {
-                        echo "ERROR";
-                        print "Erreur !: " . $e->getMessage() . "<br/>";
-                        die();
-                    }
-                }
-                if ($_POST['submit_upload_photo'] == '1') {
-                    uploadPhoto($session, 'me');
-                }
+                    }?>
 
+                    <button id="select_photos_update" name="select_photos_update" value="1" type="submit"
+                            class="btn btn-primary">Select
+                    </button>
+                </form>
+            <?php
+            }
+            if ($_POST['select_photos_update'] == '1') {
+                echo "post select_photos_update";
+                $image = $_POST['nom'];
+                echo $image;
+                try {
+                    $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
+                    $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
+                    $qry->execute();
+                    $liste = $qry->fetchAll();
+                    //   print_r($liste);
+                    foreach ($liste as $key => $valListe) {
+                        if ($valListe['user_name'] == $idUser) {
+                            echo $valListe['user_name'];
+                            echo 'Votre photo pour le jeu concour est : <img src="' . $valListe['user_photo'] . '" alt="" >';
+                            $qryUpdate = $dbh->prepare("UPDATE liste SET user_photo= ?  WHERE user_name = ?");
+                            $qryUpdate->execute(array($image, $idUser));
+                            print_r($qryUpdate);
+                        }
+                    }
+                    $dbh = null;
+                } catch (PDOException $e) {
+                    echo "ERROR";
+                    print "Erreur !: " . $e->getMessage() . "<br/>";
+                    die();
+                }
+            }
+            if ($_POST['submit_upload_photo'] == '1') {
+                uploadPhoto($session, 'me');
+            }
         }
         ?>
         <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">
@@ -349,27 +302,20 @@ else if($_POST['vote']=='1' && isset($session))
 {
     echo "VOTE";
     try {
+        $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
+        $qry = $dbh->prepare("SELECT * from liste;");
+        $qry->execute();
+        $liste = $qry->fetchAll();
+        //   print_r($liste);
         echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
         foreach ($liste as $key => $valListe)
         {
-
-                $album = $albums->getProperty('data')->getProperty($i);
-                $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
-                $qry = $dbh->prepare("SELECT * from liste;");
-                $qry->execute();
-                $liste = $qry->fetchAll();
-                //   print_r($liste);
-
-            //getAllLikes($valListe['user_photo'])
-            echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
-            echo $valListe['user_photo'];
-            echo' <div class="fb-like" data-href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
-
-
-
+            echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" ><button  value="1" type="submit" name="vote_photos">Vote</button>' . "</input>";
+            echo '<input type="hidden" value="'.$valListe['user_photo'].'" name="image" ></input>';
+            echo '<input type="hidden" value="'.$valListe['nb_vote'].'" name="value_nb_vote" ></input>';
+            echo '<div>Nombre de vote : '.$valListe['nb_vote'].'</div>';
         }
         echo'</form>';
-
         $dbh = null;
     } catch (PDOException $e) {
         print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -378,28 +324,22 @@ else if($_POST['vote']=='1' && isset($session))
 }
 else
 {
-
-   // $permissions = ['user_photos'];
+    // $permissions = ['user_photos'];
     $params = array('scope' => 'public_profile, user_photos');
     $loginUrl = $helper->getLoginUrl($params);
-
     //
     // use javaascript api to open dialogue and perform
     // the facebook connect process by inserting the fb:login-button
     ?>
 
 <?php
-
-
 }
-
 if($_POST['vote_photos'] == '1' && isset($session))
 {
-
     try{
         $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
         print_r($_POST);
-
+        $nbVote =$_POST['value_nb_vote']+1;
         $img =  $_POST['image'];
         echo $nbVote;
         echo $img;
@@ -408,13 +348,10 @@ if($_POST['vote_photos'] == '1' && isset($session))
         $liste = $qry->fetchAll();
         foreach ($liste as $key => $valListe) {
             if ($idUser != $valListe['user_name']) {
-                $nbVote =$_POST['value_nb_vote']+1;
                 $qryUpdate = $dbh->prepare("UPDATE liste SET nb_vote= ?  WHERE user_photo = ?");
                 $qryUpdate->execute(array($nbVote, $img));
             }
         }
-
-
         $dbh = null;
     } catch (PDOException $e) {
         print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -423,9 +360,8 @@ if($_POST['vote_photos'] == '1' && isset($session))
 }
 if($_POST['regle'] == '1' && isset($session))
 {
-
 }
-    ?>
+?>
 
 
 <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="<?=$loginUrl?>">
@@ -436,15 +372,7 @@ if($_POST['regle'] == '1' && isset($session))
 
 
 
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.4&appId=449000611931438";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-<?php
 
+<?php
 include('pages/footer.php');
 ?>
