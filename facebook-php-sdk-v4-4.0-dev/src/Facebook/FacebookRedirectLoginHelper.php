@@ -188,7 +188,8 @@ class FacebookRedirectLoginHelper
         '/oauth/access_token',
         $params
       ))->execute()->getResponse();
-
+        var_dump($params);
+        var_dump($response);
       // Graph v2.3 and greater return objects on the /oauth/access_token endpoint
       $accessToken = null;
       if (is_object($response) && isset($response->access_token)) {
