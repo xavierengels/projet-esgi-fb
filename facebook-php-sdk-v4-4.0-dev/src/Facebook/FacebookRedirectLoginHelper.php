@@ -188,8 +188,7 @@ class FacebookRedirectLoginHelper
         '/oauth/access_token',
         $params
       ))->execute()->getResponse();
-        var_dump($params);
-        var_dump($response);
+
       // Graph v2.3 and greater return objects on the /oauth/access_token endpoint
       $accessToken = null;
       if (is_object($response) && isset($response->access_token)) {
@@ -212,6 +211,7 @@ class FacebookRedirectLoginHelper
    */
   protected function isValidRedirect()
   {
+      echo 1;
     $savedState = $this->loadState();
     if (!$this->getCode() || !isset($_GET['state'])) {
       return false;
@@ -226,6 +226,7 @@ class FacebookRedirectLoginHelper
     for ($i = 0; $i < $savedLen; $i++) {
       $result |= ord($savedState[$i]) ^ ord($givenState[$i]);
     }
+      echo 2;
     return $result === 0;
   }
 
