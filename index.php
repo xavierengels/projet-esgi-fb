@@ -303,7 +303,7 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
         echo " with message: " . $e->getMessage();
     }
 }
-else if($_POST['vote']=='1' && $session)
+else if($_POST['vote']=='1' && isset($session))
 {
     echo "VOTE";
     try {
@@ -347,7 +347,7 @@ else
 
 }
 
-if($_POST['vote_photos'] == '1' && $session)
+if($_POST['vote_photos'] == '1' && isset($session))
 {
 
     try{
@@ -374,12 +374,17 @@ if($_POST['vote_photos'] == '1' && $session)
         die();
     }
 }
+if($_POST['regle'] == '1' && isset($session))
+{
+
+}
     ?>
 
 
 <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="<?=$loginUrl?>">
     <button id="participe" name="participe" value="1" type="submit"class="btn btn-block btn-lg btn-default">Je Participe</button>
-    <button id="vote" name="vote" value="1" type="submit" class="btn btn-block btn-lg btn-default">Je Vote</button>
+    <button id="vote" name="vote" value="1" type="submit" class="btn btn-block btn-lg btn-default">Je Vote</button>a
+    <button id="regle" name="regle" value="1" type="submit" class="btn btn-block btn-lg btn-default">Règle du jeu</button>
 </form>
 
 
