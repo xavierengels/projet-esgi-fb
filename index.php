@@ -7,15 +7,16 @@ use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
 use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
+use Facebook\FacebookCanvasLoginHelper;
 ini_set('display_errors', 1);
 error_reporting('e_all');
 
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
+//$helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
-
-
-
-
+// Now you have the session
+$session = $helper->getSessionFromRedirect();
+$_SESSION['fb_token'] = $session->getToken();
 
 
 function getPermission($session)
