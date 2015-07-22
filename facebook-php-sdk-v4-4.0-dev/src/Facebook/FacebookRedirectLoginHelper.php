@@ -215,16 +215,19 @@ class FacebookRedirectLoginHelper
     if (!$this->getCode() || !isset($_GET['state'])) {
       return false;
     }
+      echo 1;
     $givenState = $_GET['state'];
     $savedLen = mb_strlen($savedState);
     $givenLen = mb_strlen($givenState);
     if ($savedLen !== $givenLen) {
       return false;
     }
+      echo 2;
     $result = 0;
     for ($i = 0; $i < $savedLen; $i++) {
       $result |= ord($savedState[$i]) ^ ord($givenState[$i]);
     }
+      echo $result;
     return $result === 0;
   }
 
