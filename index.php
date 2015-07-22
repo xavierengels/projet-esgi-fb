@@ -1,20 +1,20 @@
 
 <?php
+session_start();
 include('config.php');
 use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
 use Facebook\GraphUser;
 use Facebook\FacebookRequestException;
-
 ini_set('display_errors', 1);
 error_reporting('e_all');
-session_start();
-FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
-$helper = new FacebookRedirectLoginHelper('https://projet-esgi-fb.herokuapp.com');
-print_r($helper);
 
-print_r($_SESSION);
+FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
+$helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
+
+
+
 
 
 
@@ -38,16 +38,16 @@ if(isset($_SESSION) && isset($_SESSION['fb_token']))
 }
 else
 {
-    echo "GETSESSIONFROMREDIRECT";
     $session = $helper->getSessionFromRedirect();
 }
 ?>
 <?php
 if($session)
 {
-    $token = (string) $session->getAccessToken();
-    $_SESSION['fb_token'] = $token;
-
+    echo "access token";
+   /* $token = (string) $session->getAccessToken();
+    $_SESSION['fb_token'] = $token;*/
+    $_SESSION['fb_token'] = $this->session->getToken();
 
 }
 else
@@ -335,8 +335,9 @@ else if($_POST['vote']=='1' && $session)
 }
 else
 {
+    echo "lOGINURL";
     $loginUrl = $helper->getLoginUrl();
-    $session = $helper->getSessionFromRedirect();
+
     //
     // use javaascript api to open dialogue and perform
     // the facebook connect process by inserting the fb:login-button
