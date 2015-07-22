@@ -335,9 +335,9 @@ else if($_POST['vote']=='1' && $session)
 else
 {
 
-    //$permissions = ['email'];
+   // $permissions = ['user_photos'];
     $params = array('scope' => 'public_profile, user_photos');
-    $loginUrl = $helper->getLoginUrl($permissions);
+    $loginUrl = $helper->getLoginUrl($params);
 
     //
     // use javaascript api to open dialogue and perform
