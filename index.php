@@ -45,6 +45,7 @@ else{
     echo 'ici';
     $loginUrl = $helper->getLoginUrl();
     header("location:".$loginUrl);
+    exit;
 }
 /*
 //récupère les informations de session facebook et associe à la session courante
