@@ -45,9 +45,9 @@ else
 if($session)
 {
     echo "access token";
-   /* $token = (string) $session->getAccessToken();
-    $_SESSION['fb_token'] = $token;*/
-    $_SESSION['fb_token'] = $this->session->getToken();
+    $token = (string) $session->getAccessToken();
+    $_SESSION['fb_token'] = $token;
+    //$_SESSION['fb_token'] = $this->session->getToken();
 
 }
 else
