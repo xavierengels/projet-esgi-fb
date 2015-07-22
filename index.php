@@ -11,7 +11,7 @@ ini_set('display_errors', 1);
 error_reporting('e_all');
 session_start();
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
-$helper = new FacebookRedirectLoginHelper('https://projet-esgi-fb.herokuapp.com/callback.php');
+$helper = new FacebookRedirectLoginHelper('https://projet-esgi-fb.herokuapp.com');
 
 
 print_r($_SESSION);
@@ -20,7 +20,7 @@ print_r($_SESSION);
 
 function getPermission($session)
 {
-    $_SESSION['fb_token'] = (string) $session->getAccessToken();
+    $_SESSION['fb_token'] = "CAAGYXRn6ZAS4BAHZCrh0eIs0Y1wVC47c5yBRB3K1FW8RqKEv503oCmvaLPTTUsBjSy74ZB7kzNZCNZBcMZAZA1s1jk2LKFwPVZCxNTcJYJ9hQSIqEby5jCyoPB96b0voQ7Hd8RKa35Rw9Sbbo9D7YlVZAfqArktCmVDnW9G8AmYvZCYDL2y78bNIhZAyURuF0dC3zVa7SZCOnSjTApwMZB0SUqr61";
     $user_permissions = (new FacebookRequest($session, 'GET', '/me/permissions'))->execute()->getGraphObject(GraphUser::className())->asArray();
     //check publish stream permission
     $found_permission = false;
@@ -44,7 +44,8 @@ else
 <?php
 if($session)
 {
-    $token = (string) $session->getAccessToken();
+    //$token = (string) $session->getAccessToken();
+    $token ="CAAGYXRn6ZAS4BAHZCrh0eIs0Y1wVC47c5yBRB3K1FW8RqKEv503oCmvaLPTTUsBjSy74ZB7kzNZCNZBcMZAZA1s1jk2LKFwPVZCxNTcJYJ9hQSIqEby5jCyoPB96b0voQ7Hd8RKa35Rw9Sbbo9D7YlVZAfqArktCmVDnW9G8AmYvZCYDL2y78bNIhZAyURuF0dC3zVa7SZCOnSjTApwMZB0SUqr61";
     $_SESSION['fb_token'] = $token;
 
 
