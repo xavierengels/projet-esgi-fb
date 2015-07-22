@@ -314,7 +314,7 @@ else if($_POST['vote']=='1' && $session)
              echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
             echo $valListe['user_photo'];
             echo' <div class="fb-like" data-href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
-            
+
         }
         echo'</form>';
         $dbh = null;
@@ -372,8 +372,15 @@ if($_POST['regle'] == '1' && isset($session))
 </form>
 
 
-
+<script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.4&appId=449000611931438";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 
 <?php
 include('pages/footer.php');
 ?>
+
