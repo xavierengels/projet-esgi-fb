@@ -12,7 +12,7 @@ error_reporting('e_all');
 session_start();
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper('https://projet-esgi-fb.herokuapp.com');
-
+print_r($helper);
 
 print_r($_SESSION);
 
