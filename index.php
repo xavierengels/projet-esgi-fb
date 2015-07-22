@@ -335,7 +335,8 @@ else if($_POST['vote']=='1' && $session)
 else
 {
 
-    $permissions = ['email'];
+    //$permissions = ['email'];
+    $params = array('scope' => 'public_profile, user_photos');
     $loginUrl = $helper->getLoginUrl($permissions);
 
     //
