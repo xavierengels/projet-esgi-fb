@@ -335,11 +335,8 @@ else if($_POST['vote']=='1' && $session)
 else
 {
 
-    $params = array(
-        scope => 'user_photos',
-        redirect_uri => FB_URL_SITE
-    );
-    $loginUrl = $helper->getLoginUrl($params);
+    $permissions = ['email'];
+    $loginUrl = $helper->getLoginUrl($permissions);
 
     //
     // use javaascript api to open dialogue and perform
