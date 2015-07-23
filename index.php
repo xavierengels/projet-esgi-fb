@@ -283,10 +283,10 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                 }
                 ?>
             </select>
-            <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Sélectionner une photo parmi vos album</button>
+            <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Sélectionner une photo parmi vos albums</button>
 
 
-            <button id="show_photo_concour" name="show_photo_concour" value="1" type="submit" class="btn btn-primary">Voir votre photo du concours</button>
+            <button id="show_photo_concour" name="show_photo_concour" value="1" type="submit" class="btn btn-primary">Voir/Changer votre photo</button>
         </form>
 
 
@@ -378,6 +378,24 @@ if($_POST['vote_photos'] == '1' && $session)
 if($_POST['regle'] == '1' && isset($session))
 {
     ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+<center>
+<p>
+    Participez a notre jeux, CONCOURS PHOTOS, et tentez de gagnez un voyage et une multitude de cadeaux ! <br />
+    Invitz vos amis a votez pour vous. 
+    <img src="images/regle.jpg" alt="regle" />
+</p>
+</center>
+</body>
+</html>
+
+
 
 <?
 }
