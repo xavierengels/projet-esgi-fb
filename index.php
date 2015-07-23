@@ -131,7 +131,7 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                             foreach ($photos as $picture) {
                                 echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
                                 echo $picture->getProperty('id');
-                                echo('<input type="hidden" name="id_photo" src="' . $picture->getProperty('id') . '" alt="" ></input>' . "</br>");
+                                echo('<input type="hidden" name="id_photo" src="' . $picture->getProperty('id') . '"  ></input>' . "</br>");
 
                             }
                         }
@@ -145,11 +145,12 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
             }
             if ($_POST['select_photos'] == '1') {
                 echo "POST !!!";
+                print_r($_POST);
                 $image = $_POST['nom'];
                 $idImage =  $_POST['id_photo'];
                 try {
                     $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
-                    $qry = $dbh->prepare("SELECT * from liste;");
+                    $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
                     $qry->execute();
                     $liste = $qry->fetchAll();
                     print_r($liste);
