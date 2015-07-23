@@ -242,7 +242,7 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                 </form>
             <?php
             }
-            if ($_POST['select_photos_update'] == '1') {
+            if ($_POST['select_photos_update'] == '1' && $_POST['vote'] != '1') {
                 echo "post select_photos_update";
                 $image = $_POST['nom'];
                 $idImage = $_POST['id_photo'];
