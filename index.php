@@ -340,11 +340,12 @@ if($_POST['vote']=='1' && $session)
         {
             echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
             echo' <div class="fb-like" href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
-            /*$url = $valListe['id_user_photo'].'/ft';
+            $url = $valListe['id_user_photo'].'/ft';
             $request = new FacebookRequest($session, 'GET', '/' . $url . '/likes');
             $response = $request->execute();
+            print_r($response);
             $likes = $response->getGraphObject()->asArray();
-            print_r($likes);*/
+            print_r($likes);
            // $all_likes = $all_likes + $likes['share']->share_count;
             //print_r($all_likes);
         }
