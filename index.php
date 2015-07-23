@@ -50,7 +50,7 @@
     include('pages/header.php');
     ?>
     <div>
-        <img src="/images/concourstotal.jpg">
+        <center></center><img src="/images/concourstotal.jpg"></center>
     </div>
 
     <br><br>
@@ -99,13 +99,11 @@
     //si la session exite on recupère les info de l'utlisateur
     if($_POST['vote']=='1' && isset($session))
     {
-        echo "VOTE";
         try {
             $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
             $qry = $dbh->prepare("SELECT * from liste;");
             $qry->execute();
             $liste = $qry->fetchAll();
-            //   print_r($liste);
             echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
             foreach ($liste as $key => $valListe)
             {
@@ -163,16 +161,13 @@
                 <?php
                 }
                 if ($_POST['select_photos'] == '1') {
-                    echo "POST !!!";
                     $image = $_POST['nom'];
                     $idImage =  $_POST['id_photo'];
-                    print_r($_POST);
                     try {
                         $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
                         $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
                         $qry->execute();
                         $liste = $qry->fetchAll();
-                        print_r($liste);
                         $var = $liste;
                         if (empty($var)) {
                             $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,id_user_photo,user_photo) VALUES (:user_name,:id_user_photo,:user_photo)");
@@ -206,7 +201,6 @@
                         $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
                         $qry->execute();
                         $liste = $qry->fetchAll();
-                        //   print_r($liste);
                         foreach ($liste as $key => $valListe) {
                             if ($valListe['user_name'] == $idUser) {
                                 echo 'Votre photo pour le jeu concour est : <img src="' . $valListe['user_photo'] . '" alt="" >';
@@ -263,23 +257,18 @@
                 <?php
                 }
                 if ($_POST['select_photos_update'] == '1' && $_POST['vote'] != '1') {
-                    echo "post select_photos_update";
                     $image = $_POST['nom'];
                     $idImage = $_POST['id_photo'];
-                    echo $image;
                     try {
                         $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
                         $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
                         $qry->execute();
                         $liste = $qry->fetchAll();
-                        //   print_r($liste);
                         foreach ($liste as $key => $valListe) {
                             if ($valListe['user_name'] == $idUser) {
-                                echo $valListe['user_name'];
                                 echo 'Votre photo pour le jeu concour est : <img src="' . $valListe['user_photo'] . '" alt="" >';
                                 $qryUpdate = $dbh->prepare("UPDATE liste SET user_photo= ?, id_user_photo=?  WHERE user_name = ?");
                                 $qryUpdate->execute(array($image,$idImage, $idUser));
-                                print_r($qryUpdate);
                             }
                         }
                         $dbh = null;
