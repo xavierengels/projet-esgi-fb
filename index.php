@@ -32,11 +32,9 @@
     }
     else
     {
-        var_dump($_SESSION);
         $session = $helper->getSessionFromRedirect();
     }
-    ?>
-    <?php
+    
     if($session)
     {
         $token = (string) $session->getAccessToken();
@@ -339,7 +337,7 @@
         </p>
 
         <div align="center">    <img class="img" src="images/regle.jpg" alt="regle" /></div>
-    <?
+    <?php
     }
     ?>
 
