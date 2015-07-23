@@ -41,7 +41,7 @@ if(isset($_SESSION) && isset($_SESSION['fb_token']))
 }
 else
 {
-    $session = $helper->getSessionFromRedirect();
+    //$session = $helper->getSessionFromRedirect();
 }
 ?>
 <?php
