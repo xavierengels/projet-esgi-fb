@@ -266,10 +266,10 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                 }
                 ?>
             </select>
-            <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Selectionner une photo parmis vos album</button>
+            <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Sélectionner une photo parmi vos album</button>
 
 
-            <button id="show_photo_concour" name="show_photo_concour" value="1" type="submit" class="btn btn-primary">Voir votre photo du concour</button>
+            <button id="show_photo_concour" name="show_photo_concour" value="1" type="submit" class="btn btn-primary">Voir votre photo du concours</button>
         </form>
 
 
