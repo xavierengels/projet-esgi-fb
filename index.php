@@ -128,6 +128,9 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                         if ($_POST['album_id'] == $album->getProperty('id')) {
                             foreach ($photos as $picture) {
                                 echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
+                                echo $picture->getProperty('id');
+                                echo('<input type="hidden" name="id_photo" src="' . $picture->getProperty('id') . '"  ></input>' . "</br>");
+
                             }
                         }
                     } ?>
@@ -141,6 +144,7 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
             if ($_POST['select_photos'] == '1') {
                 echo "POST !!!";
                 $image = $_POST['nom'];
+                $idImage =  $_POST['id_photo'];
                 try {
                     $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
                     $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
@@ -149,18 +153,20 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                     print_r($liste);
                     $var = $liste;
                     if (empty($var)) {
-                        $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
+                        $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,id_user_photo,user_photo) VALUES (:user_name,:id_user_photo,:user_photo)");
                         $qryInsert->execute(array(
                             ':user_name' => $idUser,
+                            ':id_user_photo' => $idImage,
                             ':user_photo' => $image
                         ));
                     } else {
                         foreach ($liste as $key => $valListe) {
                             //on vérifie que l'utilisateur n'a pas deja poster une photo avec son id
                             if ($valListe['user_name'] != $idUser) {
-                                $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
+                                $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,id_user_photo,user_photo) VALUES (:user_name,:id_user_photo,:user_photo)");
                                 $qryInsert->execute(array(
                                     ':user_name' => $idUser,
+                                    ':id_user_photo' => $idImage,
                                     ':user_photo' => $image
                                 ));
                             }
@@ -223,6 +229,7 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                         if ($_POST['album_id'] == $album->getProperty('id')) {
                             foreach ($photos as $picture) {
                                 echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
+                                echo('<input type="hidden" name="id_photo" src="' . $picture->getProperty('id') . '" alt="" ></input>' . "</br>");
                             }
                         }
                     }?>
@@ -236,6 +243,7 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
             if ($_POST['select_photos_update'] == '1') {
                 echo "post select_photos_update";
                 $image = $_POST['nom'];
+                $idImage = $_POST['id_photo'];
                 echo $image;
                 try {
                     $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
@@ -247,8 +255,8 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                         if ($valListe['user_name'] == $idUser) {
                             echo $valListe['user_name'];
                             echo 'Votre photo pour le jeu concour est : <img src="' . $valListe['user_photo'] . '" alt="" >';
-                            $qryUpdate = $dbh->prepare("UPDATE liste SET user_photo= ?  WHERE user_name = ?");
-                            $qryUpdate->execute(array($image, $idUser));
+                            $qryUpdate = $dbh->prepare("UPDATE liste SET user_photo= ?, id_user_photo=?  WHERE user_name = ?");
+                            $qryUpdate->execute(array($image,$idImage, $idUser));
                             print_r($qryUpdate);
                         }
                     }
@@ -367,7 +375,11 @@ if($_POST['vote_photos'] == '1' && $session)
 if($_POST['regle'] == '1' && isset($session))
 {
     ?>
-
+    <p>
+        Participez a notre jeux, CONCOURS PHOTOS, et tentez de gagnez un voyage et une multitude de cadeaux ! <br />
+        Invitz vos amis a votez pour vous.
+        <img src="images/regle.jpg" alt="regle" />
+    </p>
 <?
 }
 ?>
