@@ -314,19 +314,7 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
         echo " with message: " . $e->getMessage();
     }
 }
-else
-{
-    // $permissions = ['user_photos'];
-    $params = array('scope' => 'public_profile, user_photos');
-    $loginUrl = $helper->getLoginUrl($params);
-    //
-    // use javaascript api to open dialogue and perform
-    // the facebook connect process by inserting the fb:login-button
-    ?>
-
-<?php
-}
-if($_POST['vote']=='1' && $session)
+else if($_POST['vote']=='1' && isset($session))
 {
     echo "VOTE";
     try {
@@ -340,13 +328,13 @@ if($_POST['vote']=='1' && $session)
         {
             echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
             echo' <div class="fb-like" href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
-            $url = $valListe['id_user_photo'].'/ft';
+            $url = $valListe['user_photo'];
             $request = new FacebookRequest($session, 'GET', '/' . $url . '/likes');
             $response = $request->execute();
             print_r($response);
             $likes = $response->getGraphObject()->asArray();
             print_r($likes);
-           // $all_likes = $all_likes + $likes['share']->share_count;
+            // $all_likes = $all_likes + $likes['share']->share_count;
             //print_r($all_likes);
         }
         echo'</form>';
@@ -356,6 +344,19 @@ if($_POST['vote']=='1' && $session)
         die();
     }
 }
+else
+{
+    // $permissions = ['user_photos'];
+    $params = array('scope' => 'public_profile, user_photos');
+    $loginUrl = $helper->getLoginUrl($params);
+    //
+    // use javaascript api to open dialogue and perform
+    // the facebook connect process by inserting the fb:login-button
+    ?>
+
+<?php
+}
+
 
 if($_POST['regle'] == '1' && isset($session))
 {
