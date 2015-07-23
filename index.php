@@ -54,7 +54,8 @@ if($session)
 }
 else
 {
-    "Pas encore de session enregistré";
+    $params = array('scope' => 'public_profile, user_photos');
+    $loginUrl = $helper->getLoginUrl($params);
 }
 include('pages/header.php');
 ?>
@@ -106,7 +107,7 @@ function uploadPhoto($session, $id_user){
     }
 }
 //si la session exite on recupère les info de l'utlisateur
-if(isset($session) && $_POST['vote'] != '1' && $_POST['participe'] == '1'){
+if(isset($session) && $_POST['vote'] != '1' ){
     try {
         if(getPermission($session)){
             $request = new FacebookRequest($session, "GET", "/me");
