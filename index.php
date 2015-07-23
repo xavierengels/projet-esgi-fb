@@ -371,11 +371,22 @@ if($_POST['vote_photos'] == '1' && $session)
 if($_POST['regle'] == '1' && isset($session))
 {
     ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
 <p>
     Participez a notre jeux, CONCOURS PHOTOS, et tentez de gagnez un voyage et une multitude de cadeaux ! <br />
     Invitz vos amis a votez pour vous. 
     <img src="images/regle.jpg" alt="regle" />
 </p>
+</body>
+</html>
+
+
 
 <?
 }
