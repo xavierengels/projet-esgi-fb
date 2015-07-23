@@ -106,7 +106,7 @@ function uploadPhoto($session, $id_user){
     }
 }
 //si la session exite on recupère les info de l'utlisateur
-if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
+if(isset($session) && $_POST['vote'] != '1' ){
     try {
         if(getPermission($session)){
             $request = new FacebookRequest($session, "GET", "/me");
@@ -328,10 +328,10 @@ else if($_POST['vote']=='1' && isset($session))
         foreach ($liste as $key => $valListe)
         {
             echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
-            echo' <div class="fb-like" href="'.$valListe['id_user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
+            echo' <div class="fb-like" href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
 
 
-            $request = new FacebookRequest($session, 'GET', '/' . $valListe['id_user_photo']);
+            $request = new FacebookRequest($session, 'GET', '/' . $valListe['user_photo']);
 
             $response = $request->execute();
 
