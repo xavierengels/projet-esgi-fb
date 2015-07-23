@@ -96,39 +96,7 @@
             error_log($e);
         }
     }
-    //si la session exite on recupère les info de l'utlisateur
-    if($_POST['vote']=='1' && isset($session))
-    {
-        try {
-            $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
-            $qry = $dbh->prepare("SELECT * from liste;");
-            $qry->execute();
-            $liste = $qry->fetchAll();
-            echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
-            foreach ($liste as $key => $valListe)
-            {
-                echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
-                echo' <div class="fb-like" href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
 
-                $request = new FacebookRequest($session, 'GET', '/' . $valListe['user_photo']);
-                $response = $request->execute();
-                $likes = $response->getGraphObject()->asArray();
-                print_r($likes);
-                $all_likes = $all_likes + $likes['share']->share_count;
-                print_r($all_likes);
-            }
-            echo'</form>';
-            $dbh = null;
-        } catch (PDOException $e) {
-            print "Erreur !: " . $e->getMessage() . "<br/>";
-            die();
-        }
-    }
-    else
-    {
-        $params = array('scope' => 'public_profile, user_photos');
-        $loginUrl = $helper->getLoginUrl($params);
-    }
      if(isset($session) && $_POST['vote'] != '1' ){
         try {
             if(getPermission($session)){
@@ -329,7 +297,33 @@
             echo " with message: " . $e->getMessage();
         }
     }
+    else if($_POST['vote']=='1' && isset($session))
+    {
+        try {
+            $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
+            $qry = $dbh->prepare("SELECT * from liste;");
+            $qry->execute();
+            $liste = $qry->fetchAll();
+            echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
+            foreach ($liste as $key => $valListe)
+            {
+                echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
+                echo' <div class="fb-like" href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
 
+                $request = new FacebookRequest($session, 'GET', '/' . $valListe['user_photo']);
+                $response = $request->execute();
+                $likes = $response->getGraphObject()->asArray();
+                print_r($likes);
+                $all_likes = $all_likes + $likes['share']->share_count;
+                print_r($all_likes);
+            }
+            echo'</form>';
+            $dbh = null;
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
     else
     {
         $params = array('scope' => 'public_profile, user_photos');
@@ -346,9 +340,6 @@
 
         <div align="center">    <img class="img" src="images/regle.jpg" alt="regle" /></div>
     <?
-    }else{
-        $params = array('scope' => 'public_profile, user_photos');
-        $loginUrl = $helper->getLoginUrl($params);
     }
     ?>
 
