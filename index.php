@@ -371,7 +371,6 @@ if($_POST['vote_photos'] == '1' && $session)
 if($_POST['regle'] == '1' && isset($session))
 {
     ?>
- 
 <p>
     Participez a notre jeux, CONCOURS PHOTOS, et tentez de gagnez un voyage et une multitude de cadeaux ! <br />
     Invitz vos amis a votez pour vous. 
