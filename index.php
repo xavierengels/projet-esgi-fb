@@ -331,7 +331,7 @@ else if($_POST['vote']=='1' && isset($session))
             echo' <div class="fb-like" href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
 
 
-            $request = new FacebookRequest($session, 'GET', '/' . $valListe['id_user_photo'] . '/likes');
+            $request = new FacebookRequest($session, 'GET', '/' . $valListe['id_user_photo']);
 
             $response = $request->execute();
 
