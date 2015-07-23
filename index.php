@@ -242,7 +242,7 @@ if(isset($session) && $_POST['vote'] != '1' ){
                 </form>
             <?php
             }
-            if ($_POST['select_photos_update'] == '1') {
+            if ($_POST['select_photos_update'] == '1' && $_POST['vote'] != '1') {
                 echo "post select_photos_update";
                 $image = $_POST['nom'];
                 $idImage = $_POST['id_photo'];
@@ -367,7 +367,7 @@ if($_POST['regle'] == '1' && isset($session))
     <p>
         Participez a notre jeux, CONCOURS PHOTOS, et tentez de gagnez un voyage et une multitude de cadeaux ! <br />
         Invitz vos amis a votez pour vous.
-        <img src="images/regle.jpg" alt="regle" />
+        <img class="img" src="images/regle.jpg" alt="regle" />
     </p>
 <?
 }
