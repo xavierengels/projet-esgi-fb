@@ -129,7 +129,7 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                         $photos = $photos->getPropertyAsArray('data');
                         if ($_POST['album_id'] == $album->getProperty('id')) {
                             foreach ($photos as $picture) {
-                                echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
+                                echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('id') . ' type="radio"></input></input>' . "</br>");
                             }
                         }
                     } ?>
@@ -224,7 +224,7 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                         $photos = $photos->getPropertyAsArray('data');
                         if ($_POST['album_id'] == $album->getProperty('id')) {
                             foreach ($photos as $picture) {
-                                echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
+                                echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('id') . ' type="radio"></input></input>' . "</br>");
                             }
                         }
                     }?>
@@ -334,7 +334,7 @@ if($_POST['vote']=='1' && $session)
         {
            // getAllLikes(FB_URL_SITE.$valListe['user_photo']);
             echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
-            echo' <div class="fb-like" href="'.FB_URL_SITE.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
+            echo' <div class="fb-like" href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
 
         }
         echo'</form>';
