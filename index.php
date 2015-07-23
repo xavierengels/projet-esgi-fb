@@ -13,16 +13,14 @@ ini_set('display_errors', 1);
 error_reporting('e_all');
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
-
 function getAllLikes($url) {
-        $all_likes = 0;
-        $likes = $this->facebook->getGraphObject('/'.$url.'/likes', 'GET')->asArray();
-        print_r($likes);
-        $all_likes = $all_likes + $likes['share']->share_count;
+    $all_likes = 0;
+    $likes = $this->facebook->getGraphObject('/'.$url.'/likes', 'GET')->asArray();
+    print_r($likes);
+    $all_likes = $all_likes + $likes['share']->share_count;
     //}
     return $all_likes;
 }
-
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -130,9 +128,6 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                         if ($_POST['album_id'] == $album->getProperty('id')) {
                             foreach ($photos as $picture) {
                                 echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
-                                echo $picture->getProperty('id');
-                                echo('<input type="hidden" name="id_photo" src="' . $picture->getProperty('id') . '"  ></input>' . "</br>");
-
                             }
                         }
                     } ?>
@@ -145,9 +140,7 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
             }
             if ($_POST['select_photos'] == '1') {
                 echo "POST !!!";
-                print_r($_POST);
                 $image = $_POST['nom'];
-                $idImage =  $_POST['id_photo'];
                 try {
                     $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
                     $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
@@ -156,20 +149,18 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                     print_r($liste);
                     $var = $liste;
                     if (empty($var)) {
-                        $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,id_user_photo,user_photo) VALUES (:user_name,:id_user_photo,:user_photo)");
+                        $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
                         $qryInsert->execute(array(
                             ':user_name' => $idUser,
-                            ':id_user_photo' => $idImage,
                             ':user_photo' => $image
                         ));
                     } else {
                         foreach ($liste as $key => $valListe) {
                             //on vérifie que l'utilisateur n'a pas deja poster une photo avec son id
                             if ($valListe['user_name'] != $idUser) {
-                                $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,id_user_photo,user_photo) VALUES (:user_name,:id_user_photo,:user_photo)");
+                                $qryInsert = $dbh->prepare("INSERT INTO liste (user_name,user_photo) VALUES (:user_name,:user_photo)");
                                 $qryInsert->execute(array(
                                     ':user_name' => $idUser,
-                                    ':id_user_photo' => $idImage,
                                     ':user_photo' => $image
                                 ));
                             }
@@ -232,7 +223,6 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                         if ($_POST['album_id'] == $album->getProperty('id')) {
                             foreach ($photos as $picture) {
                                 echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
-                                echo('<input type="hidden" name="id_photo" src="' . $picture->getProperty('id') . '" alt="" ></input>' . "</br>");
                             }
                         }
                     }?>
@@ -246,11 +236,10 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
             if ($_POST['select_photos_update'] == '1') {
                 echo "post select_photos_update";
                 $image = $_POST['nom'];
-                $idImage = $_POST['id_photo'];
                 echo $image;
                 try {
                     $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
-                    $qry = $dbh->prepare("SELECT * from liste;");
+                    $qry = $dbh->prepare("SELECT user_name,user_photo from liste;");
                     $qry->execute();
                     $liste = $qry->fetchAll();
                     //   print_r($liste);
@@ -258,8 +247,8 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                         if ($valListe['user_name'] == $idUser) {
                             echo $valListe['user_name'];
                             echo 'Votre photo pour le jeu concour est : <img src="' . $valListe['user_photo'] . '" alt="" >';
-                            $qryUpdate = $dbh->prepare("UPDATE liste SET user_photo= ?, id_user_photo=?  WHERE user_name = ?");
-                            $qryUpdate->execute(array($image,$idImage, $idUser));
+                            $qryUpdate = $dbh->prepare("UPDATE liste SET user_photo= ?  WHERE user_name = ?");
+                            $qryUpdate->execute(array($image, $idUser));
                             print_r($qryUpdate);
                         }
                     }
@@ -285,10 +274,10 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                 }
                 ?>
             </select>
-            <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Sélectionner une photo parmi vos albums</button>
+            <button id="show_photos" name="show_photos" value="1" type="submit" class="btn btn-primary">Sélectionner une photo parmi vos album</button>
 
 
-            <button id="show_photo_concour" name="show_photo_concour" value="1" type="submit" class="btn btn-primary">Voir/Changer votre photo</button>
+            <button id="show_photo_concour" name="show_photo_concour" value="1" type="submit" class="btn btn-primary">Voir votre photo du concours</button>
         </form>
 
 
@@ -316,7 +305,6 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
         echo " with message: " . $e->getMessage();
     }
 }
-
 else
 {
     // $permissions = ['user_photos'];
@@ -341,10 +329,9 @@ if($_POST['vote']=='1' && $session)
         echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
         foreach ($liste as $key => $valListe)
         {
-           // getAllLikes(FB_URL_SITE.$valListe['user_photo']);
+            // getAllLikes(FB_URL_SITE.$valListe['user_photo']);
             echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
-            echo' <div class="fb-like" href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
-
+            echo' <div class="fb-like" href="'.FB_URL_SITE.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
         }
         echo'</form>';
         $dbh = null;
@@ -381,24 +368,6 @@ if($_POST['regle'] == '1' && isset($session))
 {
     ?>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-</head>
-
-<body>
-<center>
-<p>
-    Participez a notre jeux, CONCOURS PHOTOS, et tentez de gagnez un voyage et une multitude de cadeaux ! <br />
-    Invitz vos amis a votez pour vous. 
-    <img src="images/regle.jpg" alt="regle" />
-</p>
-</center>
-</body>
-</html>
-
-
-
 <?
 }
 ?>
@@ -422,4 +391,3 @@ if($_POST['regle'] == '1' && isset($session))
 <?php
 include('pages/footer.php');
 ?>
-
