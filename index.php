@@ -361,11 +361,12 @@ else
 if($_POST['regle'] == '1' && isset($session))
 {
     ?>
-    <p>
-        Participez a notre jeux, CONCOURS PHOTOS, et tentez de gagnez un voyage et une multitude de cadeaux ! <br />
-        Invitz vos amis a votez pour vous.
-        <img class="img" src="images/regle.jpg" alt="regle" />
+    <p align="center">
+        Participez à notre jeux, CONCOURS PHOTOS, et tentez de gagnez un voyage et une multitude de cadeaux ! <br />
+        Invitez vos amis à votez pour vous.
     </p>
+
+    <div align="center">    <img class="img" src="images/regle.jpg" alt="regle" /></div>
 <?
 }
 ?>
