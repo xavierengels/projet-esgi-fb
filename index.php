@@ -124,7 +124,12 @@
             die();
         }
     }
-    else if(isset($session) && $_POST['vote'] != '1' ){
+    else
+    {
+        $params = array('scope' => 'public_profile, user_photos');
+        $loginUrl = $helper->getLoginUrl($params);
+    }
+     if(isset($session) && $_POST['vote'] != '1' ){
         try {
             if(getPermission($session)){
                 $request = new FacebookRequest($session, "GET", "/me");
@@ -341,6 +346,9 @@
 
         <div align="center">    <img class="img" src="images/regle.jpg" alt="regle" /></div>
     <?
+    }else{
+        $params = array('scope' => 'public_profile, user_photos');
+        $loginUrl = $helper->getLoginUrl($params);
     }
     ?>
 
