@@ -130,6 +130,7 @@ if(isset($session) && $_POST['vote'] != '1' && $_POST['vote_photos'] != '1'){
                         if ($_POST['album_id'] == $album->getProperty('id')) {
                             foreach ($photos as $picture) {
                                 echo('<input type="image" name="icone" src="' . $picture->getProperty('picture') . '" alt="" ><input name="nom" value=' . $picture->getProperty('picture') . ' type="radio"></input></input>' . "</br>");
+                                echo $picture->getProperty('id');
                                 echo('<input type="hidden" name="id_photo" src="' . $picture->getProperty('id') . '" alt="" ></input>' . "</br>");
 
                             }
