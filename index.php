@@ -332,7 +332,7 @@ if($_POST['vote']=='1' && $session)
         echo '<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="index.php">';
         foreach ($liste as $key => $valListe)
         {
-            getAllLikes(FB_URL_SITE.$valListe['user_photo']);
+           // getAllLikes(FB_URL_SITE.$valListe['user_photo']);
             echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
             echo' <div class="fb-like" href="'.FB_URL_SITE.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
 
@@ -370,6 +370,9 @@ if($_POST['vote_photos'] == '1' && $session)
 }
 if($_POST['regle'] == '1' && isset($session))
 {
+    ?>
+
+<?
 }
 ?>
 
