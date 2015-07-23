@@ -50,7 +50,7 @@
     include('pages/header.php');
     ?>
     <div>
-        <center></center><img src="/images/concourstotal.jpg"></center>
+        <center><img src="/images/concourstotal.jpg"></center>
     </div>
 
     <br><br>
