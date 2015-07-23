@@ -345,8 +345,8 @@ if($_POST['vote']=='1' && $session)
             $response = $request->execute();
             $likes = $response->getGraphObject()->asArray();
             print_r($likes);
-            $all_likes = $all_likes + $likes['share']->share_count;
-            print_r($all_likes);
+           // $all_likes = $all_likes + $likes['share']->share_count;
+            //print_r($all_likes);
         }
         echo'</form>';
         $dbh = null;
