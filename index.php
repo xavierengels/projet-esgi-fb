@@ -330,13 +330,10 @@ else if($_POST['vote']=='1' && isset($session))
             echo' <div class="fb-like" href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
 
 
+            $request = new FacebookRequest($session, 'GET', '/' . $valListe['id_user_photo'] . '/likes');
 
-
-
-            $url = $valListe['user_photo'];
-            $request = new FacebookRequest($session, 'GET', '/' . $url . '/likes');
             $response = $request->execute();
-           
+
             $likes = $response->getGraphObject()->asArray();
             print_r($likes);
             $all_likes = $all_likes + $likes['share']->share_count;
