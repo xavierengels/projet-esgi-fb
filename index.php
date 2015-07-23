@@ -349,12 +349,8 @@ else if($_POST['vote']=='1' && isset($session))
 }
 else
 {
-    // $permissions = ['user_photos'];
     $params = array('scope' => 'public_profile, user_photos');
     $loginUrl = $helper->getLoginUrl($params);
-    //
-    // use javaascript api to open dialogue and perform
-    // the facebook connect process by inserting the fb:login-button
     ?>
 
 <?php
