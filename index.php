@@ -13,6 +13,17 @@ ini_set('display_errors', 1);
 error_reporting('e_all');
 FacebookSession::setDefaultApplication(APP_ID, APP_SECRET);
 $helper = new FacebookRedirectLoginHelper(FB_URL_SITE);
+
+function getAllLikes($photos,$session,$url) {
+    $all_likes = 0;
+    foreach ($photos as $photo) {
+        //$url = 'https://find-u.io/photo/'.$photo->photo_id.'/ft';
+        $likes = $this->facebook->getGraphObject('/'.$url.'/likes', 'GET')->asArray();
+        $all_likes = $all_likes + $likes['share']->share_count;
+    }
+    return $all_likes;
+}
+
 function getPermission($session)
 {
     $_SESSION['fb_token'] = (string) $session->getAccessToken();
@@ -324,8 +335,7 @@ if($_POST['vote']=='1' && $session)
         {
             //getAllLikes($valListe['user_photo'])
             echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
-            echo $valListe['user_photo'];
-            echo' <div class="fb-like" href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
+            echo' <div class="fb-like" href="'.FB_URL_SITE.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
 
         }
         echo'</form>';
