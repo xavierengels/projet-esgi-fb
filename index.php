@@ -340,11 +340,11 @@ if($_POST['vote']=='1' && $session)
         {
             echo'Voter pour une photo : <input type="image" name="icone" src="' .$valListe['user_photo']. '" alt="" >';
             echo' <div class="fb-like" href="'.$valListe['user_photo'].'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>';
-            $url = $valListe['id_user_photo'].'/ft';
+            /*$url = $valListe['id_user_photo'].'/ft';
             $request = new FacebookRequest($session, 'GET', '/' . $url . '/likes');
             $response = $request->execute();
             $likes = $response->getGraphObject()->asArray();
-            print_r($likes);
+            print_r($likes);*/
            // $all_likes = $all_likes + $likes['share']->share_count;
             //print_r($all_likes);
         }
@@ -355,30 +355,7 @@ if($_POST['vote']=='1' && $session)
         die();
     }
 }
-if($_POST['vote_photos'] == '1' && $session)
-{
-    try{
-        $dbh = new PDO("pgsql:host=ec2-54-247-118-153.eu-west-1.compute.amazonaws.com;port=5432;dbname=d7fa01u2c92h52", USER, PASS);
-        print_r($_POST);
-        $nbVote =$_POST['value_nb_vote']+1;
-        $img =  $_POST['image'];
-        echo $nbVote;
-        echo $img;
-        $qry = $dbh->prepare("SELECT * from liste;");
-        $qry->execute();
-        $liste = $qry->fetchAll();
-        foreach ($liste as $key => $valListe) {
-            if ($idUser != $valListe['user_name']) {
-                $qryUpdate = $dbh->prepare("UPDATE liste SET nb_vote= ?  WHERE user_photo = ?");
-                $qryUpdate->execute(array($nbVote, $img));
-            }
-        }
-        $dbh = null;
-    } catch (PDOException $e) {
-        print "Erreur !: " . $e->getMessage() . "<br/>";
-        die();
-    }
-}
+
 if($_POST['regle'] == '1' && isset($session))
 {
     ?>
