@@ -104,7 +104,7 @@
                 $response = $request->execute();
                 $user = $response->getGraphObject(GraphUser::className());
                 $idUser = $user->getId();
-                echo "Bonjour ".$user->getName();
+                echo "Bonjour ".$user->getName()." ";
                 $albums = getAlbums($session, 'me');
                 if ($_POST['show_photos'] == '1') {
                     ?>
